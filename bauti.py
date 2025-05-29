@@ -1,1 +1,1 @@
-print("asdqwe")
+print("pasame un mate")
