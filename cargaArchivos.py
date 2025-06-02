@@ -23,7 +23,7 @@ def leer_csv(ruta_archivo, separador=',', codificacion='utf-8', decimal='.', col
 
 """ PRUEBA """
 
-df = leer_csv('archivos_ejemplo/conexiones.csv', separador=',', decimal=',\.')
+df = leer_csv('archivos_ejemplo/conexiones.csv', separador=',', decimal='.')
 
 if df is not None:
     print(df.head())
