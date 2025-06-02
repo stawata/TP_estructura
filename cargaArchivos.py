@@ -26,4 +26,5 @@ def leer_csv(ruta_archivo, separador=',', codificacion='utf-8', decimal='.', col
 df = leer_csv('archivos_ejemplo/conexiones.csv', separador=',', decimal='.')
 
 if df is not None:
+    df.fillna('None', inplace=True)
     print(df.head())
