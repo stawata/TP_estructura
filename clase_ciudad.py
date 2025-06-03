@@ -7,10 +7,3 @@ class Ciudad:
     def __str__(Self):
         return f"{Self.nombre}"
     
-
-lista = ["caba", "pinamar"]
-
-for i in range(len (lista)):
-    objeto = Ciudad(lista[i])
-
-print (Ciudad.ciudades_disponibles)
