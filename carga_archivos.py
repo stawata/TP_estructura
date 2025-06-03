@@ -1,29 +1,20 @@
 import pandas as pd
 
-def leer_csv(ruta_archivo, separador=',', codificacion='utf-8', decimal='.', columnas=None):
-    """
-    Lee un archivo CSV y devuelve un DataFrame de Pandas.
+def importar_nodos(path: str):
+    return pd.read_csv(path)
 
-    Parámetros:
-    - ruta_archivo (str): Ruta al archivo CSV.
-    - separador (str): Caracter que separa las columnas (por defecto ',').
-    - codificacion (str): Codificación del archivo (por defecto 'utf-8').
-    - decimal (str): Separador decimal, útil para números con ',' (por defecto '.').
-    - columnas (list[str]): Lista opcional de columnas a importar.
+def importar_conexiones(path: str):
+    df = pd.read_csv(path)
+    df['valor_restriccion'] = pd.to_numeric(df['valor_restriccion'], errors='coerce')
+    return df
 
-    Retorna:
-    - DataFrame con los datos del archivo.
-    """
-    try:
-        df = pd.read_csv(ruta_archivo, sep=separador, encoding=codificacion, decimal=decimal, usecols=columnas)
-        return df
-    except Exception as e:
-        print(f"Error al leer el archivo: {e}")
-        return None
+def importar_solicitudes(path: str):
+    df = pd.read_csv(path)
+    df['peso_kg'] = pd.to_numeric(df['peso_kg'], errors='coerce')
+    return df
 
-""" PRUEBA """
+nodos = importar_nodos('archivos_ejemplo/nodos.csv')
+conexiones = importar_conexiones('archivos_ejemplo/conexiones.csv')
+solicitudes = importar_solicitudes('archivos_ejemplo/solicitudes.csv')
 
-df = leer_csv('archivos_ejemplo/conexiones.csv', separador=',', decimal='.')
-
-if df is not None:
-    print(df.head())
+print(solicitudes)
