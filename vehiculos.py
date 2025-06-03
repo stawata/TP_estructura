@@ -24,8 +24,9 @@ class Vehiculo():
         raise NotImplementedError("Este método debe ser implementado por las subclases.")
         
     def calcular_costo(self,distancia,peso):
+        #no se calcula aca porque cada vehiculo tiene una restriccion
         """Calcula el costo total de utilizar el vehículo en un tramo, dado una distancia y una cantidad de carga."""
-        
+
         raise NotImplementedError("Este método debe ser implementado por las subclases.")
         
     def puede_usar_conexion(self):
