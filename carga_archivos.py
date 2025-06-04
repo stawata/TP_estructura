@@ -75,7 +75,7 @@ def construir_conexiones(lista_conexiones: list[dict], ciudades: list[dict]): # 
             conexion = Conexion_ferroviaria(ciudad1, ciudad2, distancia)
         elif tipo == "automotor":
             conexion = Conexion_autovia(ciudad1, ciudad2, distancia)
-        elif tipo == "maritima" or tipo == "marítima":
+        elif tipo == "fluvial":
             conexion = Conexion_maritima(ciudad1, ciudad2, distancia)
         elif tipo == "aerea" or tipo == "aérea":
             conexion = Conexion_aerea(ciudad1, ciudad2, distancia)
@@ -89,11 +89,10 @@ def construir_conexiones(lista_conexiones: list[dict], ciudades: list[dict]): # 
 def construir_solicitudes(lista_solicitudes: list[dict]): # Toma la lista de diccionarios de importar_solicitudes() y genera una lista de solicitudes
     return [
         Solicitud(
-            id=s['id'],
-            peso=s['peso'],
-            origen=s['origen'],
-            destino=s['destino']
-        )
+            s['id'],
+            s['peso'],
+            s['origen'],
+            s['destino'])
         for s in lista_solicitudes
     ]
 
@@ -103,6 +102,7 @@ try:
     nodos = importar_nodos('archivos_ejemplo/nodos.csv')
     conexiones = importar_conexiones('archivos_ejemplo/conexiones.csv')
     solicitudes = importar_solicitudes('archivos_ejemplo/solicitudes.csv')
+    print(solicitudes)
 
     # Creo las instancias
     ciudades = construir_ciudades(nodos)
