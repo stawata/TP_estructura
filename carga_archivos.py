@@ -1,4 +1,7 @@
 import csv
+from clase_ciudad import Ciudad
+from clase_solicitud import Solicitud
+from conexiones import *
 
 def importar_nodos(path: str): # Importa los Nodos/Ciudades como una lista de strings
     nodos = []
@@ -10,7 +13,7 @@ def importar_nodos(path: str): # Importa los Nodos/Ciudades como una lista de st
     return nodos
 
 
-def importar_conexiones(path: str) -> list[dict]:
+def importar_conexiones(path: str): # Importa las conexiones como lista de diccionarios donde cada diccionario tiene en forma de clave-valor todos los datos de cada conexion
     conexiones = []
     with open(path, newline='', encoding='utf-8') as archivo:
         lector = csv.DictReader(archivo)
@@ -56,11 +59,58 @@ def importar_solicitudes(path: str): # Importa las Solicitudes de la misma maner
     return solicitudes
 
 
+def construir_ciudades(lista_nombres: list[str]): # Toma el diccionario de importar_nodos() y genera un diccionario con las ciudades generadas
+    return {nombre: Ciudad(nombre) for nombre in lista_nombres}
+
+
+def construir_conexiones(lista_conexiones: list[dict], ciudades: list[dict]): # Toma la lista de diccionarios de importacion_conexiones() y el diccionario con las ciudades ya creadas, y crea una lista con todas las instancias de conexiones
+    instancias = []
+    for c in lista_conexiones:
+        ciudad1 = ciudades[c['origen']]
+        ciudad2 = ciudades[c['destino']]
+        distancia = int(c['distancia_km'])
+        tipo = c['tipo'].lower()
+
+        if tipo == "ferroviaria":
+            conexion = Conexion_ferroviaria(ciudad1, ciudad2, distancia)
+        elif tipo == "automotor":
+            conexion = Conexion_autovia(ciudad1, ciudad2, distancia)
+        elif tipo == "maritima" or tipo == "marítima":
+            conexion = Conexion_maritima(ciudad1, ciudad2, distancia)
+        elif tipo == "aerea" or tipo == "aérea":
+            conexion = Conexion_aerea(ciudad1, ciudad2, distancia)
+        else:
+            raise ValueError(f"Tipo de conexión desconocido: {tipo}")
+
+        instancias.append(conexion)
+    return instancias
+
+
+def construir_solicitudes(lista_solicitudes: list[dict]): # Toma la lista de diccionarios de importar_solicitudes() y genera una lista de solicitudes
+    return [
+        Solicitud(
+            id=s['id'],
+            peso=s['peso'],
+            origen=s['origen'],
+            destino=s['destino']
+        )
+        for s in lista_solicitudes
+    ]
+
+
 try:
+    # Importo los datos
     nodos = importar_nodos('archivos_ejemplo/nodos.csv')
     conexiones = importar_conexiones('archivos_ejemplo/conexiones.csv')
     solicitudes = importar_solicitudes('archivos_ejemplo/solicitudes.csv')
 
-    print(solicitudes)
+    # Creo las instancias
+    ciudades = construir_ciudades(nodos)
+    lista_conexiones =  construir_conexiones(conexiones, ciudades)
+    lista_solicitudes = construir_solicitudes(solicitudes)
+
+    print(ciudades)
+    print(lista_conexiones)
+    print(lista_solicitudes)
 except:
     print('Hubo un error en la ejecucion')

@@ -1,10 +1,10 @@
 class Conexion():
-    def __init__(self, ciudad1:str,ciudad2:str, distancia :int):
+    def __init__(self, ciudad1:str, ciudad2:str, distancia :int):
         Conexion.validar_int(distancia)
         Conexion.validar_str(ciudad1)
         Conexion.validar_str(ciudad2)
         self.ciudad1 = ciudad1
-        self.ciudad2=ciudad2
+        self.ciudad2 = ciudad2
         self.distancia = distancia
 
     def __str__(self):
