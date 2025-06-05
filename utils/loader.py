@@ -15,7 +15,7 @@ class NodoLoader:
 
 class ConexionLoader:
     @staticmethod
-    def cargar_desde_csv(path: str) -> List[Conexion]:
+    def cargar_desde_csv(path: str, nodos: list) -> List[Conexion]:
         conexiones = []
         with open(path, newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
