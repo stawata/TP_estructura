@@ -2,28 +2,21 @@ from vehiculos import Vehiculo
 from clase_solicitud import Solicitud
 
 class Camion(Vehiculo):
-    def __init__(self,costo_kg):
+    def __init__(self):
         #El costo_kg varia segun la carga de la solicitud, ver como hacer
-        super().__init__(modo="automotor",velocidad_nominal= 80,capacidad= 30000,costo_fijo= 30,costo_km= 5,costo_kg=costo_kg)
+        super().__init__(modo="automotor",velocidad_nominal= 80,capacidad= 30000,costo_fijo= 30,costo_km= 5,costo_kg=None) #Le pongo None porque total lo calculo despues
         
     def calcular_tiempo(self,distancia):
         return distancia / self.velocidad_nominal
     
     def calcular_costo(self, distancia, peso):
-        return super().calcular_costo(distancia, peso)
-    
-class Camion(Vehiculo):
-    def __init__(self, costo_kg=1):  # valor por default igual al PDF
-        super().__init__(modo="automotor", velocidad_nominal=80, capacidad=30000,
-                         costo_fijo=30, costo_km=5, costo_kg=costo_kg)
-
-    def calcular_tiempo(self, distancia):
-        return distancia / self.velocidad_nominal
-
-    def calcular_costo(self, distancia, peso):
         cantidad = self.cantidad_necesaria(peso)
-        return cantidad * (self.costo_fijo + self.costo_km * distancia + self.costo_kg * peso)
+        if peso < 15000:
+            costo_kg = 1
+        else: 
+            costo_kg = 2
 
+        return cantidad * (self.costo_fijo + self.costo_km * distancia + costo_kg * peso)
 
 class Tren(Vehiculo):
     def __init__(self,costo_km):
