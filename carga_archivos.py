@@ -115,5 +115,4 @@ try:
 except:
     print('Hubo un error en la ejecucion')
 
-
-print(Ciudad.ciudades_disponibles)
+print(lista_conexiones)
