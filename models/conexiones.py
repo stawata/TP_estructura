@@ -1,8 +1,19 @@
+from clase_ciudad import Ciudad
+
+"""Esta classe se encarga de describir que  2 ciudades conecta y la distancia que hay entre ellas. Para eso se crean clases hijas  que
+ van a heredar ciertas cualidades de la clase padre como la distancia, y la ciudad orgien y destino. La clsae hija identifica el mode
+de transporte que habulitea(Soporte de Modos: Un nodo puede aceptar o despachar un modo 
+de transporte si al menos una conexión de dicho modo está enlazada al nodo. Si un modo de
+transporte no se encuentra presente en el nodo a los fines de esa red se
+considera inalcanzable.
+3) """
+
+
 class Conexion():
     def __init__(self, ciudad1:str, ciudad2:str, distancia :int):
         Conexion.validar_int(distancia)
-        #Conexion.validar_str(ciudad1)
-        #Conexion.validar_str(ciudad2)
+        Conexion.validar_ciudad(ciudad1)
+        Conexion.validar_ciudad(ciudad2)
         self.ciudad1 = ciudad1
         self.ciudad2 = ciudad2
         self.distancia = distancia
@@ -11,11 +22,11 @@ class Conexion():
         return f" {self.ciudad1} a {self.ciudad2} KM: {self.distancia} "
 
     @staticmethod
-    def validar_str(valor): # Deberia validar que sea una instancia de ciudades no un string
-        if isinstance(valor,str):  
+    def validar_ciudad(valor): 
+        if isinstance(valor,Ciudad):  
             return True
         else:
-            raise ValueError("El valor debe ser str")
+            raise ValueError("El valor debe ser una ciudad que exista")
     @staticmethod
     def validar_int(valor):
         if isinstance(valor,int):
