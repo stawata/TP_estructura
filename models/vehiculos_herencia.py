@@ -1,5 +1,5 @@
-from vehiculos import Vehiculo
-from clase_solicitud import Solicitud
+from models.vehiculos import Vehiculo
+from models.solicitud import Solicitud
 
 class Camion(Vehiculo):
     def __init__(self):
