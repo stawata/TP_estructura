@@ -11,7 +11,12 @@ Buenos_Aires,Mar_del_Plata,Automotor,384,,]
 class Buscar_ruta:
     def __init__(self, rutas, origen):
         #primero meto en la pila el origen 
-        for i in rutas:
+        for conexion in rutas:
+            #la idea es recorrer todas las ciudades de conexiones
+            if conexion.ciudad1 == origen :
+                #apilo la ciudad2
+            if conec
+
         #despues veo como puedo serguir desde ese origen 
 
 

@@ -20,6 +20,12 @@ class Conexion():
         self.restriccion = restriccion
         self.valor_restriccion = valor_restriccion 
 
+    def get_ciudad1(self):
+        return self.ciudad1
+
+    def get_ciudad2(self):
+        return self.ciudad2    
+
     def __str__(self):
         return f" {self.ciudad1} a {self.ciudad2} KM: {self.distancia} "
 
@@ -40,7 +46,7 @@ class Conexion_ferroviaria(Conexion):
     #la idea es poner conexion totales es guardar todas las conexiones para despues poder analizarlas
     #todas las herencias tendran sus propias conexiones
     conexiones_totales=[]
-    def __init__(self, ciudad1,ciudad2, distancia, vel_maxima):
+    def __init__(self, ciudad1,ciudad2, distancia, vel_maxima:float):
         super().__init__(ciudad1, ciudad2,distancia)
         self.vel_maxima = vel_maxima 
         Conexion_ferroviaria.conexiones_totales.append(self)
@@ -51,7 +57,7 @@ class Conexion_ferroviaria(Conexion):
 
 class Conexion_autovia(Conexion):
     conexiones_totales=[]
-    def __init__(self, ciudad1,ciudad2, distancia, peso_max):
+    def __init__(self, ciudad1,ciudad2, distancia, peso_max:float):
         super().__init__(ciudad1, ciudad2,distancia)
         self.peso_max = peso_max
         Conexion_autovia.conexiones_totales.append(self)
@@ -64,7 +70,7 @@ class Conexion_autovia(Conexion):
 class Conexion_maritima(Conexion):
     conexiones_totales=[]
 
-    def __init__(self, ciudad1,ciudad2, distancia, tipo_tasa):
+    def __init__(self, ciudad1,ciudad2, distancia, tipo_tasa:str):
         super().__init__(ciudad1, ciudad2,distancia)
         self.tipo_tasa = tipo_tasa
         Conexion_maritima.conexiones_totales.append(self)
@@ -77,7 +83,7 @@ class Conexion_maritima(Conexion):
 class Conexion_aerea(Conexion):
     conexiones_totales=[]
 
-    def __init__(self, ciudad1,ciudad2, distancia,probabilidad_mal_clima:int ):
+    def __init__(self, ciudad1,ciudad2, distancia,probabilidad_mal_clima:float ):
         super().__init__(ciudad1, ciudad2,distancia)
         self.probabilidad_mal_clima = probabilidad_mal_clima
         Conexion_aerea.conexiones_totales.append(self)
