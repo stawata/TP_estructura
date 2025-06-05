@@ -1,0 +1,15 @@
+1. Que el TP funcione, y funcione bien
+    a. No puede tener errores que revienten el programa
+    b. Validar según el enunciado, todo contemplado
+
+2. Implementar todas las estructuras de datos vistas hasta la entrega del TP
+    a. No incluye árboles
+    b. Utilizar numpy y arrays si vamos a usar grandes cantidades de datos
+
+3. Tiene que estar orientado a objetos
+    a. TODO tiene que estar como objeto. No tener funciones sueltas en el código
+    b. Modularizar en archivos
+
+4. Intentar usar  cosas como map, filter. Cosas avanzadas. No hacer muchos FOR, etc.
+
+5. Todos tienen que programar, ojo porque hay que defenderlo y saber que hay que hacer.
