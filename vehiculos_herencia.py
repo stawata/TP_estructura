@@ -14,10 +14,10 @@ class Tren(Vehiculo):
 class Avion(Vehiculo):
     #aca hay un metodo en caso de malas condiciones climaticas
     def __init__(self):
-        super().__init__(modo="aereo", velocidad_nominal= 5000, capacidad=750 , costo_fijo=750 , costo_km= 40, costo_kg= 10)
+        super().__init__(modo="aereo", velocidad_nominal= 5000, capacidad=5000 , costo_fijo=750 , costo_km= 40, costo_kg= 10)
 
     
 
 class Barcaza(Vehiculo):
     def __init__(self):
-        super().__init__(modo="maritimmo", velocidad_nominal= 40, capacidad=100000 , costo_fijo= 500, costo_km= 15, costo_kg= 2)
+        super().__init__(modo="maritimo", velocidad_nominal= 40, capacidad=100000 , costo_fijo= 500, costo_km= 15, costo_kg= 2)
