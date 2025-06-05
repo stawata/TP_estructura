@@ -59,7 +59,7 @@ def importar_solicitudes(path: str): # Importa las Solicitudes de la misma maner
     return solicitudes
 
 
-def construir_ciudades(lista_nombres: list[str]): # Toma el diccionario de importar_nodos() y genera un diccionario con las ciudades generadas
+def construir_ciudades(lista_nombres: list[str]): # Toma el diccionario de importar_nodos() y genera un diccionario con las ciudades generadas donde la clave es el nombre de la ciudad y la clave la instancia de la clase Ciudad
     return {nombre: Ciudad(nombre) for nombre in lista_nombres}
 
 
@@ -108,9 +108,5 @@ try:
     ciudades = construir_ciudades(nodos)
     lista_conexiones =  construir_conexiones(conexiones, ciudades)
     lista_solicitudes = construir_solicitudes(solicitudes)
-
-    print(ciudades)
-    print(lista_conexiones)
-    print(lista_solicitudes)
 except:
     print('Hubo un error en la ejecucion')
