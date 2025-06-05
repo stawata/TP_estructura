@@ -1,6 +1,6 @@
 from clase_ciudad import Ciudad
 
-"""Esta classe se encarga de describir que  2 ciudades conecta y la distancia que hay entre ellas. Para eso se crean clases hijas  que
+"""Esta clase se encarga de describir que  2 ciudades conecta y la distancia que hay entre ellas. Para eso se crean clases hijas  que
  van a heredar ciertas cualidades de la clase padre como la distancia, y la ciudad orgien y destino. La clsae hija identifica el mode
 de transporte que habulitea(Soporte de Modos: Un nodo puede aceptar o despachar un modo 
 de transporte si al menos una conexión de dicho modo está enlazada al nodo. Si un modo de
