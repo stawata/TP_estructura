@@ -1,4 +1,4 @@
-from clase_ciudad import Ciudad
+from nodo import Nodo
 class Solicitud:
     def __init__(self,id_carga,peso_kg,origen,destino):
         self.id_carga=id_carga
@@ -23,7 +23,7 @@ class Solicitud:
     
     @staticmethod
     def validar_ciudad(valor): 
-        if isinstance(valor,Ciudad):  
+        if isinstance(valor,Nodo):  
             return True
         else:
             return False
