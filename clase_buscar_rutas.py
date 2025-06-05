@@ -15,7 +15,9 @@ class Buscar_ruta:
             #la idea es recorrer todas las ciudades de conexiones
             if conexion.ciudad1 == origen :
                 #apilo la ciudad2
-            if conec
+                pass
+            if conexion.ciudad2 ==origen:
+                #apilo la ciudad1
 
         #despues veo como puedo serguir desde ese origen 
 
