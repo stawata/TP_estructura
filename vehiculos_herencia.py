@@ -8,16 +8,16 @@ class Camion(Vehiculo):
         
 
 class Tren(Vehiculo):
-    def __init__(self):
-        super().__init__(modo= "ferroviario", velocidad_nominal=100, capacidad=150000, costo_fijo=100, costo_km=20, costo_kg=3)
+    def __init__(self,costo_km):
+        #El costo_km varia segun la distancia del tramo
+        super().__init__(modo= "ferroviario", velocidad_nominal=100, capacidad=150000, costo_fijo=100, costo_kg=3, costo_km=costo_km)
 
 class Avion(Vehiculo):
-    #aca hay un metodo en caso de malas condiciones climaticas
-    def __init__(self):
-        super().__init__(modo="aereo", velocidad_nominal= 5000, capacidad=5000 , costo_fijo=750 , costo_km= 40, costo_kg= 10)
-
-    
+    def __init__(self,velocidad_nominal):
+        #aca hay un metodo en caso de malas condiciones climaticas
+        super().__init__(modo="aereo", velocidad_nominal= velocidad_nominal, capacidad=5000 , costo_fijo=750 , costo_km= 40, costo_kg= 10)
 
 class Barcaza(Vehiculo):
-    def __init__(self):
-        super().__init__(modo="maritimo", velocidad_nominal= 40, capacidad=100000 , costo_fijo= 500, costo_km= 15, costo_kg= 2)
+    def __init__(self,costo_fijo):
+        #El costo fijo varia segun la tasa fluvial o marítima1
+        super().__init__(modo="maritimo", velocidad_nominal= 40, capacidad=100000 , costo_fijo=costo_fijo, costo_km= 15, costo_kg= 2)
