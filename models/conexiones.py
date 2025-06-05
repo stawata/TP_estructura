@@ -1,4 +1,4 @@
-from clase_ciudad import Ciudad
+from nodo import Nodo
 
 """Esta clase se encarga de describir que  2 ciudades conecta y la distancia que hay entre ellas. Para eso se crean clases hijas  que
  van a heredar ciertas cualidades de la clase padre como la distancia, y la ciudad orgien y destino. La clsae hija identifica el mode
@@ -23,7 +23,7 @@ class Conexion():
 
     @staticmethod
     def validar_ciudad(valor): 
-        if isinstance(valor,Ciudad):  
+        if isinstance(valor,Nodo):  
             return True
         else:
             raise ValueError("El valor debe ser una ciudad que exista")
