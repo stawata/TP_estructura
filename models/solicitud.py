@@ -1,3 +1,4 @@
+from nodo import Ciudad
 from nodo import Nodo
 class Solicitud:
     def __init__(self,id_carga,peso_kg,origen,destino):

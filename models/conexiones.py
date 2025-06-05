@@ -10,13 +10,21 @@ considera inalcanzable.
 
 
 class Conexion():
-    def __init__(self, ciudad1:str, ciudad2:str, distancia :int):
+    def __init__(self, ciudad1:str, ciudad2:str, distancia :int, restriccion: str, valor_restriccion: str):
         Conexion.validar_int(distancia)
         Conexion.validar_ciudad(ciudad1)
         Conexion.validar_ciudad(ciudad2)
         self.ciudad1 = ciudad1
         self.ciudad2 = ciudad2
         self.distancia = distancia
+        self.restriccion = restriccion
+        self.valor_restriccion = valor_restriccion 
+
+    def get_ciudad1(self):
+        return self.ciudad1
+
+    def get_ciudad2(self):
+        return self.ciudad2    
 
     def __str__(self):
         return f" {self.ciudad1} a {self.ciudad2} KM: {self.distancia} "
@@ -35,32 +43,50 @@ class Conexion():
             raise ValueError("El valor debe int")
         
 class Conexion_ferroviaria(Conexion):
-    def __init__(self, ciudad1,ciudad2, distancia):
+    #la idea es poner conexion totales es guardar todas las conexiones para despues poder analizarlas
+    #todas las herencias tendran sus propias conexiones
+    conexiones_totales=[]
+    def __init__(self, ciudad1,ciudad2, distancia, vel_maxima:float):
         super().__init__(ciudad1, ciudad2,distancia)
-    
+        self.vel_maxima = vel_maxima 
+        Conexion_ferroviaria.conexiones_totales.append(self)
+
     def __str__(self):
         return f" {self.ciudad1} a {self.ciudad2} KM: {self.distancia} "
 
 
 class Conexion_autovia(Conexion):
-    def __init__(self, ciudad1,ciudad2, distancia):
+    conexiones_totales=[]
+    def __init__(self, ciudad1,ciudad2, distancia, peso_max:float):
         super().__init__(ciudad1, ciudad2,distancia)
+        self.peso_max = peso_max
+        Conexion_autovia.conexiones_totales.append(self)
+
 
     def __str__(self):
         return f" {self.ciudad1} a {self.ciudad2} KM: {self.distancia} "
 
 
 class Conexion_maritima(Conexion):
-    def __init__(self, ciudad1,ciudad2, distancia):
+    conexiones_totales=[]
+
+    def __init__(self, ciudad1,ciudad2, distancia, tipo_tasa:str):
         super().__init__(ciudad1, ciudad2,distancia)
+        self.tipo_tasa = tipo_tasa
+        Conexion_maritima.conexiones_totales.append(self)
 
     def __str__(self):
         return f" {self.ciudad1} a {self.ciudad2} KM: {self.distancia} "
+    
 
 
 class Conexion_aerea(Conexion):
-    def __init__(self, ciudad1,ciudad2, distancia):
+    conexiones_totales=[]
+
+    def __init__(self, ciudad1,ciudad2, distancia,probabilidad_mal_clima:float ):
         super().__init__(ciudad1, ciudad2,distancia)
+        self.probabilidad_mal_clima = probabilidad_mal_clima
+        Conexion_aerea.conexiones_totales.append(self)
 
     def __str__(self):
         return f" {self.ciudad1} a {self.ciudad2} KM: {self.distancia} "
