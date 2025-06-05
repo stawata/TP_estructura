@@ -19,16 +19,33 @@ class Camion(Vehiculo):
         return cantidad * (self.costo_fijo + self.costo_km * distancia + costo_kg * peso)
 
 class Tren(Vehiculo):
-    def __init__(self,costo_km):
-        #El costo_km varia segun la distancia del tramo
-        super().__init__(modo= "ferroviario", velocidad_nominal=100, capacidad=150000, costo_fijo=100, costo_kg=3, costo_km=costo_km)
+    def __init__(self):
+        super().__init__(modo= "ferroviario", velocidad_nominal=100, capacidad=150000, costo_fijo=100, costo_kg=3, costo_km=None)
 
+    def calcular_tiempo(self,distancia):
+        return distancia / self.velocidad_nominal
+    
+    def calcular_costo(self, distancia, peso):
+        cantidad = self.cantidad_necesaria(peso)
+        if distancia < 200:
+            costo_km = 20
+        else:
+            costo_km = 15
+        
+        return cantidad * (self.costo_fijo + costo_km * distancia + self.costo_kg * peso)
+    
 class Avion(Vehiculo):
-    def __init__(self,velocidad_nominal):
+    def __init__(self):
         #aca hay un metodo en caso de malas condiciones climaticas
-        super().__init__(modo="aereo", velocidad_nominal= velocidad_nominal, capacidad=5000 , costo_fijo=750 , costo_km= 40, costo_kg= 10)
+        super().__init__(modo="aereo", velocidad_nominal=None, capacidad=5000 , costo_fijo=750 , costo_km= 40, costo_kg= 10)
+
+    def calcular_tiempo(self,distancia):
+        return distancia / self.velocidad_nominal
 
 class Barcaza(Vehiculo):
-    def __init__(self,costo_fijo):
+    def __init__(self):
         #El costo fijo varia segun la tasa fluvial o marítima1
-        super().__init__(modo="maritimo", velocidad_nominal= 40, capacidad=100000 , costo_fijo=costo_fijo, costo_km= 15, costo_kg= 2)
+        super().__init__(modo="maritimo", velocidad_nominal= 40, capacidad=100000 , costo_fijo=None, costo_km= 15, costo_kg= 2)
+
+    def calcular_tiempo(self,distancia):
+        return distancia / self.velocidad_nominal
