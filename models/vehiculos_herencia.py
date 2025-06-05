@@ -1,5 +1,6 @@
 from models.vehiculos import Vehiculo
 from models.solicitud import Solicitud
+import random
 
 class Camion(Vehiculo):
     def __init__(self):
@@ -37,10 +38,21 @@ class Tren(Vehiculo):
 class Avion(Vehiculo):
     def __init__(self):
         #aca hay un metodo en caso de malas condiciones climaticas
-        super().__init__(modo="aereo", velocidad_nominal=None, capacidad=5000 , costo_fijo=750 , costo_km= 40, costo_kg= 10)
+        super().__init__(modo="aereo", velocidad_nominal=600, capacidad=5000 , costo_fijo=750 , costo_km= 40, costo_kg= 10)
 
-    def calcular_tiempo(self,distancia):
-        return distancia / self.velocidad_nominal
+    def calcular_tiempo(self, distancia, conexion):
+        prob = conexion.probabilidad_mal_clima #Aca me voy a buscar la probabilidad de lluvia, si hubiera
+        llueve = random.random() < prob #Si el random que genero me da menor a la probababilidad, va a llover 
+        if llueve:
+            velocidad = 400
+        else:
+            velocidad = self.velocidad_nominal
+        
+        return distancia / velocidad
+
+    def calcular_costo(self, distancia, peso):
+        cantidad = self.cantidad_necesaria(peso)
+        return cantidad * (self.costo_fijo + self.costo_km * distancia + self.costo_kg * peso)
 
 class Barcaza(Vehiculo):
     def __init__(self):
