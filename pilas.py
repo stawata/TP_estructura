@@ -16,3 +16,8 @@ class Pila():
     def mostrar(self):
         print("Pila:", self.rutas[::-1]) 
 
+    def desapilar(self):
+        if self.esta_vacia():
+            raise IndexError("No se puede desapilar: la pila está vacía")
+        return self.rutas.pop()       
+
