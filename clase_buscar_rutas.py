@@ -11,7 +11,7 @@ Buenos_Aires,Mar_del_Plata,Automotor,384,,]
 class Buscar_ruta:
     def __init__(self, rutas, origen):
         #primero meto en la pila el origen 
-        for i in rutas
+        for i in rutas:
         #despues veo como puedo serguir desde ese origen 
 
 
