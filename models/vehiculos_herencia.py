@@ -47,5 +47,5 @@ class Barcaza(Vehiculo):
         #El costo fijo varia segun la tasa fluvial o marítima1
         super().__init__(modo="maritimo", velocidad_nominal= 40, capacidad=100000 , costo_fijo=None, costo_km= 15, costo_kg= 2)
 
-    def calcular_tiempo(self,distancia):
+    def calcular_tiempo(self,distancia):    
         return distancia / self.velocidad_nominal
