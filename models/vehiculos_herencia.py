@@ -1,5 +1,5 @@
-from vehiculos import Vehiculo
-from clase_solicitud import Solicitud
+from models.vehiculos import Vehiculo
+from models.solicitud import Solicitud
 
 class Camion(Vehiculo):
     def __init__(self,costo_kg):
@@ -17,7 +17,6 @@ class Avion(Vehiculo):
         super().__init__(modo="aereo", velocidad_nominal= 5000, capacidad=750 , costo_fijo=750 , costo_km= 40, costo_kg= 10)
 
     
-
 class Barcaza(Vehiculo):
     def __init__(self):
         super().__init__(modo="maritimmo", velocidad_nominal= 40, capacidad=100000 , costo_fijo= 500, costo_km= 15, costo_kg= 2)
