@@ -1,9 +1,4 @@
 import csv
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from models.nodo import Nodo
-from typing import List 
 
 from models.nodo import Nodo
 from models.conexiones import Conexion, Conexion_ferroviaria, Conexion_aerea, Conexion_maritima, Conexion_autovia
@@ -60,7 +55,7 @@ class ConexionLoader:
 
 class SolicitudLoader:
     @staticmethod
-    def cargar_desde_csv(path: str) -> List[Solicitud]:
+    def cargar_desde_csv(path: str):
         solicitudes = []
         with open(path, newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
