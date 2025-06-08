@@ -1,12 +1,17 @@
 from models.vehiculos import Vehiculo
 from models.solicitud import Solicitud
 import random
+from collections import namedtuple #Es una tupla mas facil de acceder, mas entendible en realidad
+
+Costos = namedtuple("Costos", ["fijo", "km", "kg"])
 
 class Camion(Vehiculo):
     def __init__(self):
-        #El costo_kg varia segun la carga de la solicitud, ver como hacer
-        super().__init__(modo="automotor",velocidad_nominal= 80,capacidad= 30000,costo_fijo= 30,costo_km= 5,costo_kg=None) #Le pongo None porque total lo calculo despues
-        
+        super().__init__(modo="automotor", velocidad_nominal=80, capacidad=30000,
+                         costo_fijo=None, costo_km=None, costo_kg=None)  # solo para completar
+        self.costos = Costos(fijo=30, km=5, kg=None) 
+
+    
     def calcular_tiempo(self,distancia):
         return distancia / self.velocidad_nominal
     
@@ -17,7 +22,8 @@ class Camion(Vehiculo):
         else: 
             costo_kg = 2
 
-        return cantidad * (self.costo_fijo + self.costo_km * distancia + costo_kg * peso)
+        return cantidad * (self.costos.fijo + self.costos.km * distancia + costo_kg * peso)
+
 
     def puede_usar_conexion(self, conexion, peso):
         if not super().puede_usar_conexion(conexion, peso):
@@ -30,7 +36,9 @@ class Camion(Vehiculo):
 
 class Tren(Vehiculo):
     def __init__(self):
-        super().__init__(modo= "ferroviario", velocidad_nominal=100, capacidad=150000, costo_fijo=100, costo_kg=3, costo_km=None)
+        super().__init__(modo="ferroviario", velocidad_nominal=100, capacidad=150000,
+                         costo_fijo=None, costo_km=None, costo_kg=None)
+        self.costos = Costos(fijo=100, km=None, kg=3)
 
     def calcular_tiempo(self, distancia, conexion=None):
         if conexion and hasattr(conexion, "velocidad_max") and conexion.velocidad_max is not None:
@@ -47,13 +55,14 @@ class Tren(Vehiculo):
         else:
             costo_km = 15
         
-        return cantidad * (self.costo_fijo + costo_km * distancia + self.costo_kg * peso)
-    
+        return cantidad * (self.costos.fijo + costo_km * distancia + self.costos.kg * peso)    
     
 
 class Avion(Vehiculo):
     def __init__(self):
-        super().__init__(modo="aereo", velocidad_nominal=600, capacidad=5000 , costo_fijo=750 , costo_km= 40, costo_kg= 10)
+        super().__init__(modo="aereo", velocidad_nominal=600, capacidad=5000,
+                         costo_fijo=None, costo_km=None, costo_kg=None)
+        self.costos = Costos(fijo=750, km=40, kg=10)
 
     def calcular_tiempo(self, distancia, conexion):
         prob = conexion.probabilidad_mal_clima #Aca me voy a buscar la probabilidad de lluvia, si hubiera
@@ -67,12 +76,14 @@ class Avion(Vehiculo):
 
     def calcular_costo(self, distancia, peso):
         cantidad = self.cantidad_necesaria(peso)
-        return cantidad * (self.costo_fijo + self.costo_km * distancia + self.costo_kg * peso)
+        return cantidad * (self.costos.fijo + self.costos.km * distancia + self.costos.kg * peso)
 
 class Barcaza(Vehiculo):
     def __init__(self):
         #El costo fijo varia segun la tasa fluvial o marítima1
-        super().__init__(modo="maritimo", velocidad_nominal= 40, capacidad=100000 , costo_fijo=None, costo_km= 15, costo_kg= 2)
+        super().__init__(modo="maritimo", velocidad_nominal=40, capacidad=100000,
+                         costo_fijo=None, costo_km=None, costo_kg=None)
+        self.costos = Costos(fijo=None, km=15, kg=2)
 
     def calcular_tiempo(self,distancia):    
         return distancia / self.velocidad_nominal
@@ -85,4 +96,4 @@ class Barcaza(Vehiculo):
         else:
             costo_fijo = 1500
 
-        return cantidad * (costo_fijo + self.costo_km * distancia + self.costo_kg * peso)
+        return cantidad * (costo_fijo + self.costos.km * distancia + self.costos.kg * peso)
