@@ -1,5 +1,5 @@
 #from nodo import Ciudad
-#from models.nodo import Nodo
+from models.nodo import Nodo
 #from validaciones.validaciones import validaciones
 
 class Solicitud:
@@ -28,9 +28,9 @@ class Solicitud:
     def __str__(self):
         return f"id_carga: {self.getid_carga()}, capacidad: {self.getpeso_kg()}, origen: {self.getorigen()}, destino: {self.getdestino()}"
     
-    # @staticmethod
-    # def validar_ciudad(valor): 
-    #     if isinstance(valor,Nodo):  
-    #          return True
-    #     else:
-    #          return False
+    @staticmethod
+    def validar_ciudad(valor): 
+        if isinstance(valor,Nodo):  
+            return True
+        else:
+            return False

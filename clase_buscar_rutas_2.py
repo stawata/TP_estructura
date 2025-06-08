@@ -22,22 +22,14 @@ class Buscar_ruta:
         for valor in lista_nodo_destino:
             if not self.pila_recorrido.recorrer(valor[1]):
                 self.pila_recorrido.apilar(Nodo(valor[1]))
-                self.origen = valor[1]       
+                self.origen = valor[1]   
+                self.filtrar_ruta()    
             self.pila_recorrido.visualizar() 
-
-
+      
+            
     @staticmethod
     def filtrar_por_modo(rutas, modo="Automotor"):
         return list(filter(lambda x: x[2] == modo, rutas))
-
-    @staticmethod
-    def filtrar_
-    for valor in lista_nodo_destino:
-            if not self.pila_recorrido.recorrer(valor[1]):
-                self.pila_recorrido.apilar(Nodo(valor[1]))
-                self.origen = valor[1]       
-        
-
 
 
 
