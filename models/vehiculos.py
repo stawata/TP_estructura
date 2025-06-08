@@ -35,11 +35,9 @@ class Vehiculo():
 
         raise NotImplementedError("Este método debe ser implementado por las subclases.")
         
-    def puede_usar_conexion(self):
-        """Evalúa si el vehículo puede usar una conexión determinada, según las restricciones propias del vehículo y del tramo"""
-        
-        raise NotImplementedError("Este método debe ser implementado por las subclases.")
-
+    def puede_usar_conexion(self, conexion, peso=None):
+        return conexion.tipo == self.modo
+    """Evalúa si el vehículo puede usar una conexión determinada, según las restricciones propias del vehículo y del tramo"""
 
 #Esta clase trabaja con Conexion para validar si puede recorrerla en la funcion "puede_usar_conexion"
 #Ademas, con Solicitud para ver si puede cumplir el pedido y uso peso

@@ -19,12 +19,26 @@ class Camion(Vehiculo):
 
         return cantidad * (self.costo_fijo + self.costo_km * distancia + costo_kg * peso)
 
+    def puede_usar_conexion(self, conexion, peso):
+        if not super().puede_usar_conexion(conexion, peso):
+            return False
+        if hasattr(conexion, "peso_max") and conexion.peso_max is not None:
+            if peso > conexion.peso_max:
+                return False
+        return True
+
+
 class Tren(Vehiculo):
     def __init__(self):
         super().__init__(modo= "ferroviario", velocidad_nominal=100, capacidad=150000, costo_fijo=100, costo_kg=3, costo_km=None)
 
-    def calcular_tiempo(self,distancia):
-        return distancia / self.velocidad_nominal
+    def calcular_tiempo(self, distancia, conexion=None):
+        if conexion and hasattr(conexion, "velocidad_max") and conexion.velocidad_max is not None:
+            velocidad = min(self.velocidad_nominal, conexion.velocidad_max)
+        else:
+            velocidad = self.velocidad_nominal
+        return distancia / velocidad
+    #Calculaa el tiempo segun tenga velocidad maxima la conexion o no
     
     def calcular_costo(self, distancia, peso):
         cantidad = self.cantidad_necesaria(peso)
@@ -35,9 +49,10 @@ class Tren(Vehiculo):
         
         return cantidad * (self.costo_fijo + costo_km * distancia + self.costo_kg * peso)
     
+    
+
 class Avion(Vehiculo):
     def __init__(self):
-        #aca hay un metodo en caso de malas condiciones climaticas
         super().__init__(modo="aereo", velocidad_nominal=600, capacidad=5000 , costo_fijo=750 , costo_km= 40, costo_kg= 10)
 
     def calcular_tiempo(self, distancia, conexion):
@@ -61,3 +76,13 @@ class Barcaza(Vehiculo):
 
     def calcular_tiempo(self,distancia):    
         return distancia / self.velocidad_nominal
+    
+    def calcular_costo(self, distancia, peso, conexion):
+        cantidad = self.cantidad_necesaria(peso)
+    
+        if conexion.tipo_tasa == "fluvial":
+            costo_fijo = 500
+        else:
+            costo_fijo = 1500
+
+        return cantidad * (costo_fijo + self.costo_km * distancia + self.costo_kg * peso)
