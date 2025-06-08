@@ -1,5 +1,5 @@
-from models.nodo import Nodo
-from validaciones.validaciones import validaciones
+from nodo import Nodo
+from ..validaciones.validaciones import validaciones
 
 """Esta clase se encarga de describir que  2 ciudades conecta y la distancia que hay entre ellas. Para eso se crean clases hijas  que
  van a heredar ciertas cualidades de la clase padre como la distancia, y la ciudad orgien y destino. La clsae hija identifica el mode

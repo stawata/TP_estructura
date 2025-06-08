@@ -22,6 +22,7 @@ class Buscar_ruta:
         for valor in lista_nodo_destino:
             if not self.pila_recorrido.recorrer(valor[1]):
                 self.pila_recorrido.apilar(Nodo(valor[1]))
+                self.origen = valor[1]       
             self.pila_recorrido.visualizar() 
 
 
@@ -29,12 +30,49 @@ class Buscar_ruta:
     def filtrar_por_modo(rutas, modo="Automotor"):
         return list(filter(lambda x: x[2] == modo, rutas))
 
+    @staticmethod
+    def filtrar_
+    for valor in lista_nodo_destino:
+            if not self.pila_recorrido.recorrer(valor[1]):
+                self.pila_recorrido.apilar(Nodo(valor[1]))
+                self.origen = valor[1]       
         
+
+
 
 
 # nodos = NodoLoader.cargar_desde_csv("data/nodos.csv")
 # solicitud = SolicitudLoader.cargar_desde_csv("solicitudes.csv")
 # conexiones = ConexionLoader.cargar_desde_csv("conexiones.csv")
+"""class Grafo:
+    def __init__(self):
+        self.adyacencias = {}  # Diccionario: nodo -> lista de (vecino, peso)
+
+    def agregar_arista(self, origen, destino, distancia):
+        if origen not in self.adyacencias:
+            self.adyacencias[origen] = []
+        self.adyacencias[origen].append((destino, distancia))
+
+    def mostrar_grafo(self):
+        for origen, vecinos in self.adyacencias.items():
+            for destino, distancia in vecinos:
+                print(f"{origen} -> {destino} ({distancia} km)")
+
+# Crear el grafo
+grafo = Grafo()
+
+# Agregar las rutas de la red automotor (según la imagen)
+grafo.agregar_arista("Zárate", "Buenos Aires", 85)
+grafo.agregar_arista("Zárate", "Junín", 185)
+grafo.agregar_arista("Junín", "Buenos Aires", 238)
+grafo.agregar_arista("Junín", "Azul", 265)
+grafo.agregar_arista("Azul", "Buenos Aires", 278)
+grafo.agregar_arista("Azul", "Mar del Plata", 246)
+grafo.agregar_arista("Buenos Aires", "Mar del Plata", 384)
+
+# Mostrar el grafo
+grafo.mostrar_grafo()
+"""
 
 ruta = [
     ["Zarate", "Buenos_Aires", "Automotor", 85,  ""],
