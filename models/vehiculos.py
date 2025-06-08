@@ -1,7 +1,13 @@
 import math
+#from validaciones.validaciones import validaciones
 
 class Vehiculo():
     def __init__(self,modo,velocidad_nominal,capacidad,costo_fijo,costo_km,costo_kg):
+    #    validaciones.validar_str(modo)
+    #    validaciones.validar_float(velocidad_nominal)
+    #    validaciones.validar_float(capacidad)
+    #    validaciones.validar_float(costo_fijo)
+    #    validaciones.validar_float(costo_kg)
        self.modo=modo
        self.velocidad_nominal=velocidad_nominal
        self.capacidad=capacidad

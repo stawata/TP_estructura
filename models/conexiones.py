@@ -1,4 +1,5 @@
 from models.nodo import Nodo
+from validaciones.validaciones import validaciones
 
 """Esta clase se encarga de describir que  2 ciudades conecta y la distancia que hay entre ellas. Para eso se crean clases hijas  que
  van a heredar ciertas cualidades de la clase padre como la distancia, y la ciudad orgien y destino. La clsae hija identifica el mode
@@ -10,8 +11,8 @@ considera inalcanzable.
 
 
 class Conexion():
-    def __init__(self, ciudad1:str, ciudad2:str, distancia :int):
-        Conexion.validar_int(distancia)
+    def __init__(self, ciudad1:str, ciudad2:str, distancia :float):
+        validaciones.validar_float(distancia)
         Conexion.validar_ciudad(ciudad1)
         Conexion.validar_ciudad(ciudad2)
         self.ciudad1 = ciudad1
@@ -27,12 +28,7 @@ class Conexion():
             return True
         else:
             raise ValueError("El valor debe ser una ciudad que exista")
-    @staticmethod
-    def validar_int(valor):
-        if isinstance(valor,int):
-            return True
-        else:
-            raise ValueError("El valor debe int")
+
         
 class Conexion_ferroviaria(Conexion):
     def __init__(self, ciudad1,ciudad2, distancia):

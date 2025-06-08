@@ -17,6 +17,7 @@ class Buscar_ruta:
                 #apilo la ciudad2
                 pass
             if conexion.ciudad2 ==origen:
+                pass
                 #apilo la ciudad1
 
         #despues veo como puedo serguir desde ese origen 
