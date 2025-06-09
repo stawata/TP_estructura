@@ -44,8 +44,10 @@ ruta = [
     ["Junin", "Azul", "Automotor", 265,  ""],
     ["Azul", "Buenos_Aires", "Automotor", 278,  ""],
     ["Azul", "Mar_del_Plata", "Automotor", 246,  ""],
-    ["Buenos_Aires", "Mar_del_Plata", "Automotor", 384,  ""]
+    ["Buenos_Aires", "Mar_del_Plata", "Automotor", 384,  ""],
 ]
+
+vehiculos={"Automotor", "Ferroviaria"}
 
 solicitud = ["CARGA_001",70000,"Zarate","Mar_del_Plata"]
 
