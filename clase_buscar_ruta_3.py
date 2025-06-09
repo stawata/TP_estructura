@@ -25,27 +25,36 @@ class Buscar_ruta:
                 if ciudad_origen==nodo_actual and ciudad_destino not in camino: #agregamos otro tramo de camino por que todavia no se llego al destino
                     nuevo_camino=camino+[ciudad_destino]
                     pila.apilar((ciudad_destino, nuevo_camino))
-            
+
+                #con este de abajo revisas el camino de manera inversa 
+
+                if ciudad_destino == nodo_actual and ciudad_origen not in camino:
+                    nuevo_camino = camino + [ciudad_origen]
+                    pila.apilar((ciudad_origen, nuevo_camino))
+
         return caminos_encontrados
-    
-#ruta = [
-#    ["Zarate", "Buenos_Aires", "Automotor", 85,  ""],
-#    ["Zarate", "Junin", "Automotor", 185, "peso_max", 15000],
-#    ["Junin", "Buenos_Aires", "Automotor", 238,  ""],
-#    ["Junin", "Azul", "Automotor", 265,  ""],
-#    ["Azul", "Buenos_Aires", "Automotor", 278,  ""],
-#    ["Azul", "Mar_del_Plata", "Automotor", 246,  ""],
-#    ["Buenos_Aires", "Mar_del_Plata", "Automotor", 384,  ""]
-#]
 
-#solicitud = ["CARGA_001",70000,"Zarate","Mar_del_Plata"]
 
-#buscador = Buscar_ruta(ruta)
-#caminos = buscador.buscar_caminos(solicitud)
+#esto de aca es una prueba luego se borra
+
+ruta = [
+    ["Zarate", "Buenos_Aires", "Automotor", 85,  ""],
+    ["Zarate", "Junin", "Automotor", 185, "peso_max", 15000],
+    ["Junin", "Buenos_Aires", "Automotor", 238,  ""],
+    ["Junin", "Azul", "Automotor", 265,  ""],
+    ["Azul", "Buenos_Aires", "Automotor", 278,  ""],
+    ["Azul", "Mar_del_Plata", "Automotor", 246,  ""],
+    ["Buenos_Aires", "Mar_del_Plata", "Automotor", 384,  ""]
+]
+
+solicitud = ["CARGA_001",70000,"Zarate","Mar_del_Plata"]
+
+buscador = Buscar_ruta(ruta)
+caminos = buscador.buscar_caminos(solicitud)
 
 # Mostrar resultados
-#for i, camino in enumerate(caminos):
-#    print(f"Camino {i+1}: {' → '.join(camino)}")
+for i, camino in enumerate(caminos):
+    print(f"Camino {i+1}: {' → '.join(camino)}")
 
 
 
