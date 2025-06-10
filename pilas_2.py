@@ -33,9 +33,9 @@ class Pila:
         actual = self.cima
         elementos = []
         while actual is not None:
-            elementos.append(str(actual.dato))
+            print(actual.nombre + str(actual.tiempo) + str(actual.previo))
             actual = actual.siguiente
-        print(elementos)
+
 
     def recorrer(self, objeto):
         actual = self.cima

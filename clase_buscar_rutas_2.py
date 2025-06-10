@@ -46,19 +46,18 @@ class Grafo:
         return grafo
 
     def ruta_optima(self,solicitud,recorrido, modo):
-        tiempo_total = 0
+        tiempo_acarreado = 0
         cantidad_vehiculos = 0
         if solicitud.peso_kg > modo.capacidad:
             cantidad_vehiculos = math.ceil(solicitud.peso_kg / modo.capacidad)
-        partida = solicitud.origen
-        destino = solicitud.destino
-        recorrido.apilar(partida) #apilamos el origen
-        objeto_base = partida
+        destino = solicitud.destino.nombre
+        recorrido.apilar(solicitud.origen)
+        objeto_base = solicitud.origen.nombre
         llegada = True
         while llegada:
+            diccionario_tiempos = {} 
             for clave, valor in self.grafo.items():
-                if clave == objeto_base.nombre: 
-                    diccionario_tiempos = {}   
+                if clave == objeto_base:   
                     for ciudad in valor:
                         if recorrido.recorrer_pila(ciudad[0]):
                             print("Ya es parte del recorrido esa ciudad")
@@ -69,16 +68,29 @@ class Grafo:
                                 continue
                             else:  
                                 tiempo = modo.calcular_tiempo(ciudad[2])
-                                diccionario_tiempos[ciudad[0]] = tiempo
+                                tiempo_neto = tiempo + tiempo_acarreado
+                                if ciudad[0] not in diccionario_tiempos:
+                                    diccionario_tiempos[ciudad[0]] = (tiempo_neto,objeto_base)
+                                elif tiempo_neto < diccionario_tiempos[ciudad[0]][0]:
+                                    diccionario_tiempos[ciudad[0]] = (tiempo_neto,objeto_base)
                         else:
                             tiempo = modo.calcular_tiempo(ciudad[2])
-                            diccionario_tiempos[ciudad[0]] = tiempo
-                    diccionario_ordenado = dict(sorted(diccionario_tiempos.items(), key=lambda item: item[1]))
-                    for clave,valor in diccionario_ordenado.items(): 
-                        objeto_base = Nodo(clave)
-                        tiempo_total += tiempo
-                        recorrido.apilar(objeto_base)
-                        break  # para que solo tome la primera
+                            tiempo_neto = tiempo + tiempo_acarreado
+                            if ciudad[0] not in diccionario_tiempos:
+                                diccionario_tiempos[ciudad[0]] = (tiempo_neto,objeto_base)
+                            elif tiempo_neto < diccionario_tiempos[ciudad[0]][0]:
+                                diccionario_tiempos[ciudad[0]] = (tiempo_neto,objeto_base)
+                    diccionario_ordenado = dict(sorted(diccionario_tiempos.items(), key=lambda item: item[1][0]))
+                    for clave,valor in diccionario_ordenado.items():
+                        if clave == destino:
+                            llegada= False
+                        recorrido.apilar(Nodo(clave, valor[0], valor[1])) 
+                        objeto_base = clave
+                        tiempo_acarreado =  valor[0]
+                        diccionario_tiempos.pop(clave)
+                        break 
+        recorrido.visualizar()
+        return recorrido
 
 
 
@@ -113,6 +125,6 @@ ruta = [
     ["Buenos_Aires", "Mar_del_Plata", "Automotor", 384,  ""]
 ]
 
-solicitud_1 = Solicitud("CARGA_001",70000,Nodo("Zarate"),Nodo("Mar_del_Plata"))
+solicitud_1 = Solicitud("CARGA_001",70000,Nodo("Zarate",0, None),Nodo("Mar_del_Plata",0, None))
 camion_1 = Camion()
-Grafo(ruta, solicitud_1, camion_1)
+recorrido = Grafo(ruta, solicitud_1, camion_1)
