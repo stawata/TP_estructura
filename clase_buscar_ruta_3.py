@@ -5,6 +5,7 @@ class Buscar_ruta:
         self.conexiones=conexiones #guarda la lista de objetos conexion
 
     def buscar_caminos(self,solicitud): #Guarda desde solicitud el origen y destino
+        #ACA TENDRIAMOS QUE TRABAJAR SOBRE EL OBJETO DE UNA CLASE 
         origen=solicitud[2]
         destino=solicitud[3]
 
@@ -20,6 +21,7 @@ class Buscar_ruta:
                 continue
 
             for conexion in self.conexiones:
+                #ACA TENDRIAMOS QUE TAMBIEN TRABAJAR SOBRE UN OBJETO
                 ciudad_origen=conexion[0]
                 ciudad_destino=conexion[1]
                 if ciudad_origen==nodo_actual and ciudad_destino not in camino: #agregamos otro tramo de camino por que todavia no se llego al destino

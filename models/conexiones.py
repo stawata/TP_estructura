@@ -11,13 +11,17 @@ considera inalcanzable.
 
 
 class Conexion():
-    def __init__(self, ciudad1:str, ciudad2:str, distancia :float):
+    tipo_conexion=set()
+    def __init__(self, ciudad1:str, ciudad2:str,tipo:str ,distancia :float):
         validaciones.validar_float(distancia)
         Conexion.validar_ciudad(ciudad1)
         Conexion.validar_ciudad(ciudad2)
         self.ciudad1 = ciudad1
         self.ciudad2 = ciudad2
         self.distancia = distancia
+        self.tipo = tipo
+        #la idea es tener un conjunto con todos los tipo de conexion (fluvial, terrestre, aereo,etc)
+        Conexion.tipos_conexion.append(self.tipo)
 
     def __str__(self):
         return f" {self.ciudad1} a {self.ciudad2} KM: {self.distancia} "
@@ -31,36 +35,36 @@ class Conexion():
 
         
 class Conexion_ferroviaria(Conexion):
-    def __init__(self, ciudad1,ciudad2, distancia, velocidad_max : float):
+    def __init__(self, ciudad1,ciudad2, tipo ,distancia, velocidad_max : float):
         validaciones.validar_float(velocidad_max)
-        super().__init__(ciudad1, ciudad2,distancia)
+        super().__init__(ciudad1, ciudad2,tipo,distancia)
         self.velocidad_max = velocidad_max
     def __str__(self):
         return f" {self.ciudad1} a {self.ciudad2} KM: {self.distancia} "
 
 
 class Conexion_autovia(Conexion):
-    def __init__(self, ciudad1,ciudad2, distancia, peso_max:float):
+    def __init__(self, ciudad1,ciudad2, tipo,distancia, peso_max:float):
         validaciones.validar_float(peso_max)
-        super().__init__(ciudad1, ciudad2,distancia)
+        super().__init__(ciudad1, ciudad2,tipo,distancia)
         self.peso_max = peso_max
     def __str__(self):
         return f" {self.ciudad1} a {self.ciudad2} KM: {self.distancia} "
 
 
 class Conexion_maritima(Conexion):
-    def __init__(self, ciudad1,ciudad2, distancia, tipo_tasa : str):
+    def __init__(self, ciudad1,ciudad2, tipo,distancia, tipo_tasa : str):
         validaciones.validar_str(tipo_tasa)
-        super().__init__(ciudad1, ciudad2,distancia)
+        super().__init__(ciudad1, ciudad2,tipo,distancia)
         self.tipo_tasa = tipo_tasa
     def __str__(self):
         return f" {self.ciudad1} a {self.ciudad2} KM: {self.distancia} "
 
 
 class Conexion_aerea(Conexion):
-    def __init__(self, ciudad1,ciudad2, distancia, probabilidad_mal_clima:float):
+    def __init__(self, ciudad1,ciudad2,tipo, distancia, probabilidad_mal_clima:float):
         validaciones.validar_str(probabilidad_mal_clima)
-        super().__init__(ciudad1, ciudad2,distancia)
+        super().__init__(ciudad1, ciudad2,tipo,distancia)
         self.probabilidad_mal_clima = probabilidad_mal_clima 
 
     def __str__(self):
