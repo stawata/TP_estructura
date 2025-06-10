@@ -5,6 +5,7 @@ class Nodo:
     def __init__(self, nombre):
         #validaciones.validar_str(nombre)
         self.nombre = nombre
+        self.siguiente = None
         Nodo.ciudades_disponibles.append(nombre)
         #LA IDEA ES ACA PONER LOS TRANSPORTES EN LOS QUE PODES LLEGAR A LA CIUDAD
         #es necesario saber los transportes ??????

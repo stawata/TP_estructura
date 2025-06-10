@@ -3,68 +3,105 @@ el primer nodo que ingresamos es el origen y luego vamos a ir agregando nodos si
 sea una que todavia no existe. Quiere decir que la base de nuestra busqueda es que va a encontrar caminos diferentes fijandose que 
 la pila que vamos armando sea una que todavia no existe. '''
 #from utils.loader import ConexionLoader,NodoLoader,SolicitudLoader
-from pilas_2 import Nodo, Pila
+from pilas_2 import Pila
+from models.nodo import Nodo
+from models.solicitud import Solicitud 
+from models.vehiculos_herencia import *
+from validaciones.validaciones import validaciones
+import math
 
-class Buscar_ruta:
-    def __init__(self, rutas, origen,destino ):
-        nodo_origen = Nodo(origen)
-        self.origen = origen
-        self.destino = destino
-        pila_modo = Pila()
-        self.pila_recorrido = pila_modo
-        self.pila_recorrido.apilar(nodo_origen)
-        rutas_modo = Buscar_ruta.filtrar_por_modo(rutas)
-        self.rutas_modo = rutas_modo
-        self.filtrar_ruta()
 
-    def filtrar_ruta(self):
-        lista_nodo_destino = list(filter(lambda x: x[0] == self.origen, self.rutas_modo))
-        for valor in lista_nodo_destino:
-            if not self.pila_recorrido.recorrer(valor[1]):
-                self.pila_recorrido.apilar(Nodo(valor[1]))
-                self.origen = valor[1]   
-                self.filtrar_ruta()    
-            self.pila_recorrido.visualizar() 
-      
-            
+class Grafo:
+    def __init__(self, rutas, solicitud, modo ):
+        rutas = Grafo.filtrar_por_modo(rutas,modo)
+        grafo = self.armar_grafo(rutas)
+        self.grafo = grafo
+        recorrrido = Pila()
+        self.ruta_optima(solicitud,recorrrido,modo)
+  
+
+
+
+
+    def armar_grafo(self, ruta):
+        grafo = {}
+        indices = [0, 2, 3, 4, 5] 
+        for lista in ruta:
+            if lista[0] not in grafo: 
+                grafo[lista[0]] =  [lista[1:]]
+                if lista[1] not in grafo:
+                    inverso = lista[2:]
+                    inverso.insert(0, lista[0])  
+                    grafo[lista[1]] = [inverso]  
+                else:
+                    grafo[lista[1]].append([lista[i] for i in indices if i < len(lista)])
+            else:
+                grafo[lista[0]].append(lista[1:])
+                if lista[1] not in grafo:
+                    inverso = lista[2:]
+                    inverso.insert(0, lista[0])  
+                    grafo[lista[1]] = [inverso]   
+                else:
+                    grafo[lista[1]].append([lista[i] for i in indices if i < len(lista)])
+        return grafo
+
+    def ruta_optima(self,solicitud,recorrido, modo):
+        tiempo_total = 0
+        cantidad_vehiculos = 0
+        if solicitud.peso_kg > modo.capacidad:
+            cantidad_vehiculos = math.ceil(solicitud.peso_kg / modo.capacidad)
+        partida = solicitud.origen
+        destino = solicitud.destino
+        recorrido.apilar(partida) #apilamos el origen
+        objeto_base = partida
+        llegada = True
+        while llegada:
+            for clave, valor in self.grafo.items():
+                if clave == objeto_base.nombre: 
+                    diccionario_tiempos = {}   
+                    for ciudad in valor:
+                        if recorrido.recorrer_pila(ciudad[0]):
+                            print("Ya es parte del recorrido esa ciudad")
+                            continue
+                        elif ciudad[3] == "peso_max":
+                            if ciudad[-1] < solicitud.peso_kg:
+                                print("la carga excede el peso admitido por la conexion")
+                                continue
+                            else:  
+                                tiempo = modo.calcular_tiempo(ciudad[2])
+                                diccionario_tiempos[ciudad[0]] = tiempo
+                        else:
+                            tiempo = modo.calcular_tiempo(ciudad[2])
+                            diccionario_tiempos[ciudad[0]] = tiempo
+                    diccionario_ordenado = dict(sorted(diccionario_tiempos.items(), key=lambda item: item[1]))
+                    for clave,valor in diccionario_ordenado.items(): 
+                        objeto_base = Nodo(clave)
+                        tiempo_total += tiempo
+                        recorrido.apilar(objeto_base)
+                        break  # para que solo tome la primera
+
+
+
+
     @staticmethod
-    def filtrar_por_modo(rutas, modo="Automotor"):
-        return list(filter(lambda x: x[2] == modo, rutas))
+    def filtrar_por_modo(rutas, modo):
+        if type(modo)== Camion:
+            buscador = "Automotor"
+            return list(filter(lambda x: x[2] == buscador, rutas))
 
 
 
 # nodos = NodoLoader.cargar_desde_csv("data/nodos.csv")
 # solicitud = SolicitudLoader.cargar_desde_csv("solicitudes.csv")
 # conexiones = ConexionLoader.cargar_desde_csv("conexiones.csv")
-"""class Grafo:
-    def __init__(self):
-        self.adyacencias = {}  # Diccionario: nodo -> lista de (vecino, peso)
 
-    def agregar_arista(self, origen, destino, distancia):
-        if origen not in self.adyacencias:
-            self.adyacencias[origen] = []
-        self.adyacencias[origen].append((destino, distancia))
-
-    def mostrar_grafo(self):
-        for origen, vecinos in self.adyacencias.items():
-            for destino, distancia in vecinos:
-                print(f"{origen} -> {destino} ({distancia} km)")
-
-# Crear el grafo
-grafo = Grafo()
-
-# Agregar las rutas de la red automotor (según la imagen)
-grafo.agregar_arista("Zárate", "Buenos Aires", 85)
-grafo.agregar_arista("Zárate", "Junín", 185)
-grafo.agregar_arista("Junín", "Buenos Aires", 238)
-grafo.agregar_arista("Junín", "Azul", 265)
-grafo.agregar_arista("Azul", "Buenos Aires", 278)
-grafo.agregar_arista("Azul", "Mar del Plata", 246)
-grafo.agregar_arista("Buenos Aires", "Mar del Plata", 384)
-
-# Mostrar el grafo
-grafo.mostrar_grafo()
-"""
+# grafo_info = {
+#     "Zarate": [("Buenos Aires", 85, 100), ("Junin", 185, 80)],
+#     "Buenos Aires": [("Zarate", 85, 100), ("Junin", 238, 90), ("Azul", 278, 110), ("Mar del Plata", 384, 120)],
+#     "Junin": [("Zarate", 185, 80), ("Buenos Aires", 238, 90), ("Azul", 265, 100)],
+#     "Azul": [("Junin", 265, 100), ("Buenos Aires", 278, 110), ("Mar del Plata", 246, 100)],
+#     "Mar del Plata": [("Buenos Aires", 384, 120), ("Azul", 246, 100)]
+# }
 
 ruta = [
     ["Zarate", "Buenos_Aires", "Automotor", 85,  ""],
@@ -76,5 +113,6 @@ ruta = [
     ["Buenos_Aires", "Mar_del_Plata", "Automotor", 384,  ""]
 ]
 
-solicitud = ["CARGA_001",70000,"Zarate","Mar_del_Plata"]
-Buscar_ruta(ruta, solicitud[2],solicitud[3])
+solicitud_1 = Solicitud("CARGA_001",70000,Nodo("Zarate"),Nodo("Mar_del_Plata"))
+camion_1 = Camion()
+Grafo(ruta, solicitud_1, camion_1)

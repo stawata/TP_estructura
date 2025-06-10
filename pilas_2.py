@@ -1,7 +1,4 @@
-class Nodo:
-    def __init__(self, dato):
-        self.dato = dato
-        self.siguiente = None
+from models.nodo import *
 
 class Pila:
     def __init__(self):
@@ -11,7 +8,7 @@ class Pila:
         return self.cima is None
 
     def apilar(self, dato):
-        nuevo_nodo = Nodo(dato)
+        nuevo_nodo = dato
         nuevo_nodo.siguiente = self.cima
         self.cima = nuevo_nodo
 
@@ -22,6 +19,15 @@ class Pila:
         dato = self.cima.dato
         self.cima = self.cima.siguiente
         return dato
+    
+    def recorrer_pila(self, objeto):
+        actual = self.cima
+        while actual is not None:
+            if objeto == actual.nombre:
+                return True
+            actual = actual.siguiente
+        return False
+        
 
     def visualizar(self):
         actual = self.cima
