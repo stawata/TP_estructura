@@ -100,7 +100,8 @@ class Grafo:
     def camino_mas_rapido(pila, solicitud):
         origen = solicitud.origen.nombre
         destino = solicitud.destino.nombre
-        pila.recorrer_camino( destino)
+        resultado, tiempo = pila.recorrer_camino( destino)
+        return resultado, tiempo
 
 
     @staticmethod
