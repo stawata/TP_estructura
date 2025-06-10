@@ -28,6 +28,17 @@ class Pila:
             actual = actual.siguiente
         return False
         
+    def recorrer_camino(self, destino):
+        actual = self.cima
+        tiempo = 0
+        camino_optimo = set()
+        while actual is not None:
+            if destino == actual.nombre:
+                camino_optimo.add(actual)
+                destino = actual.previo
+                if tiempo == 0: tiempo += actual.tiempo
+            actual = actual.siguiente
+        return camino_optimo, tiempo
 
     def visualizar(self):
         actual = self.cima

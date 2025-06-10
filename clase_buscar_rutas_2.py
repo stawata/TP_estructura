@@ -17,7 +17,10 @@ class Grafo:
         grafo = self.armar_grafo(rutas)
         self.grafo = grafo
         recorrrido = Pila()
-        self.ruta_optima(solicitud,recorrrido,modo)
+        dijstra = self.ruta_optima(solicitud,recorrrido,modo)
+        resultado = Grafo.camino_mas_rapido(dijstra, solicitud)
+        Grafo.mostrar_camino(resultado)
+        
   
 
 
@@ -93,6 +96,11 @@ class Grafo:
         return recorrido
 
 
+    @staticmethod
+    def camino_mas_rapido(pila, solicitud):
+        origen = solicitud.origen.nombre
+        destino = solicitud.destino.nombre
+        pila.recorrer_camino( destino)
 
 
     @staticmethod
@@ -100,6 +108,13 @@ class Grafo:
         if type(modo)== Camion:
             buscador = "Automotor"
             return list(filter(lambda x: x[2] == buscador, rutas))
+
+
+    @staticmethod
+    def mostrar_camino(resultado):
+        print(f"El tiempo que tarda el recorrido es: {resultado[1]}")
+        for valor in resultado[0]:
+            print(f"La ciudad es: {valor.nombre}")
 
 
 
