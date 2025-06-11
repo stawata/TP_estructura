@@ -1,4 +1,6 @@
-class validaciones():
+from models.nodo import Nodo
+
+class Validaciones():
     @staticmethod
     def validar_float(valor):
         if isinstance(valor,float):
@@ -19,7 +21,14 @@ class validaciones():
             return True
         else:
             raise ValueError("El valor debe ser int")
-        
+    
+    @staticmethod
+    def validar_ciudad(valor): 
+        if isinstance(valor, Nodo):  
+            return True
+        else:
+            raise ValueError("El valor debe ser una ciudad que exista")
+
     # @staticmethod
     # def validar_lista(valor):
     #     if isinstance(valor,list):

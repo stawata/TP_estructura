@@ -10,8 +10,11 @@ considera inalcanzable.
 3) """
 
 class Conexion():
-    def __init__(self, origen:str, destino:str, distancia_km :float):
-        validaciones.validar_float(distancia_km)
+    def __init__(self, origen, destino, distancia_km):
+        if not Validaciones.validar_ciudad(origen) or not Validaciones.validar_ciudad(destino):
+            raise ValueError("El origen y destino deben ser instancias de Nodo")
+        if distancia_km <= 0:
+            raise ValueError("La distancia debe ser un valor positivo")
         self.origen = origen
         self.destino = destino
         self.distancia_km = distancia_km
@@ -28,23 +31,33 @@ class Conexion():
 
         
 class Conexion_ferroviaria(Conexion):
-    def __init__(self, origen,destino, distancia_km, velocidad_max : float):
+    def __init__(self, origen,destino, distancia_km, velocidad_max):
         super().__init__(origen, destino,distancia_km)
-        self.velocidad_max = velocidad_max
+        if velocidad_max:
+            if velocidad_max <= 0:
+                raise ValueError("La velocidad máxima debe ser un valor positivo")
+            self.velocidad_max = velocidad_max
+        else:
+            self.velocidad_max = velocidad_max
     def __str__(self):
         return f" {self.origen} a {self.destino} KM: {self.distancia_km} "
 
 
 class Conexion_autovia(Conexion):
-    def __init__(self, origen,destino, distancia_km, peso_max:float):
+    def __init__(self, origen,destino, distancia_km, peso_max):
         super().__init__(origen, destino,distancia_km)
-        self.peso_max = peso_max
+        if peso_max:
+            if peso_max <= 0:
+                raise ValueError("El peso máximo debe ser un valor positivo")
+            self.peso_max = peso_max
+        else:
+            self.peso_max = peso_max
     def __str__(self):
         return f" {self.origen} a {self.destino} KM: {self.distancia_km} "
 
 
 class Conexion_maritima(Conexion):
-    def __init__(self, origen,destino, distancia_km, tipo_tasa : str):
+    def __init__(self, origen,destino, distancia_km, tipo_tasa):
         super().__init__(origen, destino,distancia_km)
         self.tipo_tasa = tipo_tasa
     def __str__(self):
@@ -52,9 +65,13 @@ class Conexion_maritima(Conexion):
 
 
 class Conexion_aerea(Conexion):
-    def __init__(self, origen,destino, distancia_km, probabilidad_mal_clima:float):
+    def __init__(self, origen,destino, distancia_km, probabilidad_mal_clima):
         super().__init__(origen, destino,distancia_km)
-        self.probabilidad_mal_clima = probabilidad_mal_clima 
-
+        if probabilidad_mal_clima:
+            if not (0 <= probabilidad_mal_clima <= 1):
+                raise ValueError("La probabilidad de mal clima debe estar entre 0 y 1")
+            self.probabilidad_mal_clima = probabilidad_mal_clima 
+        else:
+            self.probabilidad_mal_clima = probabilidad_mal_clima
     def __str__(self):
         return f" {self.origen} a {self.destino} KM: {self.distancia_km} "

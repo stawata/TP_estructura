@@ -4,13 +4,14 @@ from models.nodo import Nodo
 
 class Solicitud:
     def __init__(self,id_carga,peso_kg,origen,destino):
+        if peso_kg <= 0:
+            raise ValueError("El peso debe ser un valor positivo")
+        if not Solicitud.validar_ciudad(origen) or not Solicitud.validar_ciudad(destino):
+            raise ValueError("El origen y destino deben ser instancias de Nodo")
         self.id_carga=id_carga
         self.peso_kg=peso_kg
-        if Solicitud.validar_ciudad(origen) and Solicitud.validar_ciudad(destino):
-            self.origen=origen
-            self.destino=destino
-        else:
-            raise ValueError("El valor debe ser una ciudad que exista")
+        self.origen=origen
+        self.destino=destino
 
     def getid_carga(self):
         return self.id_carga

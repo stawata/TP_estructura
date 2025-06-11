@@ -1,0 +1,16 @@
+
+Carga de los datos
+
+Lo primero que pasa en el programa es la carga de los datos en los archivos.csv. 
+El archivo que tiene las clases y ellas los classmethod para dicha carga es 'utils/loader.py'.
+Este archivo tiene tres clases (con sus metodos de clase):
+    1. CargaNodo > carga_desde_csv() > toma como parametro la direccion del archivo 'nodo.scv'.
+    2. CargaConexion > carga_desde_csv() > toma como parametros la direccion del archivo 'conexiones.scv' y la lista de objetos nodo creados anteriormente.
+    3. CargaSolicitud > carga_desde_csv() > toma como parametro la direccion del archivo 'solicitud.scv' y la lista de objetos nodo creados anteriormente.
+Cada funcion de carga devuelve una lista de instancias de cada clase (segun corresponda). Basicamente baja los datos y crea las instancias de los objetos.
+Por ejemplo CargaNodo.carga_desde_csv('nodo.csv') devuelve una lista de instancias de la clase Nodo.
+Ahora algunos detalles de como funcionan los classmethod en cuanto a validaciones:
+    CargaNodo.carga_desde_csv() > Solamente valida que el archivo.csv de donde vienen los datos exista y que el nombre del nodo no este vacio.
+    CargaConexion.carga_desde_csv() > Valida que el archivo exista, que las conexiones sean entre nodos que hayan sido cargados antes (sino simplemente no crea la conexion) y que los datos que sean obligatorios esten y sean del tipo que corresponda, si no estan o son de otro tipo de dato, no crea la conexion.
+    CargaSolicitud.carga_desde_csv() > Valida que el archivo exista, que los datos obligatorios esten y que estos sean del tipo de dato que corresponda, y que la solicitud sea para nodos que hayan sido cargados, si no es asi, lanza un mensaje de error.
+
