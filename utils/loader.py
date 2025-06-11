@@ -22,54 +22,50 @@ class ConexionLoader:
         with open(path, newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                if row["origen"] in nodos_dict.keys and row["destino"] in nodos_dict.keys:
+                if row["origen"].lower() in nodos_dict.keys() and row["destino"].lower() in nodos_dict.keys():
                     if row["tipo"].lower() == "ferroviaria":
                         conexiones.append(Conexion_ferroviaria(
-                        origen=nodos_dict[row["origen"]],
-                        destino=nodos_dict[row["destino"]],
-                        distacia_km=float(row["distacia_km"]),        
-                        valor_restriccion=float(row["valor_restriccion"]) if row["valor_restriccion"] else None,
+                        origen=nodos_dict[row["origen"].lower()],
+                        destino=nodos_dict[row["destino"].lower()],
+                        distancia_km=float(row["distancia_km"]),        
+                        velocidad_max=float(row["valor_restriccion"]) if row["valor_restriccion"] else None,
                     ))
                     elif row["tipo"].lower() == "aerea" or row["tipo"].lower() == "aérea":
                         conexiones.append(Conexion_aerea(
-                        origen=nodos_dict[row["origen"]],
-                        destino=nodos_dict[row["destino"]],
-                        distacia_km=float(row["distacia_km"]),        
-                        valor_restriccion=float(row["valor_restriccion"]) if row["valor_restriccion"] else None
+                        origen=nodos_dict[row["origen"].lower()],
+                        destino=nodos_dict[row["destino"].lower()],
+                        distancia_km=float(row["distancia_km"]),        
+                        probabilidad_mal_clima=float(row["valor_restriccion"]) if row["valor_restriccion"] else None
                     ))
                     elif row["tipo"].lower() == "maritima" or row["tipo"].lower() == "fluvial":
                         conexiones.append(Conexion_maritima(
-                        origen=nodos_dict[row["origen"]],
-                        destino=nodos_dict[row["destino"]],
-                        distacia_km=float(row["distacia_km"]),
-                        valor_restriccion=row["valor_restriccion"].lower() if row["valor_restriccion"] else None,    
+                        origen=nodos_dict[row["origen"].lower()],
+                        destino=nodos_dict[row["destino"].lower()],
+                        distancia_km=float(row["distancia_km"]),
+                        tipo_tasa=row["valor_restriccion"].lower() if row["valor_restriccion"] else None,    
                     ))
                     elif row["tipo"].lower() == "automotor":
                         conexiones.append(Conexion_autovia(
-                        origen=nodos_dict[row["origen"]],
-                        destino=nodos_dict[row["destino"]],
-                        distacia_km=float(row["distacia_km"]),        
-                        valor_restriccion=float(row["valor_restriccion"]) if row["valor_restriccion"] else None,
+                        origen=nodos_dict[row["origen"].lower()],
+                        destino=nodos_dict[row["destino"].lower()],
+                        distancia_km=float(row["distancia_km"]),        
+                        peso_max=float(row["valor_restriccion"]) if row["valor_restriccion"] else None,
                     ))
         return conexiones
 
 class SolicitudLoader:
     @staticmethod
-    def cargar_desde_csv(path: str):
+    def cargar_desde_csv(path: str, nodos: list):
         solicitudes = []
+        nodos_dict = {nodo.nombre: nodo for nodo in nodos}
         with open(path, newline='', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
-                solicitudes.append(Solicitud(
-                    id=row["id"],
-                    peso=float(row["peso"]),
-                    origen=row["origen"],
-                    destino=row["destino"]
-                ))
+                if row["origen"].lower() in nodos_dict.keys() and row["destino"].lower() in nodos_dict.keys():
+                    solicitudes.append(Solicitud(
+                        id_carga=row["id_carga"],
+                        peso_kg=float(row["peso_kg"]),
+                        origen=nodos_dict[row["origen"].lower()],
+                        destino=nodos_dict[row["destino"].lower()]
+                    ))
         return solicitudes
-
-try:
-    nodos = NodoLoader.cargar_desde_csv("nodos.csv")
-    print(f"Nodos cargados: {[nodo.nombre for nodo in nodos]}")
-except:
-    print('hubo un error')

@@ -7,7 +7,7 @@ from pilas_2 import Pila
 from models.nodo import Nodo
 from models.solicitud import Solicitud 
 from models.vehiculos_herencia import *
-from validaciones.validaciones import validaciones
+from utils.validaciones import validaciones
 import math
 
 

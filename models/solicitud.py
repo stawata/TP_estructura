@@ -4,10 +4,6 @@ from models.nodo import Nodo
 
 class Solicitud:
     def __init__(self,id_carga,peso_kg,origen,destino):
-        # validaciones.validar_str(origen)
-        # validaciones.validar_str(destino)
-        # validaciones.validar_float(peso_kg)
-        # validaciones.validar_int(id_carga)
         self.id_carga=id_carga
         self.peso_kg=peso_kg
         if Solicitud.validar_ciudad(origen) and Solicitud.validar_ciudad(destino):
