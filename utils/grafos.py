@@ -1,13 +1,10 @@
-
-#from..utils.loaders import *
+ #from..utils.loaders import *
 from models.conexiones import Conexion
-
 
 def armar_grafo(ciudades,conexiones):
         grafo = {}
         #aca voy a tener una lista con todas mis ciudades, que voy hacer que sean la key del grafo 
         
-
         for ciudad in ciudades:
             valores = list(filter(lambda x: x.destino ==ciudad or x.origen == ciudad, conexiones))
             value=[]
@@ -18,4 +15,4 @@ def armar_grafo(ciudades,conexiones):
                     value.append([valor.destino, valor.distancia_km, valor.velocidad_max])
 
             grafo[ciudad] = value
-
+        return grafo

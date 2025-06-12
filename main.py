@@ -167,4 +167,4 @@ grafo_tren= armar_grafo(nodos, conexiones_ferroviarias_totales)
 for key, values in grafo_tren.items():
     print(f"{key}")
     for i in values: 
-        print(str(i))
+        print("valores:",i[0], i[1], i[2])
