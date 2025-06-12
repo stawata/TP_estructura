@@ -39,5 +39,15 @@ class Vehiculo():
         return conexion.tipo == self.modo
     """Evalúa si el vehículo puede usar una conexión determinada, según las restricciones propias del vehículo y del tramo"""
 
+    def velocidad(self, conexion):
+        if self.modo == "ferroviario" and conexion.velocidad_maxima is not None:
+            return min(self.velocidad_nominal, conexion.velocidad_maxima)
+        elif self.modo == "aereo" and conexion.prob_mal_clima is not None:
+            # Ejemplo simple: si hay 30% de mal clima, reducimos 30% la velocidad
+            return self.velocidad_nominal * (1 - conexion.prob_mal_clima)
+        else:
+            return self.velocidad_nominal
+
+
 #Esta clase trabaja con Conexion para validar si puede recorrerla en la funcion "puede_usar_conexion"
 #Ademas, con Solicitud para ver si puede cumplir el pedido y uso peso

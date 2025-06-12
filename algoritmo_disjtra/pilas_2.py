@@ -1,4 +1,3 @@
-from models.nodo import *
 
 class Pila:
     def __init__(self):

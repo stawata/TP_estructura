@@ -23,6 +23,8 @@ class Grafo:
         
 
 
+#esto ARMA EL DICCIONARIO 
+
 
     def armar_grafo(self, ruta):
         grafo = {}

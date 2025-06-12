@@ -1,5 +1,6 @@
 #from nodo import Ciudad
 from models.nodo import Nodo
+from algoritmo_disjtra.Nodo_pais import NodoPais
 #from validaciones.validaciones import validaciones
 
 class Solicitud:
@@ -27,7 +28,7 @@ class Solicitud:
     
     @staticmethod
     def validar_ciudad(valor): 
-        if isinstance(valor,Nodo):  
+        if isinstance(valor,NodoPais):  
             return True
         else:
             return False

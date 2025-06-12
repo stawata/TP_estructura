@@ -3,8 +3,8 @@ el primer nodo que ingresamos es el origen y luego vamos a ir agregando nodos si
 sea una que todavia no existe. Quiere decir que la base de nuestra busqueda es que va a encontrar caminos diferentes fijandose que 
 la pila que vamos armando sea una que todavia no existe. '''
 #from utils.loader import ConexionLoader,NodoLoader,SolicitudLoader
-from algoritmo_disjtra.pilas_2 import Pila
-from models.nodo import Nodo
+from pilas_2 import Pila
+from Nodo_pais import Nodo_pais
 from models.solicitud import Solicitud 
 from models.vehiculos_herencia import *
 from validaciones.validaciones import validaciones
@@ -87,7 +87,7 @@ class Grafo:
                     for clave,valor in diccionario_ordenado.items():
                         if clave == destino:
                             llegada= False
-                        recorrido.apilar(Nodo(clave, valor[0], valor[1])) 
+                        recorrido.apilar(Nodo_pais(clave, valor[0], valor[1])) 
                         objeto_base = clave
                         tiempo_acarreado =  valor[0]
                         diccionario_tiempos.pop(clave)
@@ -119,10 +119,6 @@ class Grafo:
 
 
 
-# nodos = NodoLoader.cargar_desde_csv("data/nodos.csv")
-# solicitud = SolicitudLoader.cargar_desde_csv("solicitudes.csv")
-# conexiones = ConexionLoader.cargar_desde_csv("conexiones.csv")
-
 # grafo_info = {
 #     "Zarate": [("Buenos Aires", 85, 100), ("Junin", 185, 80)],
 #     "Buenos Aires": [("Zarate", 85, 100), ("Junin", 238, 90), ("Azul", 278, 110), ("Mar del Plata", 384, 120)],
@@ -141,6 +137,6 @@ ruta = [
     ["Buenos_Aires", "Mar_del_Plata", "Automotor", 384,  ""]
 ]
 
-solicitud_1 = Solicitud("CARGA_001",70000,Nodo("Zarate",0, None),Nodo("Mar_del_Plata",0, None))
+solicitud_1 = Solicitud("CARGA_001",70000,Nodo_pais("Zarate",0, None),Nodo_pais("Mar_del_Plata",0, None))
 camion_1 = Camion()
 recorrido = Grafo(ruta, solicitud_1, camion_1)

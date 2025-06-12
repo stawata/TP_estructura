@@ -24,7 +24,6 @@ class Camion(Vehiculo):
 
         return cantidad * (self.costos.fijo + self.costos.km * distancia + costo_kg * peso)
 
-
     def puede_usar_conexion(self, conexion, peso):
         if not super().puede_usar_conexion(conexion, peso):
             return False
