@@ -67,7 +67,7 @@ try:
                                 if ciudad[-1] < solicitud.peso_kg:   
                                     print("la carga excede el peso admitido por la conexion")
                                     continue
-                                else:  
+                                else:  #Hasta la 76 es lo mismo que de la 78 a la 83
                                     tiempo = modo.calcular_tiempo(ciudad[2])
                                     tiempo_neto = tiempo + tiempo_acarreado
                                     if ciudad[0] not in diccionario_tiempos:
