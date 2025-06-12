@@ -158,13 +158,19 @@ def main():
     # for solicitud in Solicitudes:
     #     print(solicitud)
 
+#ACA TENGO EN UNA LISTA LOS VALORES QUE LEI 
 nodos = NodoLoader.cargar_desde_csv("data/nodos.csv")
 conexiones= ConexionLoader.cargar_desde_csv("data/conexiones.csv", nodos)
+
+#ACA VOY HACER LAS CONEXIONES DETODOS LOS VEHICLOS 
 conexiones_ferroviarias_totales = list(filter(lambda x : isinstance(x,Conexion_ferroviaria), conexiones))
 
+
+#ACA VOY A TENER LOS GRAFOS DE CADA VEHICULO
 grafo_tren= armar_grafo(nodos, conexiones_ferroviarias_totales)
 
+#ESTO ES PATRA VISUALIZAR DESPUES SE PUEDE BORRAR
 for key, values in grafo_tren.items():
-    print(f"{key}")
+    print(f"Llave: {key}")
     for i in values: 
         print("valores:",i[0], i[1], i[2])
