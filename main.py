@@ -23,7 +23,8 @@ try:
             resultado = Grafo.camino_mas_rapido(dijstra, solicitud)
             Grafo.mostrar_camino(resultado)
         
-        def armar_grafo(self, ruta):
+        def armar_grafo(self, ruta): #Armar un metodo para pasar de lista de listas a diccionario
+            #De la linea 32 a la 38 es igual que de la 40 a la 46
             grafo = {}
             indices = [0, 2, 3, 4, 5] 
             for lista in ruta:
