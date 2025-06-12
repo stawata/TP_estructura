@@ -18,6 +18,7 @@ class Grafo:
         resultado = Grafo.camino_mas_rapido(dijstra, solicitud)
         Grafo.mostrar_camino(resultado)
     
+    #ESTO SE BORRA SE USA UNA FUNCION 
     def armar_grafo(self, ruta): #Armar un metodo para pasar de lista de listas a diccionario
         #De la linea 32 a la 38 es igual que de la 40 a la 46
         grafo = {}
@@ -166,4 +167,4 @@ grafo_tren= armar_grafo(nodos, conexiones_ferroviarias_totales)
 for key, values in grafo_tren.items():
     print(f"{key}")
     for i in values: 
-        print(i)
+        print(str(i))

@@ -7,7 +7,14 @@ def armar_grafo(ciudades,conexiones):
         
         for ciudad in ciudades:
             valores = list(filter(lambda x: x.destino ==ciudad or x.origen == ciudad, conexiones))
-            grafo[ciudad] = valores
+            value=[]
+            for valor in valores :
+                if valor.destino == ciudad:
+                    value.append([valor.origen, valor.distancia_km, valor.velocidad_max])
+                if valor.origen == ciudad:
+                    value.append([valor.destino, valor.distancia_km, valor.velocidad_max])
+
+            grafo[ciudad] = value
         return grafo
 
 
