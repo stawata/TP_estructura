@@ -1,14 +1,15 @@
 import heapq
-from planificadores.planificador_base import Planificador
-from planificadores.utils import construir_grafo, calcular_costo_tramo, calcular_vehiculos_requeridos
+from planner.planificador_base import Planificador
+from planner.utils import construir_grafo, calcular_costo_tramo, calcular_vehiculos_requeridos
 
 class PlanificadorCosto(Planificador):
     def generar_itinerarios(self, solicitud):
         nodos_dict = {n.nombre: n for n in self.nodos}
         grafo = construir_grafo(self.conexiones, nodos_dict)
+        print(grafo)
         origen = solicitud.origen
         destino = solicitud.destino
-        peso = solicitud.peso
+        peso = solicitud.peso_kg
 
         # heap: (costo acumulado, nodo actual, camino recorrido [(Conexion, Vehiculo)])
         heap = [(0, origen, [])]

@@ -12,7 +12,7 @@ import math
 
 
 class Grafo:
-    def __init__(self, rutas, solicitud, modo ):
+    def __init__(self, rutas, solicitud, modo):
         rutas = Grafo.filtrar_por_modo(rutas,modo)
         grafo = self.armar_grafo(rutas)
         self.grafo = grafo
@@ -21,11 +21,6 @@ class Grafo:
         resultado = Grafo.camino_mas_rapido(dijstra, solicitud)
         Grafo.mostrar_camino(resultado)
         
-
-
-#esto ARMA EL DICCIONARIO 
-
-
     def armar_grafo(self, ruta):
         grafo = {}
         indices = [0, 2, 3, 4, 5] 
@@ -106,7 +101,7 @@ class Grafo:
 
     @staticmethod
     def filtrar_por_modo(rutas, modo):
-        if type(modo)== Camion:
+        if type(modo) == Camion:
             buscador = "Automotor"
             return list(filter(lambda x: x[2] == buscador, rutas))
 

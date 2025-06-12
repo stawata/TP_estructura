@@ -96,3 +96,6 @@ class Barcaza(Vehiculo):
             costo_fijo = 1500
 
         return cantidad * (costo_fijo + self.costos.km * distancia + self.costos.kg * peso)
+
+def obtener_vehiculos_default():
+    return [Camion(), Tren(), Avion(), Barcaza()]

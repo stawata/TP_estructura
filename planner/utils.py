@@ -18,22 +18,20 @@ def calcular_costo_tramo(distancia, peso, vehiculo):
         vehiculo.costo_kg * peso
     )
 
-def construir_grafo(conexiones, nodos):
+def construir_grafo(conexiones, nodos_dict):
     """
-    Construye un grafo dirigido a partir de las conexiones.
-    
-    Parámetros:
-        conexiones (list[Conexion]): Lista de objetos conexión.
-        nodos_dict (dict[str, Nodo]): Diccionario de nodos por nombre.
-
-    Retorna:
-        dict[str, list[Conexion]]: Grafo donde cada nodo apunta a las conexiones salientes.
+    Construye un grafo dirigido desde una lista de conexiones,
+    asegurando coincidencia robusta entre nombres de nodos.
     """
-    nodos_dict = {n.nombre: n for n in nodos}
     grafo = defaultdict(list)
+
     for conexion in conexiones:
-        if conexion.origen in nodos_dict and conexion.destino in nodos_dict:
-            grafo[conexion.origen].append(conexion)
+        origen = conexion.origen.nombre.strip().lower()
+        destino = conexion.destino.nombre.strip().lower()
+
+        if origen in nodos_dict and destino in nodos_dict:
+            grafo[origen].append(conexion)
+
     return grafo
 
 def obtener_conexiones_validas(nodo, conexiones, solicitud, vehiculos):
