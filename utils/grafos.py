@@ -1,10 +1,9 @@
-#from utils.loaders import *
-from..models.conexiones import Conexion
+#from..utils.loaders import *
+from models.conexiones import Conexion
 
-def armar_grafo(self, conexiones):
+def armar_grafo(ciudades,conexiones):
         grafo = {}
         #aca voy a tener una lista con todas mis ciudades, que voy hacer que sean la key del grafo 
-        ciudades=CargaNodo.carga_desde_csv() 
         
         for ciudad in ciudades:
             valores = list(filter(lambda x: x.destino ==ciudad or x.origen == ciudad, conexiones))
@@ -15,4 +14,6 @@ def armar_grafo(self, conexiones):
 #PRIMERO VOY A BUSCAR DE TODAS LAS CONEXIONES SE UN TIPO DE VEHICULO 
 #POR CADA CIUDAD VOY HACER UN DICCIONARIO 
 
-grafo_tren= armar_grafo(conexiones_ferroviarias_totales)
+
+
+

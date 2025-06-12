@@ -44,14 +44,14 @@ class Conexion_ferroviaria(Conexion):
         else:
             self.velocidad_max = velocidad_max
 
-        Conexion_ferroviaria.conexiones_ferroviarias_totales.append(self)
+        #Conexion_ferroviaria.conexiones_ferroviarias_totales.append(self)
 
     def __str__(self):
         return f" {self.origen} a {self.destino} KM: {self.distancia_km} "
 
 
 class Conexion_autovia(Conexion):
-    conexiones_autoviai_totales=[]
+   # conexiones_autovia_totales=[]
 
     def __init__(self, origen,destino, distancia_km, peso_max):
         super().__init__(origen, destino,distancia_km)
@@ -62,7 +62,7 @@ class Conexion_autovia(Conexion):
         else:
             self.peso_max = peso_max
 
-        Conexion_autovia.conexiones_autovia_totales.append(self)
+       # Conexion_autovia.conexiones_autovia_totales.append(self)
 
     def __str__(self):
         return f" {self.origen} a {self.destino} KM: {self.distancia_km} "
@@ -75,7 +75,7 @@ class Conexion_maritima(Conexion):
         super().__init__(origen, destino,distancia_km)
         self.tipo_tasa = tipo_tasa
 
-        Conexion_maritima.conexiones_maritimas_totales.append(self)
+        #Conexion_maritima.conexiones_maritimas_totales.append(self)
 
     def __str__(self):
         return f" {self.origen} a {self.destino} KM: {self.distancia_km} "
@@ -92,7 +92,7 @@ class Conexion_aerea(Conexion):
         else:
             self.probabilidad_mal_clima = probabilidad_mal_clima
 
-        Conexion_aerea.conexiones_aereas_totales.append(self)
+        #Conexion_aerea.conexiones_aereas_totales.append(self)
 
     def __str__(self):
         return f" {self.origen} a {self.destino} KM: {self.distancia_km} "
