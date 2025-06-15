@@ -35,32 +35,23 @@ class ConexionLoader:
                     if row["origen"] and row["destino"] and row["tipo"] and row["distancia_km"]:
                         if isinstance(row["origen"], str) and isinstance(row["destino"], str) and isinstance(row["tipo"], str):
                             if row["origen"].lower() in nodos_dict.keys() and row["destino"].lower() in nodos_dict.keys():
+                                origen=nodos_dict[row["origen"].lower()]
+                                destino=nodos_dict[row["destino"].lower()]
+                                distancia_km=float(row["distancia_km"])
                                 if row["tipo"].lower() == "ferroviaria":
-                                    conexiones.append(Conexion_ferroviaria(
-                                    origen=nodos_dict[row["origen"].lower()],
-                                    destino=nodos_dict[row["destino"].lower()],
-                                    distancia_km=float(row["distancia_km"]),        
+                                    conexiones.append(Conexion_ferroviaria(origen, destino, distancia_km,   
                                     velocidad_max=float(row["valor_restriccion"]) if row["valor_restriccion"] else None,
                                 ))
                                 elif row["tipo"].lower() == "aerea" or row["tipo"].lower() == "aérea":
-                                    conexiones.append(Conexion_aerea(
-                                    origen=nodos_dict[row["origen"].lower()],
-                                    destino=nodos_dict[row["destino"].lower()],
-                                    distancia_km=float(row["distancia_km"]),        
+                                    conexiones.append(Conexion_aerea(origen, destino, distancia_km,        
                                     probabilidad_mal_clima=float(row["valor_restriccion"]) if row["valor_restriccion"] else None
                                 ))
                                 elif row["tipo"].lower() == "maritima" or row["tipo"].lower() == "fluvial":
-                                    conexiones.append(Conexion_maritima(
-                                    origen=nodos_dict[row["origen"].lower()],
-                                    destino=nodos_dict[row["destino"].lower()],
-                                    distancia_km=float(row["distancia_km"]),
+                                    conexiones.append(Conexion_maritima(origen, destino, distancia_km,
                                     tipo_tasa=row["valor_restriccion"].lower() if row["valor_restriccion"] else None,    
                                 ))
                                 elif row["tipo"].lower() == "automotor":
-                                    conexiones.append(Conexion_autovia(
-                                    origen=nodos_dict[row["origen"].lower()],
-                                    destino=nodos_dict[row["destino"].lower()],
-                                    distancia_km=float(row["distancia_km"]),        
+                                    conexiones.append(Conexion_autovia(origen, destino, distancia_km,       
                                     peso_max=float(row["valor_restriccion"]) if row["valor_restriccion"] else None,
                                 ))
                 except (ValueError, KeyError) as e:
