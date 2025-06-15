@@ -11,7 +11,6 @@ class Camion(Vehiculo):
                          costo_fijo=None, costo_km=None, costo_kg=None)  # solo para completar
         self.costos = Costos(fijo=30, km=5, kg=None) 
 
-    
     def calcular_tiempo(self,distancia):
         return distancia / self.velocidad_nominal
     

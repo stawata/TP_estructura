@@ -21,7 +21,7 @@ conexiones=ConexionLoader.cargar_desde_csv("data/conexiones.csv", ciudades)
 solicitud=SolicitudLoader.cargar_desde_csv("data/solicitudes.csv", ciudades)
 
 class Grafo:
-    def __init__(self, rutas, solicitud, modo ):
+    def __init__(self, rutas, solicitud, modo):
             rutas = Grafo.filtrar_por_modo(rutas,modo)
             grafo = self.armar_grafo(rutas)
             self.grafo = grafo
