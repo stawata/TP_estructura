@@ -1,4 +1,4 @@
-class NodoPais:
+class NodoCiudad:
     def __init__(self, nombre, tiempo, previo):
         self.nombre = nombre
         self.tiempo = tiempo
