@@ -1,13 +1,10 @@
 from models.nodo import Nodo
 from utils.validaciones import Validaciones
 
-"""Esta clase se encarga de describir que  2 ciudades conecta y la distancia_km que hay entre ellas. Para eso se crean clases hijas  que
- van a heredar ciertas cualidades de la clase padre como la distancia_km, y la ciudad orgien y destino. La clsae hija identifica el mode
-de transporte que habulitea(Soporte de Modos: Un nodo puede aceptar o despachar un modo 
-de transporte si al menos una conexión de dicho modo está enlazada al nodo. Si un modo de
-transporte no se encuentra presente en el nodo a los fines de esa red se
-considera inalcanzable.
-3) """
+"""Esta clase se encarga de describir que 2 ciudades conecta y la distancia_km que hay entre ellas. Para eso se crean clases hijas que
+van a heredar ciertas cualidades de la clase padre como la distancia_km, y la ciudad orgien y destino. La clase hija identifica el modo
+de transporte que habilita.
+"""
 
 class Conexion():
     def __init__(self, origen, destino, distancia_km):
@@ -21,87 +18,51 @@ class Conexion():
 
     def __str__(self):
         return f" {self.origen} a {self.destino} KM: {self.distancia_km} "
-    
-    def es_valida(self, vehiculo, peso_carga):
-        if self.tipo != vehiculo.modo:
-            return False
 
-        if self.tipo == "automotor" and self.peso_maximo_kg is not None:
-            return peso_carga <= self.peso_maximo_kg
-
-        return True  # Para ferroviario, aéreo y marítimo (restricciones específicas ya consideradas en velocidad)
-
-
-        
 class Conexion_ferroviaria(Conexion):
-    def __init__(self, origen,destino, distancia_km, velocidad_max):
-        super().__init__(origen, destino,distancia_km)
-        if velocidad_max:
-            if velocidad_max <= 0:
+    def __init__(self, origen,destino, distancia_km, restriccion):
+        super().__init__(origen, destino, distancia_km)
+        if restriccion:
+            if restriccion <= 0:
                 raise ValueError("La velocidad máxima debe ser un valor positivo")
-            self.velocidad_max = velocidad_max
+            self.restriccion = restriccion
         else:
-            self.velocidad_max = velocidad_max
-
-<<<<<<< HEAD
-=======
-        #Conexion_ferroviaria.conexiones_ferroviarias_totales.append(self)
->>>>>>> 696637880d797a5d5b5be34c47e939687458abc1
+            self.restriccion = restriccion
 
     def __str__(self):
         return f" {self.origen} a {self.destino} KM: {self.distancia_km} "
-
 
 class Conexion_autovia(Conexion):
-   # conexiones_autovia_totales=[]
-
-    def __init__(self, origen,destino, distancia_km, peso_max):
-        super().__init__(origen, destino,distancia_km)
-        if peso_max:
-            if peso_max <= 0:
+    def __init__(self, origen,destino, distancia_km, restriccion):
+        super().__init__(origen, destino, distancia_km)
+        if restriccion:
+            if restriccion <= 0:
                 raise ValueError("El peso máximo debe ser un valor positivo")
-            self.peso_max = peso_max
+            self.restriccion = restriccion
         else:
-            self.peso_max = peso_max
-
-<<<<<<< HEAD
-=======
-       # Conexion_autovia.conexiones_autovia_totales.append(self)
->>>>>>> 696637880d797a5d5b5be34c47e939687458abc1
+            self.restriccion = restriccion
 
     def __str__(self):
         return f" {self.origen} a {self.destino} KM: {self.distancia_km} "
-
 
 class Conexion_maritima(Conexion):
-
-    def __init__(self, origen,destino, distancia_km, tipo_tasa):
-        super().__init__(origen, destino,distancia_km)
-        self.tipo_tasa = tipo_tasa
-
-<<<<<<< HEAD
-=======
-        #Conexion_maritima.conexiones_maritimas_totales.append(self)
->>>>>>> 696637880d797a5d5b5be34c47e939687458abc1
+    def __init__(self, origen,destino, distancia_km, restriccion):
+        super().__init__(origen, destino, distancia_km)
+        self.restriccion = restriccion
 
     def __str__(self):
         return f" {self.origen} a {self.destino} KM: {self.distancia_km} "
-
 
 class Conexion_aerea(Conexion):
-    def __init__(self, origen,destino, distancia_km, probabilidad_mal_clima):
-        super().__init__(origen, destino,distancia_km)
-        if probabilidad_mal_clima:
-            if not (0 <= probabilidad_mal_clima <= 1):
+    def __init__(self, origen,destino, distancia_km, restriccion):
+        super().__init__(origen, destino, distancia_km)
+        if restriccion:
+            if not (0 <= restriccion <= 1):
                 raise ValueError("La probabilidad de mal clima debe estar entre 0 y 1")
-            self.probabilidad_mal_clima = probabilidad_mal_clima 
+            self.restriccion = restriccion 
         else:
-            self.probabilidad_mal_clima = probabilidad_mal_clima
+            self.restriccion = restriccion
 
-<<<<<<< HEAD
-=======
-        #Conexion_aerea.conexiones_aereas_totales.append(self)
-
->>>>>>> 696637880d797a5d5b5be34c47e939687458abc1
     def __str__(self):
         return f" {self.origen} a {self.destino} KM: {self.distancia_km} "
+

@@ -1,15 +1,27 @@
-from utils.loader import NodoLoader, ConexionLoader, SolicitudLoader
-from algoritmo_disjtra.pilas_2 import Pila
-from algoritmo_disjtra.Nodo_pais import NodoPais
-from models.solicitud import Solicitud 
-from models.vehiculos_herencia import *
-from utils.validaciones import Validaciones
-from models.conexiones import *
-from utils.grafos import * 
+# generales
 import math
 
-    class Grafo:
-        def __init__(self, rutas, solicitud, modo ):
+# utils
+from utils.loader import NodoLoader, ConexionLoader, SolicitudLoader
+from utils.grafos import * 
+from utils.validaciones import Validaciones
+
+#models
+from models.solicitud import * 
+from models.vehiculos_herencia import *
+from models.conexiones import *
+
+# algoritmos
+from algoritmo_disjtra.pilas_2 import Pila
+from algoritmo_disjtra.Nodo_pais import NodoPais
+
+#programa principal
+ciudades=NodoLoader.cargar_desde_csv("data/nodos.csv")
+conexiones=ConexionLoader.cargar_desde_csv("data/conexiones.csv", ciudades)
+solicitud=SolicitudLoader.cargar_desde_csv("data/solicitudes.csv", ciudades)
+
+class Grafo:
+    def __init__(self, rutas, solicitud, modo ):
             rutas = Grafo.filtrar_por_modo(rutas,modo)
             grafo = self.armar_grafo(rutas)
             self.grafo = grafo
@@ -18,7 +30,7 @@ import math
             resultado = Grafo.camino_mas_rapido(dijstra, solicitud)
             Grafo.mostrar_camino(resultado)
         
-        def armar_grafo(self, ruta):
+    def armar_grafo(self, ruta):
             grafo = {}
             indices = [0, 2, 3, 4, 5] 
             for lista in ruta:
@@ -40,68 +52,52 @@ import math
                         grafo[lista[1]].append([lista[i] for i in indices if i < len(lista)])
             return grafo
 
-        def ruta_optima(self,solicitud,recorrido, modo):
-            tiempo_acarreado = 0
-            cantidad_vehiculos = 0
-            if solicitud.peso_kg > modo.capacidad:
-                cantidad_vehiculos = math.ceil(solicitud.peso_kg / modo.capacidad)
-            destino = solicitud.destino.nombre
-            recorrido.apilar(solicitud.origen)
-            objeto_base = solicitud.origen.nombre
-            llegada = True
-            while llegada:
-                diccionario_tiempos = {} 
-                for clave, valor in self.grafo.items():
-                    if clave == objeto_base:   
-                        for ciudad in valor:
-                            if recorrido.recorrer_pila(ciudad[0]): # se fija si la ciudad ya esta en la pila
-                                print("Ya es parte del recorrido esa ciudad")
-                                continue
-                            elif ciudad[3] == "peso_max":   # esta restriccion es propia de automotor debemos cambiar dependiendo el vehiculo
-                                if ciudad[-1] < solicitud.peso_kg:   
-                                    print("la carga excede el peso admitido por la conexion")
+    def ruta_optima(self,solicitud,recorrido, modo):
+                tiempo_acarreado = 0
+                cantidad_vehiculos = 0
+                if solicitud.peso_kg > modo.capacidad:
+                    cantidad_vehiculos = math.ceil(solicitud.peso_kg / modo.capacidad)
+                destino = solicitud.destino.nombre
+                recorrido.apilar(solicitud.origen)
+                objeto_base = solicitud.origen.nombre
+                llegada = True
+                while llegada:
+                    diccionario_tiempos = {} 
+                    for clave, valor in self.grafo.items():
+                        if clave == objeto_base:   
+                            for ciudad in valor:
+                                if recorrido.recorrer_pila(ciudad[0]): # se fija si la ciudad ya esta en la pila
+                                    print("Ya es parte del recorrido esa ciudad")
                                     continue
-                                else:  
+                                elif ciudad[3] == "peso_max":   # esta restriccion es propia de automotor debemos cambiar dependiendo el vehiculo
+                                    if ciudad[-1] < solicitud.peso_kg:   
+                                        print("la carga excede el peso admitido por la conexion")
+                                        continue
+                                    else:  
+                                        tiempo = modo.calcular_tiempo(ciudad[2])
+                                        tiempo_neto = tiempo + tiempo_acarreado
+                                        if ciudad[0] not in diccionario_tiempos:
+                                            diccionario_tiempos[ciudad[0]] = (tiempo_neto,objeto_base)
+                                        elif tiempo_neto < diccionario_tiempos[ciudad[0]][0]:
+                                            diccionario_tiempos[ciudad[0]] = (tiempo_neto,objeto_base)
+                                else:
                                     tiempo = modo.calcular_tiempo(ciudad[2])
                                     tiempo_neto = tiempo + tiempo_acarreado
                                     if ciudad[0] not in diccionario_tiempos:
                                         diccionario_tiempos[ciudad[0]] = (tiempo_neto,objeto_base)
                                     elif tiempo_neto < diccionario_tiempos[ciudad[0]][0]:
                                         diccionario_tiempos[ciudad[0]] = (tiempo_neto,objeto_base)
-                            else:
-                                tiempo = modo.calcular_tiempo(ciudad[2])
-                                tiempo_neto = tiempo + tiempo_acarreado
-                                if ciudad[0] not in diccionario_tiempos:
-                                    diccionario_tiempos[ciudad[0]] = (tiempo_neto,objeto_base)
-                                elif tiempo_neto < diccionario_tiempos[ciudad[0]][0]:
-                                    diccionario_tiempos[ciudad[0]] = (tiempo_neto,objeto_base)
-                        diccionario_ordenado = dict(sorted(diccionario_tiempos.items(), key=lambda item: item[1][0]))
-                        for clave,valor in diccionario_ordenado.items():
-                            if clave == destino:
-                                llegada= False
-                            recorrido.apilar(NodoPais(clave, valor[0], valor[1])) 
-                            objeto_base = clave
-                            tiempo_acarreado =  valor[0]
-                            diccionario_tiempos.pop(clave)
-                            break 
-            recorrido.visualizar()
-            return recorrido
-
-
-        @staticmethod
-        def camino_mas_rapido(pila, solicitud):
-            origen = solicitud.origen.nombre
-            destino = solicitud.destino.nombre
-            resultado, tiempo = pila.recorrer_camino( destino)
-            return resultado, tiempo
-
-
-        @staticmethod
-        def filtrar_por_modo(rutas, modo):
-            if type(modo)== Camion:
-                buscador = "Automotor"
-                return list(filter(lambda x: x[2] == buscador, rutas))
-
+                            diccionario_ordenado = dict(sorted(diccionario_tiempos.items(), key=lambda item: item[1][0]))
+                            for clave,valor in diccionario_ordenado.items():
+                                if clave == destino:
+                                    llegada= False
+                                recorrido.apilar(NodoPais(clave, valor[0], valor[1])) 
+                                objeto_base = clave
+                                tiempo_acarreado =  valor[0]
+                                diccionario_tiempos.pop(clave)
+                                break 
+                recorrido.visualizar()
+                return recorrido
 
     @staticmethod
     def mostrar_camino(resultado):
@@ -118,11 +114,21 @@ import math
         else:
             grafo[destino].append(datos)
 
+    @staticmethod
+    def camino_mas_rapido(pila, solicitud):
+        origen = solicitud.origen.nombre
+        destino = solicitud.destino.nombre
+        resultado, tiempo = pila.recorrer_camino( destino)
+        return resultado, tiempo
+
+    @staticmethod
+    def filtrar_por_modo(rutas, modo):
+        if type(modo)== Camion:
+            buscador = "Automotor"
+        return list(filter(lambda x: x[2] == buscador, rutas))
+
 def main():
     try:
-        # Ciudades = NodoLoader.cargar_desde_csv("data/nodos.csv")
-        # Conexiones = ConexionLoader.cargar_desde_csv("data/conexiones.csv", Ciudades)
-        # Solicitudes = SolicitudLoader.cargar_desde_csv("data/solicitudes.csv", Ciudades)
              
         ruta = [
         ["Zarate", "Buenos_Aires", "Automotor", 85,  ""],
@@ -154,19 +160,21 @@ def main():
     # for solicitud in Solicitudes:
     #     print(solicitud)
 
+"""
 #ACA TENGO EN UNA LISTA LOS VALORES QUE LEI 
-nodos = NodoLoader.cargar_desde_csv("data/nodos.csv")
-conexiones= ConexionLoader.cargar_desde_csv("data/conexiones.csv", nodos)
+nodos=NodoLoader.cargar_desde_csv("data/nodos.csv")
+conexiones=ConexionLoader.cargar_desde_csv("data/conexiones.csv", nodos)
 
-#ACA VOY HACER LAS CONEXIONES DETODOS LOS VEHICLOS 
+#ACA VOY HACER LAS CONEXIONES DE TODOS LOS VEHICLOS 
 conexiones_ferroviarias_totales = list(filter(lambda x : isinstance(x,Conexion_ferroviaria), conexiones))
 
-
 #ACA VOY A TENER LOS GRAFOS DE CADA VEHICULO
-grafo_tren= armar_grafo(nodos, conexiones_ferroviarias_totales)
+grafo_tren=armar_grafo(nodos, conexiones_ferroviarias_totales)
 
 #ESTO ES PATRA VISUALIZAR DESPUES SE PUEDE BORRAR
 for key, values in grafo_tren.items():
     print(f"Llave: {key}")
     for i in values: 
         print("valores:",i[0], i[1], i[2])
+"""
+
