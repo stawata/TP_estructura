@@ -4,7 +4,7 @@ from algoritmo_disjtra.Nodo_pais import NodoPais
 #from validaciones.validaciones import validaciones
 
 class Solicitud:
-    def __init__(self,id_carga,peso_kg,origen,destino):
+    def __init__(self,id_carga, peso_kg, origen, destino):
         if peso_kg <= 0:
             raise ValueError("El peso debe ser un valor positivo")
         self.id_carga=id_carga
