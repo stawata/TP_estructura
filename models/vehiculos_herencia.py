@@ -90,7 +90,7 @@ class Barcaza(Vehiculo):
                          costo_fijo=None, costo_km=None, costo_kg=None)
         self.costos = Costos(fijo=None, km=15, kg=2)
 
-    def calcular_tiempo(self,distancia):    
+    def calcular_tiempo(self,distancia, restriccion):    
         return distancia / self.velocidad_nominal
     
     def calcular_costo(self, distancia, peso, conexion):
