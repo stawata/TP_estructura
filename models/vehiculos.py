@@ -23,7 +23,7 @@ class Vehiculo():
         
         return math.ceil(peso/self.capacidad)
         
-    def calcular_tiempo(self,distancia):
+    def calcular_tiempo(self,distancia, restriccion):
         """Calcula el tiempo que tarda el vehículo en recorrer una cierta distancia (en km)."""
         """Acá que tener cuidado con las condiciones especiales de cada uno para esta funcion"""
         

@@ -12,7 +12,8 @@ class Camion(Vehiculo):
                          costo_fijo=None, costo_km=None, costo_kg=None)  # solo para completar
         self.costos = Costos(fijo=30, km=5, kg=None) 
 
-    def calcular_tiempo(self,distancia):
+    
+    def calcular_tiempo(self,distancia, restriccion):
         return distancia / self.velocidad_nominal
     
     def calcular_costo(self, distancia, peso):
@@ -41,8 +42,8 @@ class Tren(Vehiculo):
 
     @staticmethod
     def calcular_tiempo(distancia, conexion):
-        if conexion and hasattr(conexion, "restriccion") and conexion.restriccion is not None:
-            velocidad = min(100, conexion.restriccion)
+        if conexion and hasattr(conexion, "velocidad_max") and conexion.velocidad_max is not None:
+            velocidad = min(100, conexion.velocidad_max)
         else:
             velocidad = 100
         return distancia / velocidad
@@ -69,8 +70,8 @@ class Avion(Vehiculo):
                          costo_fijo=None, costo_km=None, costo_kg=None)
         self.costos = Costos(fijo=750, km=40, kg=10)
 
-    def calcular_tiempo(self, distancia, conexion):
-        prob = conexion.probabilidad_mal_clima #Aca me voy a buscar la probabilidad de lluvia, si hubiera
+    def calcular_tiempo(self, distancia,probabilidad_mal_clima):
+        prob = probabilidad_mal_clima #Aca me voy a buscar la probabilidad de lluvia, si hubiera
         llueve = random.random() < prob #Si el random que genero me da menor a la probababilidad, va a llover 
         if llueve:
             velocidad = 400
@@ -90,7 +91,7 @@ class Barcaza(Vehiculo):
                          costo_fijo=None, costo_km=None, costo_kg=None)
         self.costos = Costos(fijo=None, km=15, kg=2)
 
-    def calcular_tiempo(self,distancia):    
+    def calcular_tiempo(self,distancia, restriccion):    
         return distancia / self.velocidad_nominal
     
     def calcular_costo(self, distancia, peso, conexion):

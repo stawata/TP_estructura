@@ -1,6 +1,6 @@
 #from nodo import Ciudad
 from models.nodo import Nodo
-from algoritmo_disjtra.Nodo_pais import NodoPais
+from algoritmo_disjtra.Nodo_ciudad import NodoCiudad
 #from validaciones.validaciones import validaciones
 
 class Solicitud:
