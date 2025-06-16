@@ -73,7 +73,7 @@ grafo_info = {
  }
 
 vehiculos={"Automotor", "Ferroviaria"}
-
+ 
 solicitud = Solicitud("CARGA_001",70000,"Zarate","Mar_del_Plata")
 
 buscador = Buscar_ruta(grafo_info,"ferroviaria")
