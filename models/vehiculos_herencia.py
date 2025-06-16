@@ -41,8 +41,8 @@ class Tren(Vehiculo):
 
     @staticmethod
     def calcular_tiempo(distancia, conexion):
-        if conexion and hasattr(conexion, "velocidad_max") and conexion.velocidad_max is not None:
-            velocidad = min(100, conexion.velocidad_max)
+        if conexion and hasattr(conexion, "restriccion") and conexion.restriccion is not None:
+            velocidad = min(100, conexion.restriccion)
         else:
             velocidad = 100
         return distancia / velocidad

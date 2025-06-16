@@ -24,3 +24,22 @@ class Dijkstra:
                     heapq.heappush(heap, (nueva_dist, vecino.nombre))
 
         return dist, anterior
+    
+    @staticmethod
+    def ruta_mas_corta(puntos_red, origen, destino, usar="tiempo"):
+        """
+        puntos_red: dict[str, PuntoDeRed]
+        origen: str (nombre del punto de inicio)
+        destino: str (nombre del punto de destino)
+        usar: "tiempo" o "costo", define qué KPI se va a optimizar
+        """
+        distancias, anteriores = Dijkstra.dijkstra(puntos_red, origen, usar)
+        ruta = []
+        actual = destino
+
+        while actual is not None:
+            ruta.append(actual)
+            actual = anteriores[actual]
+
+        ruta.reverse()
+        return ruta, distancias[destino]
