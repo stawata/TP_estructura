@@ -51,3 +51,5 @@ class Vehiculo():
 
 #Esta clase trabaja con Conexion para validar si puede recorrerla en la funcion "puede_usar_conexion"
 #Ademas, con Solicitud para ver si puede cumplir el pedido y uso peso
+
+

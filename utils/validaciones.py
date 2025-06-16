@@ -6,33 +6,27 @@ class Validaciones():
         if isinstance(valor,float):
             return True
         else:
-            raise ValueError("El valor debe ser float")
+            return False
         
     @staticmethod
     def validar_str(valor):
         if isinstance(valor,str):
             return True
         else:
-            raise ValueError("El valor debe ser str")
+            return
         
     @staticmethod
     def validar_int(valor):
         if isinstance(valor,int):
             return True
         else:
-            raise ValueError("El valor debe ser int")
+            return False
     
     @staticmethod
     def validar_ciudad(valor): 
         if isinstance(valor, Nodo):  
             return True
         else:
-            raise ValueError("El valor debe ser una ciudad que exista")
+            return False
 
-    # @staticmethod
-    # def validar_lista(valor):
-    #     if isinstance(valor,list):
-    #         return True
-    #     else:
-    #         raise ValueError("El valor debe ser una lista")
         
