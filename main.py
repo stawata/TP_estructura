@@ -7,20 +7,21 @@ from utils.grafos import *
 from utils.validaciones import Validaciones
 from utils.dfs import DFS
 
-#models
+# models
 from models.solicitud import * 
 from models.vehiculos_herencia import *
 from models.conexiones import *
+from models.PuntoDeRed import PuntoDeRed
 
 # algoritmos
 from algoritmo_disjtra.pilas_2 import Pila
 from algoritmo_disjtra.Nodo_ciudad import NodoCiudad
 from algoritmo_disjtra.algoritmo_d import Dijkstra
 
-#programa principal
-ciudades=NodoLoader.cargar_desde_csv("data/nodos.csv")
-conexiones=ConexionLoader.cargar_desde_csv("data/conexiones.csv", ciudades)
-solicitud=SolicitudLoader.cargar_desde_csv("data/solicitudes.csv", ciudades)
+def main():
+    ciudades=NodoLoader.cargar_desde_csv("data/nodos.csv")
+    conexiones=ConexionLoader.cargar_desde_csv("data/conexiones.csv", ciudades)
+    solicitud=SolicitudLoader.cargar_desde_csv("data/solicitudes.csv", ciudades)
 
 
 def main():

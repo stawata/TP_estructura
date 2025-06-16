@@ -1,6 +1,7 @@
 from models.vehiculos import Vehiculo
 from models.solicitud import Solicitud
 import random
+import math
 from collections import namedtuple #Es una tupla mas facil de acceder, mas entendible en realidad
 
 Costos = namedtuple("Costos", ["fijo", "km", "kg"])
@@ -43,18 +44,23 @@ class Tren(Vehiculo):
         if velocidad_max is not None:
             velocidad = min(self.velocidad_nominal, velocidad_max)
         else:
-            velocidad = self.velocidad_nominal
+            velocidad = 100
         return distancia / velocidad
-    #Calculaa el tiempo segun tenga velocidad maxima la conexion o no
+    #Calcula el tiempo segun tenga velocidad maxima la conexion o no
     
-    def calcular_costo(self, distancia, peso):
-        cantidad = self.cantidad_necesaria(peso)
+    @staticmethod
+    def cantidad_necesaria(peso):
+        """Calcula la cantidad de trenes necesarios para transportar un peso dado."""
+        return math.ceil(peso / 150000) # Capacidad del tren es 150000 kg >>>> OJO CON ESTO
+
+    @staticmethod
+    def calcular_costo(distancia, peso):
+        cantidad = Tren.cantidad_necesaria(peso)
         if distancia < 200:
             costo_km = 20
         else:
             costo_km = 15
-        
-        return cantidad * (self.costos.fijo + costo_km * distancia + self.costos.kg * peso)    
+        return cantidad * (100 + 20 * distancia + 3 * peso)    
     
 
 class Avion(Vehiculo):

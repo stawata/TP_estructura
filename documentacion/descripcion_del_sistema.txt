@@ -14,3 +14,25 @@ Ahora algunos detalles de como funcionan los classmethod en cuanto a validacione
     CargaConexion.carga_desde_csv() > Valida que el archivo exista, que las conexiones sean entre nodos que hayan sido cargados antes (sino simplemente no crea la conexion) y que los datos que sean obligatorios esten y sean del tipo que corresponda, si no estan o son de otro tipo de dato, no crea la conexion.
     CargaSolicitud.carga_desde_csv() > Valida que el archivo exista, que los datos obligatorios esten y que estos sean del tipo de dato que corresponda, y que la solicitud sea para nodos que hayan sido cargados, si no es asi, lanza un mensaje de error.
 
+---------------------------------------------------------------------------------------------
+
+Red de nodos
+
+La clase `PuntoDeRed` modela un nodo en una red de transporte, como una ciudad o un centro logístico. 
+Cada instancia posee un atributo `nombre` y un diccionario `vecinos`, que almacenará los nodos vecinos junto con el costo y el tiempo necesarios para alcanzarlos.
+
+El método `constructor` es una utilidad a nivel de clase que recibe una lista de objetos `Nodo` y crea un diccionario que mapea el nombre de cada nodo a una nueva instancia de `PuntoDeRed`. 
+Este método incluye validaciones para asegurarse de que la lista no esté vacía y que todos sus elementos sean instancias de la clase `Nodo`. 
+Si estas condiciones no se cumplen, lanza las excepciones correspondientes (`ValueError` o `TypeError`).
+
+El método estático `agregar_vecinos` se encarga de poblar el diccionario `vecinos` para cada `PuntoDeRed` en el diccionario proporcionado. 
+Recibe tres argumentos: el diccionario de puntos, una lista de conexiones y un objeto `Solicitud` (que contiene detalles del envío). 
+Este método valida sus entradas, asegurando que la solicitud y las conexiones sean del tipo correcto y que tanto el origen como el destino existan en la red.
+
+Para cada punto en la red, el método itera sobre todas las conexiones. 
+Si el punto es el origen o el destino de una conexión, determina el tipo de conexión (ferrocarril, aérea, marítima o autopista) y utiliza la clase de vehículo correspondiente para calcular el costo y el tiempo del envío. 
+Estos valores se almacenan luego en el diccionario `vecinos`, asociando al nodo vecino con una tupla que contiene el costo y el tiempo. 
+Esta estructura permite una planificación de rutas y una estimación de costos eficiente dentro de la red.
+
+Un aspecto sutil es la dependencia de nombres correctos de clases y métodos tanto en las conexiones como en los vehículos, así como la suposición de que cada objeto de conexión y solicitud proporciona los atributos y métodos necesarios. 
+Cualquier discrepancia o falta de implementación puede generar errores en tiempo de ejecución.
