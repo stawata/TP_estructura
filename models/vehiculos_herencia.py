@@ -35,33 +35,33 @@ class Camion(Vehiculo):
 
 
 class Tren(Vehiculo):
-    def __init__(self):
-        super().__init__(modo="ferroviario", velocidad_nominal=100, capacidad=150000,
-                         costo_fijo=None, costo_km=None, costo_kg=None)
-        self.costos = Costos(fijo=100, km=None, kg=3)
+    velocidad_nominal=100
+    capacidad=150000
+    costo_fijo=100
 
-    @staticmethod
-    def calcular_tiempo(distancia, conexion):
-        if conexion and hasattr(conexion, "velocidad_max") and conexion.velocidad_max is not None:
-            velocidad = min(100, conexion.velocidad_max)
+    @classmethod
+    def calcular_tiempo(cls, distancia, conexion): 
+        """Calcula el tiempo de transporte en tren considerando la restricción de velocidad."""
+        if conexion and hasattr(conexion, "restriccion") and conexion.restriccion is not None:
+            velocidad = min(100, conexion.restriccion)
         else:
-            velocidad = 100
+            velocidad = cls.velocidad_nominal
         return distancia / velocidad
-    #Calcula el tiempo segun tenga velocidad maxima la conexion o no
     
-    @staticmethod
-    def cantidad_necesaria(peso):
+    @classmethod
+    def cantidad_necesaria(cls, peso):
         """Calcula la cantidad de trenes necesarios para transportar un peso dado."""
-        return math.ceil(peso / 150000) # Capacidad del tren es 150000 kg >>>> OJO CON ESTO
+        return math.ceil(peso / cls.capacidad) 
 
-    @staticmethod
-    def calcular_costo(distancia, peso):
-        cantidad = Tren.cantidad_necesaria(peso)
+    @classmethod
+    def calcular_costo(cls, distancia, peso):
+        """Calcula el costo de transporte en tren considerando la distancia y el peso."""
+        cantidad = cls.cantidad_necesaria(peso)
         if distancia < 200:
             costo_km = 20
         else:
             costo_km = 15
-        return cantidad * (100 + 20 * distancia + 3 * peso)    
+        return cantidad * (cls.costo_fijo + costo_km * distancia + 3 * peso)    
     
 
 class Avion(Vehiculo):
