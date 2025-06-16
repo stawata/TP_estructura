@@ -1,18 +1,19 @@
-from clasepila import Pila
+from itinerario.clasepila import Pila
 from models.solicitud import Solicitud 
 from utils.grafos import *
 from models.vehiculos_herencia import *
 
-tipos_vehiculo={"ferroviaria":Tren, "automotor":Camion, "aerea":Avion,"fluvial":Barcaza}
+
 class Buscar_ruta:
+    tipos_vehiculo={"ferroviaria":Tren, "automotor":Camion, "aerea":Avion,"fluvial":Barcaza}
     def __init__(self,grafo,tipo_vehiculo):
         self.grafo=grafo #guarda la lista de objetos conexion
-        self.vehiculo=tipos_vehiculo[tipo_vehiculo]
+        self.vehiculo=self.tipos_vehiculo[tipo_vehiculo]()
     def buscar_caminos(self,solicitud): #Guarda desde solicitud el origen y destino
         #ACA TENDRIAMOS QUE TRABAJAR SOBRE EL OBJETO DE UNA CLASE 
         origen=solicitud.getorigen()
         destino=solicitud.getdestino()
-        peso=solicitud.getpeso( )
+        peso=solicitud.getpeso_kg( )
 
         caminos_encontrados=[] #aca se van a guardar las alternativas de camino
         pila=Pila()                    #Cada entrada en la pila es una tupla: la ciudad actual y el camino recorrido hasta ahora
@@ -29,10 +30,14 @@ class Buscar_ruta:
                     ciudad1=camino[i]
                     ciudad2=camino[i+1]
                     for vecino, distancia, restriccion in self.grafo[ciudad1]:
+                        distancia=float(distancia)
+                        if restriccion is not None:
+                            restriccion = float(restriccion)
                         if vecino==ciudad2:
-                            tiempo_total+=self.vehiculo.calcular_tiempo(distancia,vecino,restriccion)
+                            print(f"Tipo de vehículo: {type(self.vehiculo)} | distancia: {distancia} | restriccion: {restriccion}")
+                            tiempo_total+=self.vehiculo.calcular_tiempo(distancia,restriccion)
                             costo_total+=self.vehiculo.calcular_costo(distancia,peso)
-                caminos_encontrados.append({"camino": camino,"tiempo_total":round(tiempo_total,2),"costo_total":round(costo_total,2),"vehiculo":self.vehiculo.__name__}) #Cuando encuentra un nodo igual al destino guarda el camino
+                caminos_encontrados.append({"camino": camino,"tiempo_total":round(tiempo_total,2),"costo_total":round(costo_total,2),"vehiculo":self.vehiculo.__class__.__name__}) #Cuando encuentra un nodo igual al destino guarda el camino
                 continue
 
             for vecino,distancia, otro_valor in self.grafo.get(nodo_actual,[]):
@@ -45,41 +50,44 @@ class Buscar_ruta:
                 #if ciudad_destino == nodo_actual and ciudad_origen not in camino:
                 #    nuevo_camino = camino + [ciudad_origen]
                 #    pila.apilar((ciudad_origen, nuevo_camino))
-            #calcular tiempos y costos
 
         return caminos_encontrados
 
-    def mostrar_resultados(caminos_encontrados):
+    def mostrar_resultados(self,caminos_encontrados):
         print(f"{'Solución':<10} {'Modo':<12} {'Itinerario':<50} {'Costo total':>15} {'Tiempo total [min]':>20}")
         print("-" * 110)
 
         letra = ord('A')
         for camino in caminos_encontrados:
-            modo = camino["vehiculo"]
-            itinerario = " - ".join(camino["camino"])
-            costo = f"${camino['costo_total']:.3f}"
-            tiempo = int(camino["tiempo_total"])  # ver si hay que pasar a horas
+            if not camino:
+                modo = camino["vehiculo"]
+                print(f"{chr(letra):<10} {modo:<12} No disponible, no sale de ese origen")
+            else:
+                modo = camino["vehiculo"]
+                itinerario = " - ".join(camino["camino"])
+                costo = f"${camino['costo_total']:.3f}"
+                tiempo = int(camino["tiempo_total"]*60)  # ver si hay que pasar a horas
 
-            print(f"{chr(letra):<10} {modo:<12} {itinerario:<50} {costo:>15} {tiempo:>20}")
+                print(f"{chr(letra):<10} {modo:<12} {itinerario:<50} {costo:>15} {tiempo:>20}")
             letra += 1
 #esto de aca es una prueba luego se borra
 
-grafo_info = {
-     "Zarate": [("Buenos Aires", 85, 100), ("Junin", 185, 80)],
-     "Buenos Aires": [("Zarate", 85, 100), ("Junin", 238, 90), ("Azul", 278, 110), ("Mar del Plata", 384, 120)],
-     "Junin": [("Zarate", 185, 80), ("Buenos Aires", 238, 90), ("Azul", 265, 100)],
-     "Azul": [("Junin", 265, 100), ("Buenos Aires", 278, 110), ("Mar del Plata", 246, 100)],
-     "Mar del Plata": [("Buenos Aires", 384, 120), ("Azul", 246, 100)]
- }
+#grafo_info = {
+#     "Zarate": [("Buenos Aires", 85, 100), ("Junin", 185, 80)],
+#     "Buenos Aires": [("Zarate", 85, 100), ("Junin", 238, 90), ("Azul", 278, 110), ("Mar del Plata", 384, 120)],
+#     "Junin": [("Zarate", 185, 80), ("Buenos Aires", 238, 90), ("Azul", 265, 100)],
+#     "Azul": [("Junin", 265, 100), ("Buenos Aires", 278, 110), ("Mar del Plata", 246, 100)],
+#     "Mar del Plata": [("Buenos Aires", 384, 120), ("Azul", 246, 100)]
+ #}
 
-vehiculos={"Automotor", "Ferroviaria"}
+#vehiculos={"Automotor", "Ferroviaria"}
  
-solicitud = Solicitud("CARGA_001",70000,"Zarate","Mar_del_Plata")
+#solicitud = Solicitud("CARGA_001",70000,"Zarate","Mar_del_Plata")
 
-buscador = Buscar_ruta(grafo_info,"ferroviaria")
-caminos = buscador.buscar_caminos(solicitud)
+#buscador = Buscar_ruta(grafo_info,"ferroviaria")
+#caminos = buscador.buscar_caminos(solicitud)
 
 # Mostrar resultados
-buscador.mostrar_resultados(caminos)
+#buscador.mostrar_resultados(caminos)
 
 
