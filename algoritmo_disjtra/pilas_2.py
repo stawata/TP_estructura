@@ -1,3 +1,7 @@
+'''Esta pila es un objeto que va a llevar un  conteo de los recorridos posibles para llegar al destino. Entocnes 
+el primer nodo que ingresamos es el origen y luego vamos a ir agregando nodos siempre verificando que la pila que estamos formando 
+sea una que todavia no existe. Quiere decir que la base de nuestra busqueda es que va a encontrar caminos diferentes fijandose que 
+la pila que vamos armando sea una que todavia no existe. '''
 
 class Pila:
     def __init__(self):
@@ -11,13 +15,6 @@ class Pila:
         nuevo_nodo.siguiente = self.cima
         self.cima = nuevo_nodo
 
-    def desapilar(self):
-        if self.esVacia():
-            print("La pila está vacía. No se puede desapilar.")
-            return None
-        dato = self.cima.dato
-        self.cima = self.cima.siguiente
-        return dato
     
     def recorrer_pila(self, objeto):
         actual = self.cima
@@ -30,31 +27,16 @@ class Pila:
     def recorrer_camino(self, destino):
         actual = self.cima
         tiempo = 0
-        camino_optimo = set()
+        camino_optimo = list()
         while actual is not None:
             if destino == actual.nombre:
-                camino_optimo.add(actual)
+                camino_optimo.append(actual)
                 destino = actual.previo
                 if tiempo == 0: tiempo += actual.tiempo
             actual = actual.siguiente
         return camino_optimo, tiempo
 
-    def visualizar(self):
-        actual = self.cima
-        elementos = []
-        while actual is not None:
-            print(actual.nombre + str(actual.tiempo) + str(actual.previo))
-            actual = actual.siguiente
 
-
-    def recorrer(self, objeto):
-        actual = self.cima
-        while actual != None:
-            if actual == objeto: 
-                return True
-            else: 
-                actual = actual.siguiente  
-        return False
     
     # def concantenar(self, elemento):
     #     valor = 0
