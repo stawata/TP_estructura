@@ -12,7 +12,7 @@ class Camion(Vehiculo):
         self.costos = Costos(fijo=30, km=5, kg=None) 
 
     
-    def calcular_tiempo(self,distancia):
+    def calcular_tiempo(self,distancia, restriccion):
         return distancia / self.velocidad_nominal
     
     def calcular_costo(self, distancia, peso):
