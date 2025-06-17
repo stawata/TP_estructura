@@ -36,3 +36,4 @@ Esta estructura permite una planificación de rutas y una estimación de costos 
 
 Un aspecto sutil es la dependencia de nombres correctos de clases y métodos tanto en las conexiones como en los vehículos, así como la suposición de que cada objeto de conexión y solicitud proporciona los atributos y métodos necesarios. 
 Cualquier discrepancia o falta de implementación puede generar errores en tiempo de ejecución.
+
