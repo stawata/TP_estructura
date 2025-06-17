@@ -38,20 +38,5 @@ def main():
     print("Itinerario marítimo por costo:")
     print(itinerario_maritimo_costo)
 
-    # filtro las conexiones para que solo queden las automotoras
-    conexiones = list(filter(lambda x: isinstance(x, Conexion_autovia), conexiones))
-    
-    # creo los puntos de red a partir de las ciudades y las conexiones entre ellas (solo las automotoras)
-    puntos_red = PuntoDeRed.constructor(ciudades)
-    PuntoDeRed.agregar_vecinos(puntos_red, conexiones, solicitud[0])
-
-    # aplico el algoritmo de Dijkstra para encontrar la ruta más corta desde la ciudad origen a la ciudad destino
-    itinerario_automotor_tiempo = Dijkstra.ruta_mas_corta(puntos_red, solicitud[0].origen.nombre, solicitud[0].destino.nombre, "tiempo", "automotor")
-    itinerario_automotor_costo = Dijkstra.ruta_mas_corta(puntos_red, solicitud[0].origen.nombre, solicitud[0].destino.nombre, "costo", "automotor")
-    print("Itinerario automotor por tiempo:")
-    print(itinerario_automotor_tiempo)
-    print("Itinerario automotor por costo:")
-    print(itinerario_automotor_costo)
-
 main()
 

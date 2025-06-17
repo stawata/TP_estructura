@@ -3,7 +3,7 @@ from models.itinerario import Itinerario
 
 class Dijkstra:
     @staticmethod
-    def dijkstra(puntos_red, origen, usar="tiempo"):
+    def dijkstra(puntos_red, origen, usar):
         """
         puntos_red: dict[str, PuntoDeRed]
         origen: str
