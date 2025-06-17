@@ -1,5 +1,5 @@
 from models.conexiones import Conexion_ferroviaria, Conexion_aerea, Conexion_maritima, Conexion_autovia
-from models.vehiculos_herencia import Tren, Avion, Camion
+from models.vehiculos_herencia import Tren, Avion, Camion, Barcaza
 from models.solicitud import Solicitud
 from models.nodo import Nodo
 
@@ -43,18 +43,18 @@ class PuntoDeRed:
             for conexion in conexiones:
                 if conexion.origen.nombre == punto.nombre or conexion.destino.nombre == punto.nombre:
                     if isinstance(conexion, Conexion_ferroviaria):
-                            costo = Tren.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
-                            tiempo = Tren.calcular_tiempo(conexion.distancia_km, conexion)
+                        costo = Tren.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
+                        tiempo = Tren.calcular_tiempo(conexion.distancia_km, conexion)
                     elif isinstance(conexion, Conexion_aerea):
-                            costo = Avion.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
-                            tiempo = Avion.calcular_tiempo(conexion.distancia_km, conexion)
+                        costo = Avion.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
+                        tiempo = Avion.calcular_tiempo(conexion.distancia_km, conexion)
                     elif isinstance(conexion, Conexion_maritima):
-                            costo = Camion.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
-                            tiempo = Camion.calcular_tiempo(conexion.distancia_km)
+                        costo = Barcaza.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg(), conexion)
+                        tiempo = Barcaza.calcular_tiempo(conexion.distancia_km)
                     elif isinstance(conexion, Conexion_autovia):
                         costo = Camion.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
                         tiempo = Camion.calcular_tiempo(conexion.distancia_km)
                     if conexion.origen.nombre == punto.nombre:
-                        punto.vecinos[conexion.destino] = (costo, tiempo)
+                        punto.vecinos[puntos_de_red[conexion.destino.nombre]] = (costo, tiempo)
                     elif conexion.destino.nombre == punto.nombre:
-                        punto.vecinos[conexion.origen] = (costo, tiempo)
+                        punto.vecinos[puntos_de_red[conexion.destino.nombre]] = (costo, tiempo)

@@ -1,5 +1,6 @@
 from models.vehiculos import Vehiculo
 from models.solicitud import Solicitud
+from models.conexiones import *
 import random
 import math
 from collections import namedtuple #Es una tupla mas facil de acceder, mas entendible en realidad
@@ -61,8 +62,7 @@ class Tren(Vehiculo):
         else:
             costo_km = 15
         return cantidad * (cls.costos.fijo + costo_km * distancia + cls.costos.kg * peso)
-    
-    
+     
 
 class Avion(Vehiculo):
     velocidad_nominal = 600
@@ -107,12 +107,19 @@ class Barcaza(Vehiculo):
     def calcular_costo(cls, distancia, peso, conexion):
         cantidad = cls.cantidad_necesaria(peso)
 
-        if conexion.tipo_tasa == "fluvial":
+        if conexion.restriccion == "fluvial":
             costo_fijo = 500
         else:
             costo_fijo = 1500
 
         return cantidad * (costo_fijo + cls.costos.km * distancia + cls.costos.kg * peso)
 
+
 def obtener_vehiculos_default():
+    """Obtiene una lista de los vehículos por defecto.
+    Returns:
+        list: Lista de clases de vehículos.
+    """
     return [Camion, Tren, Avion, Barcaza]
+
+obtener_vehiculos_default() # Llamada para inicializar la lista de vehículos por defecto
