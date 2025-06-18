@@ -1,13 +1,25 @@
 import matplotlib.pyplot as plt
+from models.conexiones import *
 
 class Graficos:
 
-    def datos_ruta (ruta, puntos_red):
+    def datos_ruta (ruta, tipo , conexiones):
         costos=[]
         tiempos=[]
         distancias=[]
 
-        for i in range(len(ruta)-1):
+        if tipo == "automotor":
+            conexion_filtrada= list(filter(lambda x: isinstance(x,Conexion_autovia ), conexiones ))
+        if tipo == "aereo":
+            conexion_filtrada= list(filter(lambda x: isinstance(x,Conexion_aerea ), conexiones ))
+        if tipo == "ferroviario":
+            conexion_filtrada= list(filter(lambda x: isinstance(x,Conexion_ferroviaria ), conexiones ))
+        if tipo == "automotor":
+            conexion_filtrada= list(filter(lambda x: isinstance(x,Conexion_maritima ), conexiones ))
+
+        print(conexion_filtrada)
+
+        '''for i in range(len(ruta)-1):
             origen= ruta[i]
             destino = ruta[i+1]
 
@@ -20,9 +32,9 @@ class Graficos:
                     costo, tiempo , distancia = datos 
                     costos.append(costo)
                     tiempos.append(tiempo)
-                    distancias.append(distancia)
+                    distancias.append(distancia)'''
 
-        return costos , tiempos, distancias
+        #return costos, tiempos, distancias
 
 
     def Tiempo_acumulado (distancia, tiempo):

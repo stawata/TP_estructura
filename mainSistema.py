@@ -1,5 +1,7 @@
 from utils.loader import NodoLoader, ConexionLoader, SolicitudLoader
 from models.itinerario import Itinerario
+from models.graficos import *
+
 
 def menu():
     """
@@ -14,6 +16,7 @@ def menu():
     print("6. Salir")
     print("========================================")
     return input("Seleccione una opción: ")
+    
 
 def main():
     """
@@ -100,7 +103,8 @@ def main():
                 print("-"*20+"Siguiente solicitud"+"-"*20)
 
         elif opcion == "5":
-            print("Funcionalidad de gráficos en construcción. Próximamente disponible")
+            Graficos.datos_ruta(itinerario_rapido.itinerario, itinerario_rapido.modo, conexiones)
+            ##print("Funcionalidad de gráficos en construcción. Próximamente disponible")
         
         elif opcion == "6":
             print("¡Hasta luego! Gracias por usar el sistema de transporte.")
