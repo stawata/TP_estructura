@@ -45,7 +45,7 @@ class Tren(Vehiculo):
 
     @classmethod
     def calcular_tiempo(cls, distancia, conexion): 
-        if conexion and hasattr(conexion, "restriccion") and conexion.restriccion is not None:
+        if conexion and getattr(conexion, "restriccion", None) is not None:
             velocidad = min(cls.velocidad_nominal, conexion.restriccion)
         else:
             velocidad = cls.velocidad_nominal
