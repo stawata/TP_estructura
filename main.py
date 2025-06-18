@@ -18,6 +18,9 @@ from models.itinerario import Itinerario
 # algoritmos
 from planner.dijkstra_c import Dijkstra
 
+#itinerario
+from itinerario.buscar_ruta import *
+
 def main():
     ciudades=NodoLoader.cargar_desde_csv("data/nodos.csv")
     conexiones=ConexionLoader.cargar_desde_csv("data/conexiones.csv", ciudades)
@@ -37,6 +40,25 @@ def main():
     print(itinerario_maritimo_tiempo)
     print("Itinerario marítimo por costo:")
     print(itinerario_maritimo_costo)
+
+    #probar los itinerarios        
+    tipos_conexion = {Camion: Conexion_autovia,Tren: Conexion_ferroviaria,Avion: Conexion_aerea, Barcaza: Conexion_maritima}
+    vehiculos = obtener_vehiculos_default()
+    conexiones_totales = ConexionLoader.cargar_desde_csv("data/conexiones.csv", ciudades)
+    caminos_totales = []
+
+    for clase_vehiculo in vehiculos:
+        tipo_conexion = tipos_conexion[clase_vehiculo]
+        conexiones_filtradas = list(filter(lambda x: isinstance(x, tipo_conexion), conexiones_totales))
+        grafo = armar_grafo(ciudades, conexiones_filtradas)
+        buscador = Buscar_ruta(grafo, clase_vehiculo)
+
+        for s in solicitud:
+            caminos = buscador.buscar_caminos(s)
+            caminos_totales.extend(caminos)
+
+    print(caminos_totales)
+    Buscar_ruta.mostrar_resultados(caminos_totales)
 
 main()
 
