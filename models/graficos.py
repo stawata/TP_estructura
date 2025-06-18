@@ -12,22 +12,25 @@ class Graficos:
         tiempos = [0,]
         distancias = [0,]
 
-        '''voy a filtrar la conexion por tipo de automovil del camino mas eficiente'''
+        '''voy a filtrar la conexion por tipo de automovil del camino mas eficiente
+        voy asignarle a vehiculo para no que siempre sea la misma variable
+        '''
         if tipo == "automotor":
             conexiones_filtradas = list(filter(lambda x: isinstance (x, Conexion_autovia), conexiones))
-
             vehiculo = Camion
+
         elif tipo == "aereo":
             conexiones_filtradas = list(filter(lambda x: isinstance (x, Conexion_aerea), conexiones))
             vehiculo = Avion
+
         elif tipo == "ferroviario":
             conexiones_filtradas = list(filter(lambda x: isinstance (x, Conexion_ferroviaria), conexiones))
-
             vehiculo = Tren
+
         elif tipo == "maritimo":
             conexiones_filtradas = list(filter(lambda x: isinstance (x, Conexion_maritima), conexiones))
-          
             vehiculo = Barcaza
+
         else:
             raise ValueError("Tipo de transporte inválido.")
 
@@ -110,7 +113,6 @@ class Graficos:
 
         plt.clf()
 
-    @staticmethod
     def Tiempo_acumulado_comparado(distancia_rapido, tiempo_rapido, distancia_barato, tiempo_barato, nombre_archivo):
         plt.figure()
         plt.plot( tiempo_rapido,distancia_rapido, marker='o', linestyle='-', color='blue', label='Rápido')
@@ -124,10 +126,3 @@ class Graficos:
         plt.clf()
 
 
-#SON VALORES D EPRUEBA HAY QUE BORRARLOS"
-'''plt.clf()
-d=[10,90,130]
-t = [23,33,67]
-c = [300,350,900]
-Graficos.Costo_Tiempo(d,c,t)
-'''
