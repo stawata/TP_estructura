@@ -15,7 +15,7 @@ def main():
     
     itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario(solicitud, conexiones, ciudades)
 
-    print("Itinerario más rápido:")
+    print("\nItinerario más rápido:")
     print(itinerario_rapido)
     print("\nItinerario más barato:")   
     print(itinerario_barato)
