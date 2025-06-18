@@ -120,6 +120,7 @@ def main():
                 else:
                     '''
                     se contempla de que si el usuario elige 1 va a ser la primero por lo tanto el indice de python seria 0
+                    se va a buscar el peso de esa solicitud
                     '''
                     num_usuario = numero -1 
                     peso = solicitudes[num_usuario].getpeso_kg()
