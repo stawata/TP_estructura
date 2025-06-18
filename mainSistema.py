@@ -46,8 +46,12 @@ def main():
             if not solicitudes:
                 print("No hay solicitudes cargadas.")
             else:
-                for idx, s in enumerate(solicitudes):
-                    print(f"{idx+1}. {s}")
+                """
+                Muestra una lista numerada de las solicitudes cargadas.
+                Para cada solicitud, se imprime su descripción con el str que esta definido en la clase Solicitud.
+                """
+                for indice, solicitud in enumerate(solicitudes):
+                    print(f"{indice+1}. {solicitud}")
 
         elif opcion == "3":
             """
@@ -57,14 +61,27 @@ def main():
                 print("No hay solicitudes cargadas.")
                 continue
             try:
-                idx = int(input("Ingrese el número de solicitud a procesar: ")) - 1
-                if idx < 0 or idx >= len(solicitudes):
+                indice = int(input("Ingrese el número de solicitud a procesar: ")) - 1
+                """
+                El usuario me indica el número de la solicitud que quiere procesar.
+                """
+                if indice < 0 or indice >= len(solicitudes):
+                    """
+                    Verifica si el índice es válido.
+                    Si no es válido, muestra un mensaje de error y vuelve al menú.
+                    """
                     print("Número inválido.")
                     continue
-                s = [solicitudes[idx]]
+                s = [solicitudes[indice]]
+                print(f"\nProcesando solicitud: {s[0]}\n")
+                """
+                Armo la solicitud con el índice indicado por el usuario. 
+                En formato lista para poder usar el método creador_itinerario que espera una lista de solicitudes."""
+                
                 itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario(s, conexiones, ciudades)
                 print("\n🕒 Itinerario más rápido:\n", itinerario_rapido)
                 print("\n💸 Itinerario más barato:\n", itinerario_barato)
+            
             except Exception as e:
                 print(f"Error: {e}")
 
@@ -75,11 +92,12 @@ def main():
             if not solicitudes:
                 print("No hay solicitudes cargadas.")
                 continue
-            for i, s in enumerate(solicitudes):
-                print(f"\nSolicitud {i+1}: {s}")
-                itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario([s], conexiones, ciudades)
-                print("🕒 Más rápido:", itinerario_rapido)
-                print("💸 Más barato:", itinerario_barato)
+            for indice, solicitud in enumerate(solicitudes):
+                print(f"\nSolicitud {indice+1}: {solicitud}\n")
+                itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario([solicitud], conexiones, ciudades)
+                print("\n🕒 Más rápido:\n", itinerario_rapido)
+                print("\n💸 Más barato:\n", itinerario_barato,"\n")
+                print("-"*20+"Siguiente solicitud"+"-"*20)
 
         elif opcion == "5":
             print("Funcionalidad de gráficos en construcción. Próximamente disponible")
