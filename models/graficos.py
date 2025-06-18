@@ -72,28 +72,38 @@ class Graficos:
         return costos, tiempos, distancias
         
 
-    def Tiempo_acumulado (distancia, tiempo,nombre_archivo):
+    def Tiempo_acumulado (distancia, tiempo_barata,tiempo_rapida):
 
-        plt.plot(tiempo, distancia, marker='o')
-        plt.title("Distancia Acumulada vs Tiempo Acumulado")
-        plt.xlabel("Tiempo (horas)")
+        plt.plot(tiempo_barata, distancia, marker='o')
+        plt.title(f"Evolucion Tiempo opcion mas barata")
+        plt.xlabel("Costo (Pesos)")
         plt.ylabel("Distancia (km)")
+        plt.savefig("Evolucion_Tiempo_opcion_mas_barata.png")  
 
-        ''' Esto va hacer que el grafico se guarde en un archivo aparte y no lo muestre de manera abrupta   '''  
-        plt.savefig(f"distancia_vs_tiempo_solicitud{nombre_archivo}.png")  
-
-        '''Esto va hacer que se borre el grafico y que no se pisen en caso de tener muchas solicitudes'''
         plt.clf()
+
+        plt.plot(tiempo_rapida, distancia, marker='o')
+        plt.title(f"Evolucion Costo opcion mas rapida")
+        plt.xlabel("Costo (Pesos)")
+        plt.ylabel("Distancia (km)")
+        plt.savefig("Evolucion_Tiempo_opcion_mas_rapida.png")  
         
 
 
-    def Costo_acumulado (distancia, costo,nombre_archivo):
-        plt.plot(costo, distancia, marker='o')
-        plt.title(f"Distancia Acumulada vs Costo Acumulado + {nombre_archivo}")
+    def Costo_acumulado (distancia, costo_rapida,costo_barata):
+        plt.plot(costo_barata, distancia, marker='o')
+        plt.title(f"Evolucion Costo opcion mas barata")
         plt.xlabel("Costo (Pesos)")
         plt.ylabel("Distancia (km)")
-        plt.savefig("distancia_vs_costo.png")  
+        plt.savefig("Evolucion_Costo_opcion_mas_barata.png")  
+
         plt.clf()
+
+        plt.plot(costo_rapida, distancia, marker='o')
+        plt.title(f"Evolucion Costo opcion mas rapida")
+        plt.xlabel("Costo (Pesos)")
+        plt.ylabel("Distancia (km)")
+        plt.savefig("Evolucion_Costo_opcion_mas_rapida.png")  
 
     def Costo_acumulado_comparado(distancia_rapido, costo_rapido, distancia_barato, costo_barato, nombre_archivo):
         plt.figure()
