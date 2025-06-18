@@ -102,8 +102,8 @@ class Graficos:
 
         
         plt.title("Comparación de Costos Acumulados")
-        plt.xlabel("Costo (Pesos)")
-        plt.ylabel("Distancia (km)")
+        plt.ylabel("Costo (Pesos)")
+        plt.xlabel("Distancia (km)")
         plt.legend()
         plt.savefig(f"costo_acumulado_comparado_{nombre_archivo}.png")
         '''Esto va hacer que se borre el grafico y que no se pisen en caso de tener muchas solicitudes'''
@@ -113,12 +113,12 @@ class Graficos:
     @staticmethod
     def Tiempo_acumulado_comparado(distancia_rapido, tiempo_rapido, distancia_barato, tiempo_barato, nombre_archivo):
         plt.figure()
-        plt.plot( distancia_rapido,tiempo_rapido, marker='o', linestyle='-', color='blue', label='Rápido')
-        plt.plot( distancia_barato,tiempo_barato, marker='o', linestyle='-', color='green', label='Barato')
+        plt.plot( tiempo_rapido,distancia_rapido, marker='o', linestyle='-', color='blue', label='Rápido')
+        plt.plot( tiempo_barato,distancia_barato, marker='o', linestyle='-', color='green', label='Barato')
 
         plt.title("Comparación de Tiempos Acumulados")
-        plt.xlabel("Tiempo (horas)")
-        plt.ylabel("Distancia (km)")
+        plt.ylabel("Tiempo (horas)")
+        plt.xlabel("Distancia (km)")
         plt.legend()
         plt.savefig(f"tiempo_acumulado_comparado_{nombre_archivo}.png")
         plt.clf()
