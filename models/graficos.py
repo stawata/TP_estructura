@@ -69,7 +69,7 @@ class Graficos:
         return costos, tiempos, distancias
         
 
-    def Tiempo_acumulado (distancia, tiempo):
+    def Tiempo_acumulado (distancia, tiempo,nombre_archivo):
 
         ''' Datos de ejemplo
         distancia_acumulada = [0, 50, 100, 150, 200]
@@ -81,8 +81,11 @@ class Graficos:
         plt.ylabel("Distancia (km)")
 
         ''' Esto va hacer que el grafico se guarde en un archivo aparte y no lo muestre de manera abrupta   '''  
-        plt.savefig("distancia_vs_tiempo.png")  
-        # Si no querés que lo muestre en pantalla, no pongas plt.show()
+        plt.savefig(f"distancia_vs_tiempo_solicitud{nombre_archivo}.png")  
+
+        '''Esto va hacer que se borre el grafico y que no se pisen en caso de tener muchas solicitudes'''
+        plt.clf()
+        
 
 
     def Costo_acumulado (distancia, costo):

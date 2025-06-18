@@ -105,14 +105,26 @@ def main():
         elif opcion == "5":
             '''se va a contemplar que puede haber muchas solicitudes y voy a buscar el peso de cada una'''
             '''voy a necesitar el peso para poder calcular los costos'''
-            for solicitud in solicitudes:
-                peso = solicitud.getpeso_kg()
+             
+            '''como puedo tener muchas solicitudes voy a tener que calcular el itinerario y trabajr sobre eso'''
+            try : 
+                numero= int(input("Ingrese el NUMERO de la solicitud que desea cargar:"))
+                if numero <0: 
+                    raise ValueError ("Error el numero debe ser POSITIVO")
+                if numero > len(solicitudes):
+                    raise ValueError ("Error no existe esa solicitud")
+                else:
+                    '''se contempla de que si el usuario elige 1 va a ser la primero por lo tanto el indice de python seria 0'''
+                    num_usuario = numero -1 
+                    peso = solicitudes[num_usuario].getpeso_kg()
+                    nombre_archivo= solicitudes[num_usuario].getid_carga()
+                    itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario([solicitudes[num_usuario]], conexiones, ciudades)
+                    '''Obtiene los valores en una lista de cada ruta para poder hacer los graficos'''
+                    costos, tiempos, distancias = Graficos.datos_ruta( itinerario_rapido.itinerario, itinerario_rapido.modo, conexiones, peso)          
+                    Graficos.Tiempo_acumulado(distancias,tiempos, nombre_archivo)
 
-                '''Obtiene los valores en una lista de cada ruta para poder hacer los graficos'''
-                costos, tiempos, distancias = Graficos.datos_ruta( itinerario_rapido.itinerario, itinerario_rapido.modo, conexiones, peso)            
-                Graficos.Tiempo_acumulado(distancias,tiempos)
-                Graficos.Costo_acumulado(distancias,costos)
-
+            except ValueError as e : 
+                print(e)
 
                 ##print("Funcionalidad de gráficos en construcción. Próximamente disponible")
         
