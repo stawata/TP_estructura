@@ -17,7 +17,7 @@ class Itinerario():
         self.tiempo_total = tiempo_total
     
     def __str__(self):
-        return f"Itinerario: {self.modo}, Ciudades: {' --> '.join(self.itinerario)}, Costo Total: {self.costo_total} pesos, Tiempo Total: {self.tiempo_total} horas"
+        return f"Itinerario: {self.modo}\n Ciudades: {' --> '.join(self.itinerario)}\n Costo Total: {self.costo_total} pesos\n Tiempo Total: {self.tiempo_total} horas"
 
     @staticmethod
     def itinerario_x_modo(modo, solicitud, conexiones, ciudades):
