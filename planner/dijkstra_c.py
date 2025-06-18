@@ -1,5 +1,4 @@
 import heapq
-from models.itinerario import Itinerario
 
 class Dijkstra:
     @staticmethod
@@ -55,5 +54,6 @@ class Dijkstra:
         ruta.reverse()
         costo_total, tiempo_total = distancias[destino]
         if costo_total == float("inf") or tiempo_total == float("inf"):
-            return None
-        return Itinerario(modo, ruta, costo_total, tiempo_total)  
+            return None, None, None, None
+        
+        return modo, ruta, costo_total, tiempo_total
