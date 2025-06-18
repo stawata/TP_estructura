@@ -10,9 +10,9 @@ def armar_grafo(ciudades,conexiones):
         value=[]
         for valor in valores :
                 if valor.destino == ciudad:
-                    value.append([valor.origen.nombre, valor.distancia_km, valor.restriccion]) # esto crea el grafo para la conexion ferroviaria es para ferroviaria, y le pasa todos los parametros como atributos
+                    value.append((valor.origen.nombre, valor.distancia_km, valor.restriccion)) # esto crea el grafo para la conexion ferroviaria es para ferroviaria, y le pasa todos los parametros como atributos
                 if valor.origen == ciudad:
-                    value.append([valor.destino.nombre, valor.distancia_km, valor.restriccion])
+                    value.append((valor.destino.nombre, valor.distancia_km, valor.restriccion))
 
         grafo[ciudad.nombre] = value
     return grafo
