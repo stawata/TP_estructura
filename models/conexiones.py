@@ -33,7 +33,7 @@ class Conexion_ferroviaria(Conexion):
         return f" {self.origen} a {self.destino} KM: {self.distancia_km} "
 
 class Conexion_autovia(Conexion):
-    def __init__(self, origen,destino, distancia_km, restriccion):
+    def __init__(self, origen, destino, distancia_km, restriccion):
         super().__init__(origen, destino, distancia_km)
         if restriccion:
             if restriccion <= 0:
