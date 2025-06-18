@@ -88,22 +88,14 @@ class Graficos:
         
 
 
-    def Costo_acumulado (distancia, costo):
+    def Costo_acumulado (distancia, costo,nombre_archivo):
         plt.plot(costo, distancia, marker='o')
         plt.title("Distancia Acumulada vs Costo Acumulado")
         plt.xlabel("Costo (Pesos)")
         plt.ylabel("Distancia (km)")
         plt.savefig("distancia_vs_costo.png")  
+        plt.clf()
 
-
-    def Costo_Tiempo (distancia, costo, tiempo):
-        plt.title("Costo vs Tiempo")
-        plt.ylabel("Tiempo (rojo) /Costo (verde)")
-        plt.xlabel("Distancia (km)")
-
-        plt.plot( distancia,tiempo, color = "green", linewidth= 3, label="porcentajke")
-        plt.plot( distancia,costo, color = "red", linewidth= 3, label ="porcentajke")
-        pass
 
 #SON VALORES D EPRUEBA HAY QUE BORRARLOS"
 '''plt.clf()
