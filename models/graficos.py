@@ -8,9 +8,9 @@ class Graficos:
 
     @staticmethod
     def datos_ruta(ruta, tipo, conexiones, peso):
-        costos = []
-        tiempos = []
-        distancias = []
+        costos = [0,]
+        tiempos = [0,]
+        distancias = [0,]
 
         '''voy a filtrar la conexion por tipo de automovil del camino mas eficiente'''
         if tipo == "automotor":
@@ -71,10 +71,6 @@ class Graficos:
 
     def Tiempo_acumulado (distancia, tiempo,nombre_archivo):
 
-        ''' Datos de ejemplo
-        distancia_acumulada = [0, 50, 100, 150, 200]
-        tiempo_acumulado = [0, 1, 2.5, 4, 5.5]'''
-
         plt.plot(tiempo, distancia, marker='o')
         plt.title("Distancia Acumulada vs Tiempo Acumulado")
         plt.xlabel("Tiempo (horas)")
@@ -90,10 +86,36 @@ class Graficos:
 
     def Costo_acumulado (distancia, costo,nombre_archivo):
         plt.plot(costo, distancia, marker='o')
-        plt.title("Distancia Acumulada vs Costo Acumulado")
+        plt.title(f"Distancia Acumulada vs Costo Acumulado + {nombre_archivo}")
         plt.xlabel("Costo (Pesos)")
         plt.ylabel("Distancia (km)")
         plt.savefig("distancia_vs_costo.png")  
+        plt.clf()
+
+    def Costo_acumulado_comparado(distancia_rapido, costo_rapido, distancia_barato, costo_barato, nombre_archivo):
+        plt.figure()
+        plt.plot(costo_rapido, distancia_rapido, marker='o', linestyle='-', color='blue', label='Rápido')
+        plt.plot(costo_barato, distancia_barato, marker='o', linestyle='-', color='green', label='Barato')
+
+        
+        plt.title("Comparación de Costos Acumulados")
+        plt.xlabel("Costo (Pesos)")
+        plt.ylabel("Distancia (km)")
+        plt.legend()
+        plt.savefig(f"costo_acumulado_comparado_{nombre_archivo}.png")
+        plt.clf()
+
+    @staticmethod
+    def Tiempo_acumulado_comparado(distancia_rapido, tiempo_rapido, distancia_barato, tiempo_barato, nombre_archivo):
+        plt.figure()
+        plt.plot(tiempo_rapido, distancia_rapido, marker='o', linestyle='-', color='blue', label='Rápido')
+        plt.plot(tiempo_barato, distancia_barato, marker='o', linestyle='-', color='green', label='Barato')
+
+        plt.title("Comparación de Tiempos Acumulados")
+        plt.xlabel("Tiempo (horas)")
+        plt.ylabel("Distancia (km)")
+        plt.legend()
+        plt.savefig(f"tiempo_acumulado_comparado_{nombre_archivo}.png")
         plt.clf()
 
 
