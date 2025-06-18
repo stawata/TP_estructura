@@ -105,10 +105,10 @@ class Barcaza(Vehiculo):
         return math.ceil(peso / cls.capacidad)
 
     @classmethod
-    def calcular_costo(cls, distancia, peso, conexion):
+    def calcular_costo(cls, distancia, peso, restriccion):
         cantidad = cls.cantidad_necesaria(peso)
 
-        if conexion.restriccion == "fluvial":
+        if restriccion == "fluvial":
             costo_fijo = 500
         else:
             costo_fijo = 1500
