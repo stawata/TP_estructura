@@ -8,13 +8,14 @@ from collections import namedtuple #Es una tupla mas facil de acceder, mas enten
 Costos = namedtuple("Costos", ["fijo", "km", "kg"])
 
 class Camion(Vehiculo):
+    """Clase que representa un camión, hereda de Vehiculo."""
     velocidad_nominal = 80
     capacidad = 30000
     costos = Costos(fijo=30, km=5, kg=None)
 
     @classmethod
     def calcular_tiempo(cls, distancia, restriccion=None):
-        return distancia / cls.velocidad_nominal
+        return (distancia / cls.velocidad_nominal)
 
     @classmethod
     def cantidad_necesaria(cls, peso):
@@ -27,7 +28,7 @@ class Camion(Vehiculo):
             costo_kg = 1
         else:
             costo_kg = 2
-        return cantidad * (cls.costos.fijo + cls.costos.km * distancia + costo_kg * peso)
+        return (cantidad * (cls.costos.fijo + cls.costos.km * distancia) + costo_kg * peso)
 
     @classmethod
     def puede_usar_conexion(cls, conexion, peso):
@@ -71,7 +72,7 @@ class Avion(Vehiculo):
 
     @classmethod
     def calcular_tiempo(cls, distancia, conexion):
-        prob = conexion.probabilidad_mal_clima  # Se accede desde la conexión
+        prob = conexion.restriccion  # Se accede desde la conexión
         llueve = random.random() < prob
         if llueve:
             velocidad = 400

@@ -41,6 +41,8 @@ class PuntoDeRed:
             raise ValueError("El origen de la solicitud no está en los puntos de red.")
         for punto in puntos_de_red.values():
             for conexion in conexiones:
+                costo = None
+                tiempo = None
                 if conexion.origen.nombre == punto.nombre or conexion.destino.nombre == punto.nombre:
                     if isinstance(conexion, Conexion_ferroviaria):
                         costo = Tren.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
@@ -52,9 +54,15 @@ class PuntoDeRed:
                         costo = Barcaza.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg(), conexion)
                         tiempo = Barcaza.calcular_tiempo(conexion.distancia_km)
                     elif isinstance(conexion, Conexion_autovia):
-                        costo = Camion.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
-                        tiempo = Camion.calcular_tiempo(conexion.distancia_km)
-                    if conexion.origen.nombre == punto.nombre:
-                        punto.vecinos[puntos_de_red[conexion.destino.nombre]] = (costo, tiempo)
-                    elif conexion.destino.nombre == punto.nombre:
-                        punto.vecinos[puntos_de_red[conexion.destino.nombre]] = (costo, tiempo)
+                        if conexion.restriccion is not None:
+                            if solicitud.getpeso_kg() <= conexion.restriccion:
+                                costo = Camion.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
+                                tiempo = Camion.calcular_tiempo(conexion.distancia_km)
+                        else:
+                            costo = Camion.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
+                            tiempo = Camion.calcular_tiempo(conexion.distancia_km)
+                    if costo is not None and tiempo is not None:
+                        if conexion.origen.nombre == punto.nombre:
+                            punto.vecinos[puntos_de_red[conexion.destino.nombre]] = (costo, tiempo)
+                        elif conexion.destino.nombre == punto.nombre:
+                            punto.vecinos[puntos_de_red[conexion.destino.nombre]] = (costo, tiempo)
