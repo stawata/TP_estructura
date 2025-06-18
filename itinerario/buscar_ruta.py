@@ -40,8 +40,6 @@ class Buscar_ruta:
                             if vecino==ciudad2:
                                 tiempo_total+=self.vehiculo.calcular_tiempo(distancia,restriccion)
                                 costo_total+=self.vehiculo.calcular_costo(distancia,peso)
-                    if costo_total!=0 and self.vehiculo.costos.fijo is not None: #Si el costo total es distinto de 0 y el costo fijo no es None, se calcula el costo tota
-                        costo_total =costo_total- (len(camino) - 1) * self.vehiculo.costos.fijo
                 caminos_encontrados.append({"camino": camino,"tiempo_total":round(tiempo_total,2),"costo_total":round(costo_total,2),"vehiculo":self.vehiculo}) #Cuando encuentra un nodo igual al destino guarda el camino
                 continue
 
