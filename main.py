@@ -43,7 +43,7 @@ def main():
         itinerario_maritimo_costo = Dijkstra.ruta_mas_corta(puntos_red, solicitud[0].origen.nombre, solicitud[0].destino.nombre, "costo", modo)
         return itinerario_maritimo_tiempo, itinerario_maritimo_costo
 
-    itinerario_tiempo, itinerario_costo = itinerario_x_modo("aereo")
+    itinerario_tiempo, itinerario_costo = itinerario_x_modo("aereo") # Cambia "aereo" por "ferroviario", "automotor" o "maritimo" según el modo deseado
     if itinerario_tiempo is None or itinerario_costo is None:
         print("No se encontró un itinerario válido.")
         return
