@@ -35,9 +35,9 @@ def main():
             Carga los datos de nodos, conexiones y solicitudes desde archivos CSV.
             """
             try:
-                ciudades = NodoLoader.cargar_desde_csv("data/nodos.csv")
-                conexiones = ConexionLoader.cargar_desde_csv("data/conexiones.csv", ciudades)
-                solicitudes = SolicitudLoader.cargar_desde_csv("data_extra/muchas_solicitudes/solicitudes.csv", ciudades)
+                ciudades = NodoLoader.cargar_desde_csv("data_extra/distancia_1km/nodos.csv")
+                conexiones = ConexionLoader.cargar_desde_csv("data_extra/distancia_1km/conexiones.csv", ciudades)
+                solicitudes = SolicitudLoader.cargar_desde_csv("data_extra/distancia_1km/solicitudes.csv", ciudades)
                 print("Datos cargados correctamente.")
             except Exception as e:
                 print("Error cargando los datos:", e)
@@ -101,7 +101,7 @@ def main():
                 print("\n🕒 Más rápido:\n", itinerario_rapido)
                 print("\n💸 Más barato:\n", itinerario_barato,"\n")
                 print("-"*20+"Siguiente solicitud"+"-"*20)
-
+            print("Todas las solicitudes procesadas.")
         elif opcion == "5":
             '''se va a contemplar que puede haber muchas solicitudes y voy a buscar el peso de cada una'''
             '''voy a necesitar el peso para poder calcular los costos'''
