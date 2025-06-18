@@ -103,15 +103,18 @@ def main():
                 print("-"*20+"Siguiente solicitud"+"-"*20)
 
         elif opcion == "5":
-            # Obtener el peso de la solicitud (objeto tipo Solicitud)
-            peso = solicitud.getpeso_kg()
+            '''se va a contemplar que puede haber muchas solicitudes y voy a buscar el peso de cada una'''
+            '''voy a necesitar el peso para poder calcular los costos'''
+            for solicitud in solicitudes:
+                peso = solicitud.getpeso_kg()
 
-            # Obtener listas tramo a tramo
-            costos, tiempos, distancias = Graficos.datos_ruta( itinerario_rapido.itinerario, itinerario_rapido.modo, conexiones, peso)            
-            print(costos)
-            print(tiempos)
-            print(distancias)
-            ##print("Funcionalidad de gráficos en construcción. Próximamente disponible")
+                '''Obtiene los valores en una lista de cada ruta para poder hacer los graficos'''
+                costos, tiempos, distancias = Graficos.datos_ruta( itinerario_rapido.itinerario, itinerario_rapido.modo, conexiones, peso)            
+                Graficos.Tiempo_acumulado(distancias,tiempos)
+                Graficos.Costo_acumulado(distancias,costos)
+
+
+                ##print("Funcionalidad de gráficos en construcción. Próximamente disponible")
         
         elif opcion == "6":
             print("¡Hasta luego! Gracias por usar el sistema de transporte.")

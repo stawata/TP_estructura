@@ -69,9 +69,6 @@ class Graficos:
         return costos, tiempos, distancias
         
 
-    
-
-
     def Tiempo_acumulado (distancia, tiempo):
 
         ''' Datos de ejemplo
@@ -88,7 +85,7 @@ class Graficos:
         # Si no querés que lo muestre en pantalla, no pongas plt.show()
 
 
-    def Costo_acumulado (distancia, costo, tiempo):
+    def Costo_acumulado (distancia, costo):
         plt.plot(costo, distancia, marker='o')
         plt.title("Distancia Acumulada vs Costo Acumulado")
         plt.xlabel("Costo (Pesos)")
