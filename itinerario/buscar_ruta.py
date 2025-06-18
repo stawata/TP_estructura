@@ -40,6 +40,8 @@ class Buscar_ruta:
                             if vecino==ciudad2:
                                 tiempo_total+=self.vehiculo.calcular_tiempo(distancia,restriccion)
                                 costo_total+=self.vehiculo.calcular_costo(distancia,peso)
+                    if costo_total!=0 and self.vehiculo.costos.fijo is not None: #Si el costo total es distinto de 0 y el costo fijo no es None, se calcula el costo tota
+                        costo_total =costo_total- (len(camino) - 1) * self.vehiculo.costos.fijo
                 caminos_encontrados.append({"camino": camino,"tiempo_total":round(tiempo_total,2),"costo_total":round(costo_total,2),"vehiculo":self.vehiculo}) #Cuando encuentra un nodo igual al destino guarda el camino
                 continue
 
@@ -73,24 +75,5 @@ class Buscar_ruta:
                 print(f"{chr(letra):<10} {modo:<12} {itinerario:<50} {costo:>15} {tiempo:>20}")
                 letra += 1
             
-#esto de aca es una prueba luego se borra
-
-#grafo_info = {
-#     "Zarate": [("Buenos Aires", 85, 100), ("Junin", 185, 80)],
-#     "Buenos Aires": [("Zarate", 85, 100), ("Junin", 238, 90), ("Azul", 278, 110), ("Mar del Plata", 384, 120)],
-#     "Junin": [("Zarate", 185, 80), ("Buenos Aires", 238, 90), ("Azul", 265, 100)],
-#     "Azul": [("Junin", 265, 100), ("Buenos Aires", 278, 110), ("Mar del Plata", 246, 100)],
-#     "Mar del Plata": [("Buenos Aires", 384, 120), ("Azul", 246, 100)]
- #}
-
-#vehiculos={"Automotor", "Ferroviaria"}
- 
-#solicitud = Solicitud("CARGA_001",70000,"Zarate","Mar_del_Plata")
-
-#buscador = Buscar_ruta(grafo_info,"ferroviaria")
-#caminos = buscador.buscar_caminos(solicitud)
-
-# Mostrar resultados
-#buscador.mostrar_resultados(caminos)
 
 
