@@ -103,7 +103,14 @@ def main():
                 print("-"*20+"Siguiente solicitud"+"-"*20)
 
         elif opcion == "5":
-            Graficos.datos_ruta(itinerario_rapido.itinerario, itinerario_rapido.modo, conexiones)
+            # Obtener el peso de la solicitud (objeto tipo Solicitud)
+            peso = solicitud.getpeso_kg()
+
+            # Obtener listas tramo a tramo
+            costos, tiempos, distancias = Graficos.datos_ruta( itinerario_rapido.itinerario, itinerario_rapido.modo, conexiones, peso)            
+            print(costos)
+            print(tiempos)
+            print(distancias)
             ##print("Funcionalidad de gráficos en construcción. Próximamente disponible")
         
         elif opcion == "6":

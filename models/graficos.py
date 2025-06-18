@@ -1,40 +1,75 @@
 import matplotlib.pyplot as plt
 from models.conexiones import *
+from models.vehiculos_herencia import Camion, Tren, Avion, Barcaza
+from models.conexiones import Conexion_aerea, Conexion_autovia, Conexion_maritima, Conexion_ferroviaria
+
 
 class Graficos:
 
-    def datos_ruta (ruta, tipo , conexiones):
-        costos=[]
-        tiempos=[]
-        distancias=[]
+    @staticmethod
+    def datos_ruta(ruta, tipo, conexiones, peso):
+        costos = []
+        tiempos = []
+        distancias = []
 
+        '''voy a filtrar la conexion por tipo de automovil del camino mas eficiente'''
         if tipo == "automotor":
-            conexion_filtrada= list(filter(lambda x: isinstance(x,Conexion_autovia ), conexiones ))
-        if tipo == "aereo":
-            conexion_filtrada= list(filter(lambda x: isinstance(x,Conexion_aerea ), conexiones ))
-        if tipo == "ferroviario":
-            conexion_filtrada= list(filter(lambda x: isinstance(x,Conexion_ferroviaria ), conexiones ))
-        if tipo == "automotor":
-            conexion_filtrada= list(filter(lambda x: isinstance(x,Conexion_maritima ), conexiones ))
+            conexiones_filtradas = list(filter(lambda x: isinstance (x, Conexion_autovia), conexiones))
 
-        print(conexion_filtrada)
+            vehiculo = Camion
+        elif tipo == "aereo":
+            conexiones_filtradas = list(filter(lambda x: isinstance (x, Conexion_aerea), conexiones))
+            vehiculo = Avion
+        elif tipo == "ferroviario":
+            conexiones_filtradas = list(filter(lambda x: isinstance (x, Conexion_ferroviaria), conexiones))
 
-        '''for i in range(len(ruta)-1):
-            origen= ruta[i]
-            destino = ruta[i+1]
+            vehiculo = Tren
+        elif tipo == "maritimo":
+            conexiones_filtradas = list(filter(lambda x: isinstance (x, Conexion_maritima), conexiones))
+          
+            vehiculo = Barcaza
+        else:
+            raise ValueError("Tipo de transporte inválido.")
 
-        punto_origen= puntos_red[origen]
+        '''Vamos a recorrer cada ciudad de la ruta y buscar las distancia, costo y tiempo con la ciudad siguiente'''
 
-        for vecino in punto_origen.vecinos:
-            if vecino.nombre == destino:
-                datos = punto_origen.vecinos[vecino]
-                if len(datos)>=3:
-                    costo, tiempo , distancia = datos 
-                    costos.append(costo)
-                    tiempos.append(tiempo)
-                    distancias.append(distancia)'''
+        for i in range(len(ruta) - 1):
+            origen = ruta[i]
+            destino = ruta[i + 1]
 
-        #return costos, tiempos, distancias
+            '''Aca busco la conexion que cumpla con ambas ciudades'''
+            conexion = None
+            for c in conexiones_filtradas:
+                if (c.origen.nombre == origen and c.destino.nombre == destino) or (c.destino.nombre == origen and c.origen.nombre == destino):
+                    conexion = c
+                    break
+
+
+            '''voy a calcular los costos y tiempos ya que la distancia es un valor que ya tengo dado'''
+            '''Voy a utilizar los metodos calcular_costo y calcular_tiempo ya que los mismos contemplan las restricciones'''
+
+            if tipo == "maritimo":
+                costo = vehiculo.calcular_costo(conexion.distancia_km, peso, conexion.restriccion)
+
+            elif tipo == "aereo":
+                costo = vehiculo.calcular_costo(conexion.distancia_km, peso)
+                tiempo = vehiculo.calcular_tiempo(conexion.distancia_km, conexion)
+
+            elif tipo == "ferroviario":
+                costo = vehiculo.calcular_costo(conexion.distancia_km, peso)
+                tiempo = vehiculo.calcular_tiempo(conexion.distancia_km, conexion)
+            else:
+                costo = vehiculo.calcular_costo(conexion.distancia_km, peso)
+                tiempo = vehiculo.calcular_tiempo(conexion.distancia_km)
+
+            costos.append(costo)
+            tiempos.append(tiempo)
+            distancias.append(conexion.distancia_km)
+
+        return costos, tiempos, distancias
+        
+
+    
 
 
     def Tiempo_acumulado (distancia, tiempo):
