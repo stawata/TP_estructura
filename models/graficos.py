@@ -2,6 +2,29 @@ import matplotlib.pyplot as plt
 
 class Graficos:
 
+    def datos_ruta (ruta, puntos_red):
+        costos=[]
+        tiempos=[]
+        distancias=[]
+
+        for i in range(len(ruta)-1):
+            origen= ruta[i]
+            destino = ruta[i+1]
+
+        punto_origen= puntos_red[origen]
+
+        for vecino in punto_origen.vecinos:
+            if vecino.nombre == destino:
+                datos = punto_origen.vecinos[vecino]
+                if len(datos)>=3:
+                    costo, tiempo , distancia = datos 
+                    costos.append(costo)
+                    tiempos.append(tiempo)
+                    distancias.append(distancia)
+
+        return costos , tiempos, distancias
+
+
     def Tiempo_acumulado (distancia, tiempo):
 
         ''' Datos de ejemplo
@@ -33,11 +56,12 @@ class Graficos:
 
         plt.plot( distancia,tiempo, color = "green", linewidth= 3, label="porcentajke")
         plt.plot( distancia,costo, color = "red", linewidth= 3, label ="porcentajke")
+        pass
 
-        plt.show()
-
-plt.clf()
+#SON VALORES D EPRUEBA HAY QUE BORRARLOS"
+'''plt.clf()
 d=[10,90,130]
 t = [23,33,67]
 c = [300,350,900]
 Graficos.Costo_Tiempo(d,c,t)
+'''
