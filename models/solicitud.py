@@ -17,9 +17,9 @@ class Solicitud:
     def getpeso_kg(self):
         return self.peso_kg
     def getorigen(self):
-        return self.origen
+        return self.origen.nombre
     def getdestino(self):
-        return self.destino
+        return self.destino.nombre
 
     def __str__(self):
         return f"id_carga: {self.getid_carga()}, capacidad: {self.getpeso_kg()}, origen: {self.getorigen()}, destino: {self.getdestino()}"
