@@ -20,30 +20,13 @@ from models.graficos import *
 # algoritmos
 from planner.dijkstra_c import Dijkstra
 
-#itinerario
-from itinerario.buscar_ruta import *
-
 def main():
 
-    ciudades=NodoLoader.cargar_desde_csv("data/nodos.csv")
-    solicitud=SolicitudLoader.cargar_desde_csv("data/solicitudes.csv", ciudades)
-    
-    def creador_itinerario():
-        """Este metodo crea el un diccionario donde se almacenara el itinerario menos costoso y mas rapido de cada transporte"""
-        lista_modos = ["ferroviario","maritimo","automotor"]
-        diccionario_modos = dict()
-        for valor in lista_modos:
-            itinerario_tiempo, itinerario_costo = itinerario_x_modo(valor)
-            diccionario_modos[valor] = (itinerario_tiempo, itinerario_costo)
-        if itinerario_tiempo is None or itinerario_costo is None:
-            raise ValueError("No se encontró un itinerario válido.")
-        for valor in diccionario_modos.values():
-            print(valor[0])
-            print(valor[1])
-            
-        
+    ciudades=NodoLoader.cargar_desde_csv("data_extra/distancia_1km/nodos.csv")
+    solicitud=SolicitudLoader.cargar_desde_csv("data_extra/distancia_1km/solicitudes.csv", ciudades)
+
     def itinerario_x_modo(modo):
-        conexiones=ConexionLoader.cargar_desde_csv("data/conexiones.csv", ciudades)
+        conexiones=ConexionLoader.cargar_desde_csv("data_extra/distancia_1km/conexiones.csv", ciudades)
         if modo not in ["aereo", "automotor", "maritimo", "ferroviario"]:
             raise ValueError("Modo de transporte no válido. Debe ser 'aereo', 'ferroviario', 'automotor' o 'maritimo'.")
         if modo == "aereo":
@@ -63,12 +46,14 @@ def main():
         
         return itinerario_maritimo_tiempo, itinerario_maritimo_costo
 
-    itinerario_tiempo, itinerario_costo = itinerario_x_modo("aereo")
+    itinerario_tiempo, itinerario_costo = itinerario_x_modo("ferroviario")
     if itinerario_tiempo is None or itinerario_costo is None:
         print("No se encontró un itinerario válido.")
         return
     print(itinerario_tiempo)
     print(itinerario_costo)
+
+
 
 main()
 

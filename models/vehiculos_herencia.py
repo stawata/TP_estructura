@@ -45,7 +45,7 @@ class Tren(Vehiculo):
 
     @classmethod
     def calcular_tiempo(cls, distancia, conexion): 
-        if conexion and hasattr(conexion, "restriccion") and conexion.restriccion is not None:
+        if conexion and getattr(conexion, "restriccion", None) is not None:
             velocidad = min(cls.velocidad_nominal, conexion.restriccion)
         else:
             velocidad = cls.velocidad_nominal
@@ -105,10 +105,10 @@ class Barcaza(Vehiculo):
         return math.ceil(peso / cls.capacidad)
 
     @classmethod
-    def calcular_costo(cls, distancia, peso, conexion):
+    def calcular_costo(cls, distancia, peso, restriccion):
         cantidad = cls.cantidad_necesaria(peso)
 
-        if conexion.restriccion == "fluvial":
+        if restriccion == "fluvial":
             costo_fijo = 500
         else:
             costo_fijo = 1500

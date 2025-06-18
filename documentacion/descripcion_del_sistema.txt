@@ -37,3 +37,23 @@ Esta estructura permite una planificación de rutas y una estimación de costos 
 Un aspecto sutil es la dependencia de nombres correctos de clases y métodos tanto en las conexiones como en los vehículos, así como la suposición de que cada objeto de conexión y solicitud proporciona los atributos y métodos necesarios. 
 Cualquier discrepancia o falta de implementación puede generar errores en tiempo de ejecución.
 
+
+
+----------------------------------------------------------------------------------------------------
+
+Dijkstra
+
+El algoritmo de Dikstra se utiliza para determinar el camino de minimo costo en un grafo. Este costo puede ser un parametro como distancia, tiempo, costo($) , etc.
+El algoritmo en si funciona apartir de una red de nodos(grafo) partiendo desde el nodo de origen. Primero calcula el costo de los nodos vecinos al del origen y el punto 
+base va a moverse al de menor valor. Repite la secuencia calcula el costo de los nodos vecinos y se mueve al del valor mas pequeño. Este sistema va a almacenar en cada nodo el costo 
+de recorrido hacia ese nodo y cual fue su nodo anterior.
+
+Se crea "dist" para guardar el costo y tiempo acumulado a cada punto (todos comienzan en infinito excepto el origen). Luego "anterior" que  guarda el punto anterior en el camino más corto. Por 
+ultimo "heap" es la  cola de prioridad para seleccionar el próximo nodo.
+Durante la ejecución del algoritmo, mientras existan nodos en la cola de prioridad, se extrae aquel con la menor prioridad (según el criterio indicado en usar, ya sea "costo" o "tiempo"). 
+A continuación, se recorren todos sus vecinos inmediatos y se calcula el nuevo costo y tiempo que implicaría llegar a cada uno desde el nodo actual. Si el valor del nuevo punto es menor al previamente
+registrado —de acuerdo al criterio seleccionado—, se actualiza la distancia acumulada, se guarda el punto anterior para reconstruir el camino y se añade el vecino a la cola para continuar con la exploración. 
+Al finalizar, el algoritmo devuelve dos estructuras: dist, que contiene el costo y tiempo mínimos hacia cada punto de la red, y anterior, que permite reconstruir el camino óptimo desde el origen a cualquier destino.
+
+
+-------------------------------------------------------------------------------------------------------
