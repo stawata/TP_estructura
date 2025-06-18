@@ -52,7 +52,7 @@ class PuntoDeRed:
                         costo = Avion.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
                         tiempo = Avion.calcular_tiempo(conexion.distancia_km, conexion)
                     elif isinstance(conexion, Conexion_maritima):
-                        costo = Barcaza.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg(), conexion)
+                        costo = Barcaza.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg(), conexion.restriccion)
                         tiempo = Barcaza.calcular_tiempo(conexion.distancia_km)
                     elif isinstance(conexion, Conexion_autovia):
                         if conexion.restriccion is not None:
