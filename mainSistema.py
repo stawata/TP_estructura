@@ -131,7 +131,7 @@ def main():
                 print(f"\nSolicitud {indice+1}: {solicitud}\n")
                 
                 mostrar_todas_alternativas(solicitud, ciudades, conexiones)
-                input("Presione ENTER para ver los itinerarios óptimos...")
+                print("Ahora van los itinerarios óptimos...")
 
                 itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario([solicitud], conexiones, ciudades)
                 print("\n🕒 Más rápido:\n", itinerario_rapido)
