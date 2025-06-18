@@ -145,7 +145,6 @@ def main():
             except ValueError as e : 
                 print(e)
 
-                ##print("Funcionalidad de gráficos en construcción. Próximamente disponible")
         
         elif opcion == "6":
             print("¡Hasta luego! Gracias por usar el sistema de transporte.")

@@ -102,6 +102,8 @@ def main():
                 print("\n💸 Más barato:\n", itinerario_barato,"\n")
                 print("-"*20+"Siguiente solicitud"+"-"*20)
             print("Todas las solicitudes procesadas.")
+
+
         elif opcion == "5":
             '''se va a contemplar que puede haber muchas solicitudes y voy a buscar el peso de cada una'''
             '''voy a necesitar el peso para poder calcular los costos'''
@@ -121,19 +123,29 @@ def main():
                     '''
                     num_usuario = numero -1 
                     peso = solicitudes[num_usuario].getpeso_kg()
-                    nombre_archivo= solicitudes[num_usuario].getid_carga()
+                    nombre_archivo= str(solicitudes[num_usuario].getid_carga())+ "Costo rapido"
+
                     itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario([solicitudes[num_usuario]], conexiones, ciudades)
                     '''
                     Obtiene los valores en una lista de cada ruta para poder hacer los graficos
                     '''
+            
                     costos, tiempos, distancias = Graficos.datos_ruta( itinerario_rapido.itinerario, itinerario_rapido.modo, conexiones, peso)         
-                    Graficos.Tiempo_acumulado(distancias,tiempos, nombre_archivo)
-                    Graficos.Costo_acumulado(distancias, costos, nombre_archivo)
+                    #Graficos.Tiempo_acumulado(distancias,tiempos, nombre_archivo)
+                    #Graficos.Costo_acumulado(distancias, costos, nombre_archivo)
+                    
+
+                    costo_barata, tiempo_barato, distancia_barata= Graficos.datos_ruta( itinerario_barato.itinerario, itinerario_barato.modo, conexiones, peso)
+                    #nombre_archivo= str(solicitudes[num_usuario].getid_carga())+ "Costo barato"
+                    #Graficos.Costo_acumulado(distancia_barata, costo_barata, nombre_archivo)
+                    
+                    
+                    Graficos.Costo_acumulado_comparado(distancias, costos, distancia_barata,costo_barata, nombre_archivo )
+                    Graficos.Tiempo_acumulado_comparado(distancias, tiempos, distancia_barata,tiempo_barato, nombre_archivo )
+
 
             except ValueError as e : 
                 print(e)
-
-                ##print("Funcionalidad de gráficos en construcción. Próximamente disponible")
         
         elif opcion == "6":
             print("¡Hasta luego! Gracias por usar el sistema de transporte.")

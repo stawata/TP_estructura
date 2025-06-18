@@ -94,8 +94,11 @@ class Graficos:
 
     def Costo_acumulado_comparado(distancia_rapido, costo_rapido, distancia_barato, costo_barato, nombre_archivo):
         plt.figure()
-        plt.plot(costo_rapido, distancia_rapido, marker='o', linestyle='-', color='blue', label='Rápido')
-        plt.plot(costo_barato, distancia_barato, marker='o', linestyle='-', color='green', label='Barato')
+        '''
+        le asignas los ejes y el color
+        '''
+        plt.plot( distancia_rapido,costo_rapido, marker='o', linestyle='-', color='blue', label='Rápido')
+        plt.plot(distancia_barato, costo_barato, marker='o', linestyle='-', color='green', label='Barato')
 
         
         plt.title("Comparación de Costos Acumulados")
@@ -103,13 +106,15 @@ class Graficos:
         plt.ylabel("Distancia (km)")
         plt.legend()
         plt.savefig(f"costo_acumulado_comparado_{nombre_archivo}.png")
+        '''Esto va hacer que se borre el grafico y que no se pisen en caso de tener muchas solicitudes'''
+
         plt.clf()
 
     @staticmethod
     def Tiempo_acumulado_comparado(distancia_rapido, tiempo_rapido, distancia_barato, tiempo_barato, nombre_archivo):
         plt.figure()
-        plt.plot(tiempo_rapido, distancia_rapido, marker='o', linestyle='-', color='blue', label='Rápido')
-        plt.plot(tiempo_barato, distancia_barato, marker='o', linestyle='-', color='green', label='Barato')
+        plt.plot( distancia_rapido,tiempo_rapido, marker='o', linestyle='-', color='blue', label='Rápido')
+        plt.plot( distancia_barato,tiempo_barato, marker='o', linestyle='-', color='green', label='Barato')
 
         plt.title("Comparación de Tiempos Acumulados")
         plt.xlabel("Tiempo (horas)")
