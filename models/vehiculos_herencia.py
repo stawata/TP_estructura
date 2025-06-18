@@ -3,26 +3,49 @@ from models.solicitud import Solicitud
 from models.conexiones import *
 import random
 import math
-from collections import namedtuple #Es una tupla mas facil de acceder, mas entendible en realidad
+from collections import namedtuple 
 
 Costos = namedtuple("Costos", ["fijo", "km", "kg"])
+"""
+Costos es una tupla que almacena los costos asociados a un vehículo.
+Atributos:
+    fijo: Costo fijo del vehículo.
+    km: Costo por kilómetro recorrido.
+    kg: Costo por kilogramo transportado (opcional, puede ser None).
+De esta manera, se pueden definir los costos de cada vehículo de forma clara y accederlos mas legiblemente para humanos.
+"""
 
 class Camion(Vehiculo):
-    """Clase que representa un camión, hereda de Vehiculo."""
+    """
+    Clase que representa un camión, hereda de Vehiculo.
+    Atributos de clase:
+        velocidad_nominal: Velocidad máxima del camión en km/h.
+        capacidad: Capacidad de carga del camión en kg.
+        costos: Costos asociados al uso del camión.
+    """
     velocidad_nominal = 80
     capacidad = 30000
     costos = Costos(fijo=30, km=5, kg=None)
 
     @classmethod
     def calcular_tiempo(cls, distancia, restriccion=None):
+        """
+        Calcula el tiempo de viaje en horas, considerando restricciones de velocidad.
+        """
         return (distancia / cls.velocidad_nominal)
 
     @classmethod
     def cantidad_necesaria(cls, peso):
+        """
+        Calcula la cantidad de camiones necesarios para transportar un peso dado.
+        """
         return math.ceil(peso / cls.capacidad)
 
     @classmethod
     def calcular_costo(cls, distancia, peso):
+        """
+        Calcula el costo total del transporte.
+        """
         cantidad = cls.cantidad_necesaria(peso)
         if peso < 15000:
             costo_kg = 1
@@ -32,6 +55,9 @@ class Camion(Vehiculo):
 
     @classmethod
     def puede_usar_conexion(cls, conexion, peso):
+        """
+        Verifica si el camión puede usar una conexión dada, considerando restricciones de peso.
+        """
         if hasattr(conexion, "peso_max") and conexion.peso_max is not None:
             if peso > conexion.peso_max:
                 return False
@@ -39,12 +65,22 @@ class Camion(Vehiculo):
 
 
 class Tren(Vehiculo):
+    """
+    Clase que representa un tren, hereda de Vehiculo.
+    Atributos de clase:
+        velocidad_nominal: Velocidad máxima del tren en km/h.
+        capacidad: Capacidad de carga del tren en kg.
+        costos: Costos asociados al uso del tren.
+    """
     velocidad_nominal = 100
     capacidad = 150000
-    costos = Costos(fijo=100, km=None, kg=3)  # el km depende de la distancia, lo calculamos dentro del método
+    costos = Costos(fijo=100, km=None, kg=3)
 
     @classmethod
-    def calcular_tiempo(cls, distancia, conexion): 
+    def calcular_tiempo(cls, distancia, conexion):
+        """
+        Calcula el tiempo de viaje en horas, considerando restricciones de velocidad.
+        Si la conexión tiene una restricción, se ajusta la velocidad nominal.""" 
         if conexion and getattr(conexion, "restriccion", None) is not None:
             velocidad = min(cls.velocidad_nominal, conexion.restriccion)
         else:
@@ -53,10 +89,16 @@ class Tren(Vehiculo):
 
     @classmethod
     def cantidad_necesaria(cls, peso):
+        """
+        Calcula la cantidad de trenes necesarios para transportar un peso dado.
+        """
         return math.ceil(peso / cls.capacidad)
 
     @classmethod
     def calcular_costo(cls, distancia, peso):
+        """
+        Calcula el costo total del transporte.
+        El costo depende de la distancia y el peso, con un costo fijo y por kilómetro."""
         cantidad = cls.cantidad_necesaria(peso)
         if distancia < 200:
             costo_km = 20
@@ -66,13 +108,24 @@ class Tren(Vehiculo):
      
 
 class Avion(Vehiculo):
+    """
+    Clase que representa un avión, hereda de Vehiculo.
+    Atributos de clase:
+        velocidad_nominal: Velocidad máxima del avión en km/h.
+        capacidad: Capacidad de carga del avión en kg.
+        costos: Costos asociados al uso del avión.
+    """
     velocidad_nominal = 600
     capacidad = 5000
     costos = Costos(fijo=750, km=40, kg=10)
 
     @classmethod
     def calcular_tiempo(cls, distancia, conexion):
-        prob = conexion.restriccion  # Se accede desde la conexión
+        """
+        Calcula el tiempo de viaje en horas, considerando restricciones de velocidad.
+        Si la restricción es una probabilidad de lluvia, se ajusta la velocidad en consecuencia.
+        """
+        prob = conexion.restriccion
         llueve = random.random() < prob
         if llueve:
             velocidad = 400
@@ -83,29 +136,52 @@ class Avion(Vehiculo):
 
     @classmethod
     def cantidad_necesaria(cls, peso):
+        """
+        Calcula la cantidad de aviones necesarios para transportar un peso dado.
+        """
         return math.ceil(peso / cls.capacidad)
 
     @classmethod
     def calcular_costo(cls, distancia, peso):
+        """
+        Calcula el costo total del transporte.
+        """
         cantidad = cls.cantidad_necesaria(peso)
         return cantidad * (cls.costos.fijo + cls.costos.km * distancia + cls.costos.kg * peso)
 
 
 class Barcaza(Vehiculo):
+    """
+    Clase que representa una barcaza, hereda de Vehiculo.
+    Atributos de clase: 
+        velocidad_nominal: Velocidad máxima de la barcaza en km/h.
+        capacidad: Capacidad de carga de la barcaza en kg.
+        costos: Costos asociados al uso de la barcaza.
+    """
     velocidad_nominal = 40
     capacidad = 100000
     costos = Costos(fijo=None, km=15, kg=2)
 
     @classmethod
     def calcular_tiempo(cls, distancia, restriccion=None):
+        """
+        Calcula el tiempo de viaje en horas, considerando restricciones de velocidad.
+        """
         return distancia / cls.velocidad_nominal
 
     @classmethod
     def cantidad_necesaria(cls, peso):
+        """
+        Calcula la cantidad de barcazas necesarias para transportar un peso dado.
+        """
         return math.ceil(peso / cls.capacidad)
 
     @classmethod
     def calcular_costo(cls, distancia, peso, restriccion):
+        """
+        Calcula el costo total del transporte.
+        Si la restricción es "fluvial", se aplica un costo fijo diferente.
+        """
         cantidad = cls.cantidad_necesaria(peso)
 
         if restriccion == "fluvial":
@@ -123,4 +199,4 @@ def obtener_vehiculos_default():
     """
     return [Camion, Tren, Avion, Barcaza]
 
-obtener_vehiculos_default() # Llamada para inicializar la lista de vehículos por defecto
+obtener_vehiculos_default()
