@@ -147,7 +147,7 @@ class Avion(Vehiculo):
         Calcula el costo total del transporte.
         """
         cantidad = cls.cantidad_necesaria(peso)
-        return cantidad * (cls.costos.fijo + cls.costos.km * distancia + cls.costos.kg * peso)
+        return cantidad * (cls.costos.fijo + cls.costos.km * distancia) + cls.costos.kg * peso
 
 
 class Barcaza(Vehiculo):
@@ -189,7 +189,7 @@ class Barcaza(Vehiculo):
         else:
             costo_fijo = 1500
 
-        return cantidad * (costo_fijo + cls.costos.km * distancia + cls.costos.kg * peso)
+        return cantidad * (costo_fijo + cls.costos.km * distancia) + cls.costos.kg * peso
 
 
 def obtener_vehiculos_default():
