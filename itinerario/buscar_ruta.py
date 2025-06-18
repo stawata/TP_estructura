@@ -59,7 +59,7 @@ class Buscar_ruta:
         print("-" * 110)
 
         letra = ord('A')
- 
+
         for camino in caminos_encontrados:
             if camino["camino"]==[]:
                 # Si el camino está vacío, significa que no hay ruta disponible

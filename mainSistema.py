@@ -17,6 +17,35 @@ def menu():
     print("========================================")
     return input("Seleccione una opción: ")
     
+def mostrar_todas_alternativas(solicitud, ciudades, conexiones):
+    from models.vehiculos_herencia import obtener_vehiculos_default, Camion, Tren, Avion, Barcaza
+    from models.conexiones import Conexion_aerea, Conexion_autovia, Conexion_maritima, Conexion_ferroviaria
+    from utils.grafos import armar_grafo
+    from itinerario.buscar_ruta import Buscar_ruta
+
+    tipos_conexion = {Camion: Conexion_autovia, Tren: Conexion_ferroviaria, Avion: Conexion_aerea, Barcaza: Conexion_maritima}
+    vehiculos = obtener_vehiculos_default()
+    caminos_totales = []
+
+    for vehiculo in vehiculos:
+        tipo_conexion = tipos_conexion[vehiculo]
+        conexiones_filtradas = list(filter(lambda x: isinstance(x, tipo_conexion), conexiones))
+        grafo = armar_grafo(ciudades, conexiones_filtradas)
+        buscador = Buscar_ruta(grafo, vehiculo)
+        caminos = buscador.buscar_caminos(solicitud)
+        # Guardar el tipo de vehículo junto con el camino
+        for c in caminos:
+            caminos_totales.append((vehiculo.__name__, c))
+
+    print(f"\n========= Se encontraron {len(caminos_totales)} rutas posibles entre origen y destino =========\n")
+    if not caminos_totales:
+        print("No hay rutas posibles para esta solicitud.\n")
+        return
+
+    Buscar_ruta.mostrar_resultados([c[1] for c in caminos_totales])
+    print("=" * 80)
+
+
 
 def main():
     """
@@ -79,8 +108,11 @@ def main():
                 print(f"\nProcesando solicitud: {s[0]}\n")
                 """
                 Armo la solicitud con el índice indicado por el usuario. 
-                En formato lista para poder usar el método creador_itinerario que espera una lista de solicitudes."""
-                
+                En formato lista para poder usar el método creador_itinerario que espera una lista de solicitudes.               
+                """
+                mostrar_todas_alternativas(s[0], ciudades, conexiones)
+                print("Ahora van los itinerarios óptimos...")
+
                 itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario(s, conexiones, ciudades)
                 print("\n🕒 Itinerario más rápido:\n", itinerario_rapido)
                 print("\n💸 Itinerario más barato:\n", itinerario_barato)
@@ -97,6 +129,10 @@ def main():
                 continue
             for indice, solicitud in enumerate(solicitudes):
                 print(f"\nSolicitud {indice+1}: {solicitud}\n")
+                
+                mostrar_todas_alternativas(solicitud, ciudades, conexiones)
+                input("Presione ENTER para ver los itinerarios óptimos...")
+
                 itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario([solicitud], conexiones, ciudades)
                 print("\n🕒 Más rápido:\n", itinerario_rapido)
                 print("\n💸 Más barato:\n", itinerario_barato,"\n")
@@ -115,7 +151,7 @@ def main():
                 numero= int(input("Ingrese el NUMERO de la solicitud que desea cargar:"))
                 if numero <0: 
                     raise ValueError ("Error el numero debe ser POSITIVO")
-                if numero > len(solicitudes):
+                if numero > len(solicitudes) or numero <= 0:
                     raise ValueError ("Error no existe esa solicitud")
                 else:
                     '''
