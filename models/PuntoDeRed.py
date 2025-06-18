@@ -66,4 +66,4 @@ class PuntoDeRed:
                         if conexion.origen.nombre == punto.nombre:
                             punto.vecinos[puntos_de_red[conexion.destino.nombre]] = (costo, tiempo)
                         elif conexion.destino.nombre == punto.nombre:
-                            punto.vecinos[puntos_de_red[conexion.destino.nombre]] = (costo, tiempo)
+                            punto.vecinos[puntos_de_red[conexion.origen.nombre]] = (costo, tiempo)
