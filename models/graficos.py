@@ -105,8 +105,8 @@ class Graficos:
 
         
         plt.title("Comparación de Costos Acumulados")
-        plt.ylabel("Costo (Pesos)")
-        plt.xlabel("Distancia (km)")
+        plt.xlabel("Costo (Pesos)")
+        plt.ylabel("Distancia (km)")
         plt.legend()
         plt.savefig(f"costo_acumulado_comparado_{nombre_archivo}.png")
         '''Esto va hacer que se borre el grafico y que no se pisen en caso de tener muchas solicitudes'''
