@@ -115,8 +115,8 @@ class Graficos:
 
         
         plt.title("Comparación de Costos Acumulados")
-        plt.xlabel("Costo (Pesos)")
-        plt.ylabel("Distancia (km)")
+        plt.xlabel("Distancia (km)")
+        plt.ylabel("Costo (Pesos)")
         plt.legend()
         plt.savefig(f"costo_acumulado_comparado_{nombre_archivo}.png")
         '''Esto va hacer que se borre el grafico y que no se pisen en caso de tener muchas solicitudes'''
@@ -129,8 +129,8 @@ class Graficos:
         plt.plot( tiempo_barato,distancia_barato, marker='o', linestyle='-', color='green', label='Barato')
 
         plt.title("Comparación de Tiempos Acumulados")
-        plt.ylabel("Tiempo (horas)")
-        plt.xlabel("Distancia (km)")
+        plt.ylabel("Distancia (km)")
+        plt.xlabel("Tiempo (horas)")
         plt.legend()
         plt.savefig(f"tiempo_acumulado_comparado_{nombre_archivo}.png")
         plt.clf()
