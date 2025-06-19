@@ -64,9 +64,9 @@ def main():
             Carga los datos de nodos, conexiones y solicitudes desde archivos CSV.
             """
             try:
-                ciudades = NodoLoader.cargar_desde_csv("data_extra/muchas_solicitudes/nodos.csv")
-                conexiones = ConexionLoader.cargar_desde_csv("data_extra/muchas_solicitudes/conexiones.csv", ciudades)
-                solicitudes = SolicitudLoader.cargar_desde_csv("data_extra/muchas_solicitudes/solicitudes.csv", ciudades)
+                ciudades = NodoLoader.cargar_desde_csv("data_extra/gran_red/nodos.csv")
+                conexiones = ConexionLoader.cargar_desde_csv("data_extra/gran_red/conexiones.csv", ciudades)
+                solicitudes = SolicitudLoader.cargar_desde_csv("data_extra/gran_red/solicitudes.csv", ciudades)
                 print("Datos cargados correctamente.")
             except Exception as e:
                 print("Error cargando los datos:", e)
