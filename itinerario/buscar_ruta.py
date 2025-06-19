@@ -53,7 +53,7 @@ class Buscar_ruta:
 
     @classmethod
     def mostrar_resultados(self,caminos_encontrados):
-        print(f"{'Solución':<10} {'Modo':<12} {'Itinerario':<50} {'Costo total':>15} {'Tiempo total [min]':>20}")
+        print(f"{'Solución':<10} {'Modo':<12} {'Itinerario':<50} {'Costo total':>15} {'Tiempo total [horas]':>20}")
         print("-" * 110)
 
         letra = ord('A')
