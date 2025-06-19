@@ -28,22 +28,21 @@ class Buscar_ruta:
                 for i in range(len(camino)-1):
                     ciudad1=camino[i]
                     ciudad2=camino[i+1]
-                    for vecino, distancia, restriccion in self.grafo[ciudad1]:
+                    for vecino, conexion in self.grafo[ciudad1]:
                         if self.vehiculo==Barcaza:
                             if vecino==ciudad2:
-                                tiempo_total+=self.vehiculo.calcular_tiempo(distancia)
-                                costo_total+=self.vehiculo.calcular_costo(distancia,peso,restriccion)
+                                tiempo_total+=self.vehiculo.calcular_tiempo(conexion.distancia_km)
+                                costo_total+=self.vehiculo.calcular_costo(conexion.distancia_km,peso,conexion.restriccion)
                         else:
-                            distancia=float(distancia)
-                            if restriccion is not None:
-                                restriccion = float(restriccion)
+                            if conexion.restriccion is not None:
+                                restriccion = conexion.restriccion
                             if vecino==ciudad2:
-                                tiempo_total+=self.vehiculo.calcular_tiempo(distancia,restriccion)
-                                costo_total+=self.vehiculo.calcular_costo(distancia,peso)
+                                tiempo_total+=self.vehiculo.calcular_tiempo(conexion.distancia_km,restriccion)
+                                costo_total+=self.vehiculo.calcular_costo(conexion.distancia_km,peso)
                 caminos_encontrados.append({"camino": camino,"tiempo_total":round(tiempo_total,2),"costo_total":round(costo_total,2),"vehiculo":self.vehiculo}) #Cuando encuentra un nodo igual al destino guarda el camino
                 continue
 
-            for vecino,distancia, otro_valor in self.grafo.get(nodo_actual,[]):
+            for vecino,conexion in self.grafo.get(nodo_actual,[]):
                 if vecino not in camino:   #evita ciclos
                     nuevo_camino=camino+[vecino]
                     pila.apilar((vecino, nuevo_camino))
