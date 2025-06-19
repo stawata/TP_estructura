@@ -36,7 +36,7 @@ class Dijkstra:
         heap = [(0, origen)]  # prioridad según KPI
 
         while heap:
-            prioridad, actual = heapq.heappop(heap)
+            _, actual = heapq.heappop(heap)
             costo_actual, tiempo_actual = dist[actual]
 
             for vecino, (costo, tiempo) in puntos_red[actual].vecinos.items():
