@@ -13,8 +13,8 @@ class Graficos:
         tiempos = [0,]
         distancias = [0,]
 
-        '''voy a filtrar la conexion por tipo de automovil del camino mas eficiente
-        voy asignarle a vehiculo para no que siempre sea la misma variable
+        '''
+        voy a filtrar la conexion por tipo de automovil del camino mas eficiente
         '''
         if tipo == "automotor":
             conexiones_filtradas = list(filter(lambda x: isinstance (x, Conexion_autovia), conexiones))
@@ -53,18 +53,19 @@ class Graficos:
             '''Voy a utilizar los metodos calcular_costo y calcular_tiempo ya que los mismos contemplan las restricciones'''
 
             if tipo == "maritimo":
-                costo = vehiculo.calcular_costo(conexion.distancia_km, peso, conexion.restriccion)
+                costo = Barcaza.calcular_costo(conexion.distancia_km, peso, conexion.restriccion)
 
-            elif tipo == "aereo":
-                costo = vehiculo.calcular_costo(conexion.distancia_km, peso)
-                tiempo = vehiculo.calcular_tiempo(conexion.distancia_km, conexion)
+            if tipo == "aereo":
+                costo = Avion.calcular_costo(conexion.distancia_km, peso)
+                tiempo = Avion.calcular_tiempo(conexion.distancia_km, conexion)
 
-            elif tipo == "ferroviario":
-                costo = vehiculo.calcular_costo(conexion.distancia_km, peso)
-                tiempo = vehiculo.calcular_tiempo(conexion.distancia_km, conexion)
-            else:
-                costo = vehiculo.calcular_costo(conexion.distancia_km, peso)
-                tiempo = vehiculo.calcular_tiempo(conexion.distancia_km)
+            if tipo == "ferroviario":
+                costo = Tren.calcular_costo(conexion.distancia_km, peso)
+                tiempo = Tren.calcular_tiempo(conexion.distancia_km, conexion)
+
+            if tipo == "automotor":
+                costo = Camion.calcular_costo(conexion.distancia_km, peso)
+                tiempo = Camion.calcular_tiempo(conexion.distancia_km)
 
             costos.append(costo)
             tiempos.append(tiempo)
