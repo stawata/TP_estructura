@@ -37,7 +37,7 @@ class Buscar_ruta:
                             if conexion.restriccion is not None:
                                 restriccion = conexion.restriccion
                             if vecino==ciudad2:
-                                tiempo_total+=self.vehiculo.calcular_tiempo(conexion.distancia_km,restriccion)
+                                tiempo_total+=self.vehiculo.calcular_tiempo(conexion.distancia_km,conexion)
                                 costo_total+=self.vehiculo.calcular_costo(conexion.distancia_km,peso)
                 caminos_encontrados.append({"camino": camino,"tiempo_total":round(tiempo_total,2),"costo_total":round(costo_total,2),"vehiculo":self.vehiculo}) #Cuando encuentra un nodo igual al destino guarda el camino
                 continue
