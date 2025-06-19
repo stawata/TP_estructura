@@ -19,6 +19,10 @@ def menu():
     return input("Seleccione una opción: ")
     
 def mostrar_todas_alternativas(solicitud, ciudades, conexiones):
+    """
+    Muestra todas las rutas posibles para una solicitud dada, utilizando diferentes tipos de vehículos.
+    Para cada tipo de vehículo, se filtran las conexiones correspondientes y se busca el camino óptimo.
+    """
     from models.vehiculos_herencia import obtener_vehiculos_default, Camion, Tren, Avion, Barcaza
     from models.conexiones import Conexion_aerea, Conexion_autovia, Conexion_maritima, Conexion_ferroviaria
     from utils.grafos import armar_grafo
@@ -118,12 +122,14 @@ def main():
                 print("\n🕒 Itinerario más rápido:\n", itinerario_rapido)
                 print("\n💸 Itinerario más barato:\n", itinerario_barato)
 
-                valor = int(input("Ingrese 1 si desea ver un grafico de torta sobre el tiempo acumulado de cada modo"))
-                if valor == 1:                                        
+                valor = input("Ingrese 1 si desea ver un grafico de torta sobre el tiempo acumulado de cada modo\nSi quiere seguir, puse cualquier tecla: ")
+                if valor == "1":                                        
                     graficos = GraficosTorta(camino)
                     # Mostrar gráficos de torta
                     graficos.graficar("costo_total")
                     graficos.graficar("tiempo_total")
+                else:
+                    print("No se generará el gráfico de torta.")
 
             
             except Exception as e:
