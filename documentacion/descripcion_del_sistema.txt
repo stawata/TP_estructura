@@ -96,8 +96,10 @@ Graficos
 Para hacer los gráficos del trabajo usamos matplotlib, que es una librería que te permite mostrar los datos de forma visual. Elegimos hacer gráficos lineales porque nos parecía la mejor forma de ver cómo iban creciendo los costos, tiempos y distancias a medida que la carga avanza.
 El problema que tuvimos al principio fue que nuestro algoritmo solo sumaba esos valores y no los guardaba por tramo. 
 Así que creamos un método llamado datos_ruta, que recorre la ruta elegida y, según el tipo de transporte (camión, tren, avión, etc.), busca la conexión correspondiente y calcula el costo, el tiempo y la distancia para cada tramo. Todo eso lo vamos guardando en listas para después poder graficarlo.
+si la solicitud elegida hace mdq --> bs.as --> junin en la lista se va a guaardar, distancia, tiempo y costo por trayecto. 
+Luego utilizamos numpy para modificar estas listas que se se acumule las variables con los valores del tramo anterior. Al usar numpy tambien tuvimos que agregar el primer valor "0" de manera manual 
+para que los graficos arranquen desde este punto. 
+
 En vez de que el gráfico se muestre en pantalla de manera abrupta, preferimos que se guarde como imagen (un .png) en la carpeta del proyecto. Cada solicitud tiene su propio gráfico, así no se pisan y podés verlos cuando quieras.
 También hicimos que el usuario pueda elegir qué solicitud quiere ver, y en base a eso se generan los gráficos automáticamente. Además, si hay más de un itinerario (por ejemplo, el más barato y el más rápido), mostramos una comparación de los dos para que se vea bien la diferencia entre tiempo y costo.
 
-Se realizaron dos graficos donde se compara el tiempo y costo de las opciones mas barata y de menor tiempo. 
-Por otro lado por cada uno de estos viajes se discrimina el costo y tiempo realizando un grafico propio de cada uno

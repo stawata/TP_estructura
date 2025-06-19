@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from models.conexiones import *
 from models.vehiculos_herencia import Camion, Tren, Avion, Barcaza
 from models.conexiones import Conexion_aerea, Conexion_autovia, Conexion_maritima, Conexion_ferroviaria
+import numpy as np
 
 
 class Graficos:
@@ -68,8 +69,13 @@ class Graficos:
             costos.append(costo)
             tiempos.append(tiempo)
             distancias.append(conexion.distancia_km)
+        '''Para que el primer valor de la lista sea 0 lo agrego manualmente y uso la libreria numpy para que los valores que se encontraron 
+            a lo largo del recorrido se vayan sumando y efectamente tener el valor acumulado de todo el trayecto'''
+        costos_acumulados = [0] + list(np.cumsum(costos[1:]))
+        tiempos_acumulados = [0] + list(np.cumsum(tiempos[1:]))
+        distancias_acumuladas = [0] + list(np.cumsum(distancias[1:]))
 
-        return costos, tiempos, distancias
+        return costos_acumulados, tiempos_acumulados, distancias_acumuladas
         
 
     def Tiempo_acumulado (distancia, tiempo_barata,tiempo_rapida):
