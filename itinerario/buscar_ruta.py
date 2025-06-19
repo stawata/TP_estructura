@@ -68,7 +68,7 @@ class Buscar_ruta:
                 modo = camino["vehiculo"].__name__
                 itinerario = " - ".join(camino["camino"])
                 costo = f"${camino['costo_total']:.3f}"
-                tiempo = round(int(camino["tiempo_total"]),2)
+                tiempo = round(camino["tiempo_total"], 2)
 
                 print(f"{chr(letra):<10} {modo:<12} {itinerario:<50} {costo:>15} {tiempo:>20}")
                 letra += 1
