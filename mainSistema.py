@@ -1,6 +1,7 @@
 from utils.loader import NodoLoader, ConexionLoader, SolicitudLoader
 from models.itinerario import Itinerario
 from models.graficos import *
+from models.grafico_torta import GraficosTorta
 
 
 def menu():
@@ -18,6 +19,10 @@ def menu():
     return input("Seleccione una opción: ")
     
 def mostrar_todas_alternativas(solicitud, ciudades, conexiones):
+    """
+    Muestra todas las rutas posibles para una solicitud dada, utilizando diferentes tipos de vehículos.
+    Para cada tipo de vehículo, se filtran las conexiones correspondientes y se busca el camino óptimo.
+    """
     from models.vehiculos_herencia import obtener_vehiculos_default, Camion, Tren, Avion, Barcaza
     from models.conexiones import Conexion_aerea, Conexion_autovia, Conexion_maritima, Conexion_ferroviaria
     from utils.grafos import armar_grafo
@@ -26,7 +31,6 @@ def mostrar_todas_alternativas(solicitud, ciudades, conexiones):
     tipos_conexion = {Camion: Conexion_autovia, Tren: Conexion_ferroviaria, Avion: Conexion_aerea, Barcaza: Conexion_maritima}
     vehiculos = obtener_vehiculos_default()
     caminos_totales = []
-
     for vehiculo in vehiculos:
         tipo_conexion = tipos_conexion[vehiculo]
         conexiones_filtradas = list(filter(lambda x: isinstance(x, tipo_conexion), conexiones))
@@ -44,6 +48,7 @@ def mostrar_todas_alternativas(solicitud, ciudades, conexiones):
 
     Buscar_ruta.mostrar_resultados([c[1] for c in caminos_totales])
     print("=" * 80)
+    return caminos_totales
 
 
 
@@ -64,9 +69,9 @@ def main():
             Carga los datos de nodos, conexiones y solicitudes desde archivos CSV.
             """
             try:
-                ciudades = NodoLoader.cargar_desde_csv("data_extra/gran_red/nodos.csv")
-                conexiones = ConexionLoader.cargar_desde_csv("data_extra/gran_red/conexiones.csv", ciudades)
-                solicitudes = SolicitudLoader.cargar_desde_csv("data_extra/gran_red/solicitudes.csv", ciudades)
+                ciudades = NodoLoader.cargar_desde_csv("data_extra/muchas_solicitudes/nodos.csv")
+                conexiones = ConexionLoader.cargar_desde_csv("data_extra/muchas_solicitudes/conexiones.csv", ciudades)
+                solicitudes = SolicitudLoader.cargar_desde_csv("data_extra/muchas_solicitudes/solicitudes.csv", ciudades)
                 print("Datos cargados correctamente.")
             except Exception as e:
                 print("Error cargando los datos:", e)
@@ -110,12 +115,22 @@ def main():
                 Armo la solicitud con el índice indicado por el usuario. 
                 En formato lista para poder usar el método creador_itinerario que espera una lista de solicitudes.               
                 """
-                mostrar_todas_alternativas(s[0], ciudades, conexiones)
+                camino = mostrar_todas_alternativas(s[0], ciudades, conexiones)
                 print("Ahora van los itinerarios óptimos...")
 
                 itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario(s, conexiones, ciudades)
                 print("\n🕒 Itinerario más rápido:\n", itinerario_rapido)
                 print("\n💸 Itinerario más barato:\n", itinerario_barato)
+
+                valor = input("Ingrese 1 si desea ver un grafico de torta sobre el tiempo acumulado de cada modo\nSi quiere seguir, puse cualquier tecla: ")
+                if valor == "1":                                        
+                    graficos = GraficosTorta(camino)
+                    # Mostrar gráficos de torta
+                    graficos.graficar("costo_total")
+                    graficos.graficar("tiempo_total")
+                else:
+                    print("No se generará el gráfico de torta.")
+
             
             except Exception as e:
                 print(f"Error: {e}")
