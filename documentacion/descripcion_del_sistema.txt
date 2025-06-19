@@ -80,6 +80,16 @@ para que el elemento de menor prioridad quede primero. En cambio en el heap mant
 
 
 -------------------------------------------------------------------------------------------------------
+BuscarRuta
+La clase BuscarRuta se encarga de encontrar todos los caminos posibles entre una ciudad de origen y una de destino en una red de transporte, considerando el tipo de vehículo disponible y las restricciones asociadas a cada conexión. 
+La clase se instancia recibiendo como parámetro las conexiones posibles para un tipo de vehículo, organizadas en una estructura de tipo diccionario, donde la clave es el nombre de la ciudad y el valor es una lista de tuplas que contienen la ciudad vecina y el objeto Conexion. 
+Luego, la función que busca todos los caminos utiliza una estrategia de búsqueda en profundidad mediante una pila, explorando todas las rutas posibles desde el origen. 
+Cuando se alcanza el destino, se recorre el camino completo calculando el costo y el tiempo total tramo por tramo, en base a los métodos definidos en la clase del vehículo. 
+Finalmente, se almacena cada resultado en forma de diccionario dentro de una lista, que luego puede imprimirse o visualizarse con el formato elegido.
+Decidimos implementar la búsqueda en profundidad con pila, ya que permite recorrer completamente cada posible camino antes de retroceder y explorar alternativas.
+
+
+-------------------------------------------------------------------------------------------------------
 
 Graficos 
 
