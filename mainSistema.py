@@ -1,7 +1,6 @@
 from utils.loader import NodoLoader, ConexionLoader, SolicitudLoader
 from models.itinerario import Itinerario
 from models.graficos import *
-from models.grafico_torta import GraficosTorta
 
 
 def menu():
@@ -121,15 +120,6 @@ def main():
                 itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario(s, conexiones, ciudades)
                 print("\n🕒 Itinerario más rápido:\n", itinerario_rapido)
                 print("\n💸 Itinerario más barato:\n", itinerario_barato)
-
-                valor = input("Ingrese 1 si desea ver un grafico de torta sobre el tiempo acumulado de cada modo\nSi quiere seguir, puse cualquier tecla: ")
-                if valor == "1":                                        
-                    graficos = GraficosTorta(camino)
-                    # Mostrar gráficos de torta
-                    graficos.graficar("costo_total")
-                    graficos.graficar("tiempo_total")
-                else:
-                    print("No se generará el gráfico de torta.")
 
             
             except Exception as e:
