@@ -12,7 +12,7 @@ def menu():
     print("2. Mostrar solicitudes disponibles")
     print("3. Procesar una solicitud")
     print("4. Procesar todas las solicitudes")
-    print("5. Graficos de conexiones (en construcción)")
+    print("5. Graficos de conexiones")
     print("6. Salir")
     print("========================================")
     return input("Seleccione una opción: ")
