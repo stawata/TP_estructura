@@ -125,21 +125,27 @@ class Avion(Vehiculo):
         Calcula el tiempo de viaje en horas, considerando restricciones de velocidad.
         Si la restriccion es un objeto de conexión, extrae el atributo .restriccion;
         si es un float, lo usa directamente como probabilidad.
+        Si la probabilidad es None, vacía o no válida, asume 0.0.
         """
         import random
         # Si recibe un objeto conexión, saca el atributo
         if hasattr(restriccion, "restriccion"):
             prob = restriccion.restriccion
         else:
-            prob = restriccion if restriccion is not None else 0
+            prob = restriccion
+
+        # Manejo robusto de probabilidad nula o vacía
+        if prob is None or prob == "" or (isinstance(prob, str) and prob.lower() == "none"):
+            prob = 0.0
+        try:
+            prob = float(prob)
+        except Exception:
+            prob = 0.0
 
         llueve = random.random() < prob
-        if llueve:
-            velocidad = 400
-        else:
-            velocidad = cls.velocidad_nominal
-
+        velocidad = 400 if llueve else cls.velocidad_nominal
         return distancia / velocidad
+
 
 
 
