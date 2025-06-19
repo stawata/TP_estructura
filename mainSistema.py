@@ -148,8 +148,8 @@ def main():
 
         elif opcion == "5":
             """
-            se va a contemplar que puede haber muchas solicitudes y voy a buscar el peso de cada una
-            voy a necesitar el peso para poder calcular los costos
+            voy a validar que el numero de solicitud exista 
+            luego busco e itinerario correspondiente a esa solicitud y busco los valores correspondientes para realizar lo graficoss
             """
             try : 
                 numero= int(input("Ingrese el NUMERO de la solicitud que desea cargar:"))
