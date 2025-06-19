@@ -120,12 +120,19 @@ class Avion(Vehiculo):
     costos = Costos(fijo=750, km=40, kg=10)
 
     @classmethod
-    def calcular_tiempo(cls, distancia, conexion):
+    def calcular_tiempo(cls, distancia, restriccion):
         """
         Calcula el tiempo de viaje en horas, considerando restricciones de velocidad.
-        Si la restricción es una probabilidad de lluvia, se ajusta la velocidad en consecuencia.
+        Si la restriccion es un objeto de conexión, extrae el atributo .restriccion;
+        si es un float, lo usa directamente como probabilidad.
         """
-        prob = conexion.restriccion
+        import random
+        # Si recibe un objeto conexión, saca el atributo
+        if hasattr(restriccion, "restriccion"):
+            prob = restriccion.restriccion
+        else:
+            prob = restriccion if restriccion is not None else 0
+
         llueve = random.random() < prob
         if llueve:
             velocidad = 400
@@ -133,6 +140,8 @@ class Avion(Vehiculo):
             velocidad = cls.velocidad_nominal
 
         return distancia / velocidad
+
+
 
     @classmethod
     def cantidad_necesaria(cls, peso):

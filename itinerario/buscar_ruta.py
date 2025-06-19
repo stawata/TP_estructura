@@ -40,8 +40,6 @@ class Buscar_ruta:
                             if vecino==ciudad2:
                                 tiempo_total+=self.vehiculo.calcular_tiempo(distancia,restriccion)
                                 costo_total+=self.vehiculo.calcular_costo(distancia,peso)
-                    if costo_total!=0 and self.vehiculo.costos.fijo is not None: #Si el costo total es distinto de 0 y el costo fijo no es None, se calcula el costo tota
-                        costo_total =costo_total- (len(camino) - 1) * self.vehiculo.costos.fijo
                 caminos_encontrados.append({"camino": camino,"tiempo_total":round(tiempo_total,2),"costo_total":round(costo_total,2),"vehiculo":self.vehiculo}) #Cuando encuentra un nodo igual al destino guarda el camino
                 continue
 
@@ -59,7 +57,7 @@ class Buscar_ruta:
         print("-" * 110)
 
         letra = ord('A')
- 
+
         for camino in caminos_encontrados:
             if camino["camino"]==[]:
                 # Si el camino está vacío, significa que no hay ruta disponible
@@ -70,7 +68,7 @@ class Buscar_ruta:
                 modo = camino["vehiculo"].__name__
                 itinerario = " - ".join(camino["camino"])
                 costo = f"${camino['costo_total']:.3f}"
-                tiempo = int(camino["tiempo_total"]*60)  # ver si hay que pasar a horas
+                tiempo = int(camino["tiempo_total"])
 
                 print(f"{chr(letra):<10} {modo:<12} {itinerario:<50} {costo:>15} {tiempo:>20}")
                 letra += 1

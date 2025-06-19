@@ -167,7 +167,7 @@ def main():
                     Obtiene los valores en una lista de cada ruta para poder hacer los graficos
                     '''
             
-                    costos, tiempos, distancias = Graficos.datos_ruta( itinerario_rapido.itinerario, itinerario_rapido.modo, conexiones, peso)         
+                    costo_rapida, tiempo_rapida, distancia_rapida = Graficos.datos_ruta( itinerario_rapido.itinerario, itinerario_rapido.modo, conexiones, peso)         
                     #Graficos.Tiempo_acumulado(distancias,tiempos, nombre_archivo)
                     #Graficos.Costo_acumulado(distancias, costos, nombre_archivo)
                     
@@ -175,10 +175,18 @@ def main():
                     costo_barata, tiempo_barato, distancia_barata= Graficos.datos_ruta( itinerario_barato.itinerario, itinerario_barato.modo, conexiones, peso)
                     #nombre_archivo= str(solicitudes[num_usuario].getid_carga())+ "Costo barato"
                     #Graficos.Costo_acumulado(distancia_barata, costo_barata, nombre_archivo)
+                    '''
+                    Este grafico muetsra la evolucion de los costos tanto para la opcion mas barata como la mas rapida
+                    '''
+                    Graficos.Costo_acumulado(distancia_rapida, costo_barata,costo_rapida )
+                    Graficos.Tiempo_acumulado(distancia_rapida, tiempo_barato,tiempo_rapida )
+
                     
-                    
-                    Graficos.Costo_acumulado_comparado(distancias, costos, distancia_barata,costo_barata, nombre_archivo )
-                    Graficos.Tiempo_acumulado_comparado(distancias, tiempos, distancia_barata,tiempo_barato, nombre_archivo )
+                    '''
+                    Se hace una compracion en el mismo grafico de las dos opciones (mas barata y mas rapida)
+                    '''
+                    Graficos.Costo_acumulado_comparado(distancia_rapida, costo_rapida, distancia_barata,costo_barata, nombre_archivo )
+                    Graficos.Tiempo_acumulado_comparado(distancia_rapida, tiempo_rapida, distancia_barata,tiempo_barato, nombre_archivo )
 
 
             except ValueError as e : 
