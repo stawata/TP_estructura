@@ -1,21 +1,28 @@
+class NodoPila:
+    def __init__(self, valor):
+        self.valor = valor
+        self.siguiente = None
+
 class Pila:
     def __init__(self):
-        self.elementos = []
+        self.tope = None
 
     def esta_vacia(self):
-        return len(self.elementos) == 0
+        return self.tope is None
 
     def apilar(self, elemento):
-        self.elementos.append(elemento)
+        nuevo_nodo = NodoPila(elemento)
+        nuevo_nodo.siguiente = self.tope
+        self.tope = nuevo_nodo
 
     def desapilar(self):
-        if not self.esta_vacia():
-            return self.elementos.pop()
-        else:
-            return None  # O lanzar excepción
+        if self.esta_vacia():
+            return None  # o lanzar excepción
+        valor = self.tope.valor
+        self.tope = self.tope.siguiente
+        return valor
 
     def cima(self):
-        if not self.esta_vacia():
-            return self.elementos[-1]
-        else:
+        if self.esta_vacia():
             return None
+        return self.tope.valor
