@@ -77,40 +77,8 @@ class Graficos:
         distancias_acumuladas = [0] + list(np.cumsum(distancias[1:]))
 
         return costos_acumulados, tiempos_acumulados, distancias_acumuladas
-        
-
-    def Tiempo_acumulado (distancia, tiempo_barata,tiempo_rapida):
-
-        plt.plot(tiempo_barata, distancia, marker='o')
-        plt.title(f"Evolucion Tiempo opcion mas barata")
-        plt.xlabel("Costo (Pesos)")
-        plt.ylabel("Distancia (km)")
-        plt.savefig("Evolucion_Tiempo_opcion_mas_barata.png")  
-
-        plt.clf()
-
-        plt.plot(tiempo_rapida, distancia, marker='o')
-        plt.title(f"Evolucion Costo opcion mas rapida")
-        plt.xlabel("Costo (Pesos)")
-        plt.ylabel("Distancia (km)")
-        plt.savefig("Evolucion_Tiempo_opcion_mas_rapida.png")  
-        
-
-
-    def Costo_acumulado (distancia, costo_rapida,costo_barata):
-        plt.plot(costo_barata, distancia, marker='o')
-        plt.title(f"Evolucion Costo opcion mas barata")
-        plt.xlabel("Costo (Pesos)")
-        plt.ylabel("Distancia (km)")
-        plt.savefig("Evolucion_Costo_opcion_mas_barata.png")  
-
-        plt.clf()
-
-        plt.plot(costo_rapida, distancia, marker='o')
-        plt.title(f"Evolucion Costo opcion mas rapida")
-        plt.xlabel("Costo (Pesos)")
-        plt.ylabel("Distancia (km)")
-        plt.savefig("Evolucion_Costo_opcion_mas_rapida.png")  
+         
+  
 
     def Costo_acumulado_comparado(distancia_rapido, costo_rapido, distancia_barato, costo_barato, nombre_archivo):
         plt.figure()
