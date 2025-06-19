@@ -175,12 +175,6 @@ def main():
                     costo_barata, tiempo_barato, distancia_barata= Graficos.datos_ruta( itinerario_barato.itinerario, itinerario_barato.modo, conexiones, peso)
                     
                     """
-                    Este grafico muetsra la evolucion de los costos tanto para la opcion mas barata como la mas rapida
-                    
-                    Graficos.Costo_acumulado(distancia_rapida, costo_barata,costo_rapida )
-                    Graficos.Tiempo_acumulado(distancia_rapida, tiempo_barato,tiempo_rapida )
-                   
-                    
                     Se hace una compracion en el mismo grafico de las dos opciones (mas barata y mas rapida)
                     """
                     Graficos.Costo_acumulado_comparado(distancia_rapida, costo_rapida, distancia_barata,costo_barata, nombre_archivo )
