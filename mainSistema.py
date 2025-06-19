@@ -121,6 +121,7 @@ def main():
                 print("\n🕒 Itinerario más rápido:\n", itinerario_rapido)
                 print("\n💸 Itinerario más barato:\n", itinerario_barato)
 
+
             
             except Exception as e:
                 print(f"Error: {e}")
