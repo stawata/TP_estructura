@@ -80,14 +80,90 @@ para que el elemento de menor prioridad quede primero. En cambio en el heap mant
 
 
 -------------------------------------------------------------------------------------------------------
+BuscarRuta
+La clase BuscarRuta se encarga de encontrar todos los caminos posibles entre una ciudad de origen y una de destino en una red de transporte, considerando el tipo de vehículo disponible y las restricciones asociadas a cada conexión. 
+La clase se instancia recibiendo como parámetro las conexiones posibles para un tipo de vehículo, organizadas en una estructura de tipo diccionario, donde la clave es el nombre de la ciudad y el valor es una lista de tuplas que contienen la ciudad vecina y el objeto Conexion. 
+Luego, la función que busca todos los caminos utiliza una estrategia de búsqueda en profundidad mediante una pila, explorando todas las rutas posibles desde el origen. 
+Cuando se alcanza el destino, se recorre el camino completo calculando el costo y el tiempo total tramo por tramo, en base a los métodos definidos en la clase del vehículo. 
+Finalmente, se almacena cada resultado en forma de diccionario dentro de una lista, que luego puede imprimirse o visualizarse con el formato elegido.
+Decidimos implementar la búsqueda en profundidad con pila, ya que permite recorrer completamente cada posible camino antes de retroceder y explorar alternativas.
+
+
+-------------------------------------------------------------------------------------------------------
 
 Graficos 
 
 Para hacer los gráficos del trabajo usamos matplotlib, que es una librería que te permite mostrar los datos de forma visual. Elegimos hacer gráficos lineales porque nos parecía la mejor forma de ver cómo iban creciendo los costos, tiempos y distancias a medida que la carga avanza.
 El problema que tuvimos al principio fue que nuestro algoritmo solo sumaba esos valores y no los guardaba por tramo. 
 Así que creamos un método llamado datos_ruta, que recorre la ruta elegida y, según el tipo de transporte (camión, tren, avión, etc.), busca la conexión correspondiente y calcula el costo, el tiempo y la distancia para cada tramo. Todo eso lo vamos guardando en listas para después poder graficarlo.
+si la solicitud elegida hace mdq --> bs.as --> junin en la lista se va a guaardar, distancia, tiempo y costo por trayecto. 
+Luego utilizamos numpy para modificar estas listas que se se acumule las variables con los valores del tramo anterior. Al usar numpy tambien tuvimos que agregar el primer valor "0" de manera manual 
+para que los graficos arranquen desde este punto. 
+
 En vez de que el gráfico se muestre en pantalla de manera abrupta, preferimos que se guarde como imagen (un .png) en la carpeta del proyecto. Cada solicitud tiene su propio gráfico, así no se pisan y podés verlos cuando quieras.
 También hicimos que el usuario pueda elegir qué solicitud quiere ver, y en base a eso se generan los gráficos automáticamente. Además, si hay más de un itinerario (por ejemplo, el más barato y el más rápido), mostramos una comparación de los dos para que se vea bien la diferencia entre tiempo y costo.
 
-Se realizaron dos graficos donde se compara el tiempo y costo de las opciones mas barata y de menor tiempo. 
-Por otro lado por cada uno de estos viajes se discrimina el costo y tiempo realizando un grafico propio de cada uno
+-------------------------------------------------------------------------------------------------------
+
+Vehiculo
+
+Clase base  que modela un vehículo genérico para transporte, definiendo los atributos esenciales y métodos abstractos que deberán ser implementados por las subclases específicas (ejemplo: Camión, Tren, Avión y Barcaza).
+
+Los atributos son:
+ `modo`: Modo de transporte ("automotor", "ferroviario", "aereo", "maritimo").
+ `velocidad_nominal`: Velocidad máxima del vehículo en km/h.
+ `capacidad`: Capacidad máxima de carga en kilogramos.
+ `costo_fijo`: Costo base por uso del vehículo.
+ `costo_km`: Costo por kilómetro recorrido.
+ `costo_kg`: Costo por kilogramo transportado.
+
+Metodos principales:
+ `cantidad_necesaria(peso)`: Calcula cuántas unidades del vehículo se necesitan según la carga.
+ `calcular_tiempo(distancia, restriccion)`: Método abstracto para calcular tiempo del trayecto (a implementar en subclases).
+ `calcular_costo(distancia, peso)`: Método abstracto para calcular costo del trayecto (a implementar en subclases).
+ `puede_usar_conexion(conexion, peso)`: Verifica si el vehículo puede utilizar la conexión dada considerando restricciones específicas.
+
+-------------------------------------------------------------------------------------------------------
+
+Vehiculos_herencia
+
+Este módulo extiende la clase base `Vehiculo` definiendo subclases específicas para cada modo de transporte. 
+Cada subclase implementa métodos para el cálculo específico del tiempo y costo según sus restricciones y características particulares.
+
+Subclases definidas: Cada una tiene velocidad nominal, capacidad y los metodos especificos de cada una
+
+1. Camión:
+    Métodos específicos para calcular costos (según peso) y tiempos sin restricciones adicionales.
+
+2. Tren:
+    Métodos específicos considerando restricciones de velocidad en conexiones ferroviarias.
+
+3. Avión:
+    Métodos específicos considerando probabilidades de mal clima que afectan la velocidad efectiva.
+
+4. Barcaza:
+    Métodos específicos que diferencian entre conexiones marítimas y fluviales con costos distintos.
+
+Cada subclase implementa sus propios métodos de cálculo, proporcionando un manejo robusto y modular que facilita agregar nuevos tipos de vehículos sin afectar la estructura general.
+
+-------------------------------------------------------------------------------------------------------
+
+mainSistema
+
+Es el archivo principal del sistema que coordina y ejecuta el flujo general del programa mediante una interfaz de línea de comandos (CLI). 
+Este módulo permite cargar datos desde archivos CSV, gestionar solicitudes de transporte y visualizar itinerarios óptimos junto con gráficos comparativos.
+
+Las funciones principales son:
+
+ `menu()`: Muestra el menú principal y gestiona la interacción del usuario.
+ `mostrar_todas_alternativas(solicitud, ciudades, conexiones)`: Procesa y presenta todas las rutas posibles para una solicitud dada, incluyendo diferentes modos de transporte y sus costos/tiempos asociados.
+ `main()`: Coordina la carga de datos inicial desde archivos CSV, permite al usuario seleccionar solicitudes específicas, ejecuta cálculos para obtener rutas óptimas (más rápidas y más baratas), y genera gráficos automáticamente.
+
+El flujo es:
+1. Carga inicial: Usuarios cargan nodos, conexiones y solicitudes desde CSV.
+2. Visualización y procesamiento de solicitudes: El usuario selecciona qué solicitudes procesar, visualizando todas las alternativas.
+3. Optimización de rutas: Usa algoritmo Dijkstra para determinar rutas óptimas según tiempo o costo.
+4. Gráficos: Genera visualizaciones que muestran la evolución de costos y tiempos, facilitando la comparación entre rutas más rápidas y económicas.
+
+Este diseño modular y extensible facilita la interacción con el usuario, 
+la gestión eficiente de grandes conjuntos de datos, y proporciona claridad en la presentación de resultados optimizados.

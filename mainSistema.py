@@ -12,7 +12,7 @@ def menu():
     print("2. Mostrar solicitudes disponibles")
     print("3. Procesar una solicitud")
     print("4. Procesar todas las solicitudes")
-    print("5. Graficos de conexiones (en construcción)")
+    print("5. Graficos de conexiones")
     print("6. Salir")
     print("========================================")
     return input("Seleccione una opción: ")
@@ -148,8 +148,8 @@ def main():
 
         elif opcion == "5":
             """
-            se va a contemplar que puede haber muchas solicitudes y voy a buscar el peso de cada una
-            voy a necesitar el peso para poder calcular los costos
+            voy a validar que el numero de solicitud exista 
+            luego busco e itinerario correspondiente a esa solicitud y busco los valores correspondientes para realizar lo graficoss
             """
             try : 
                 numero= int(input("Ingrese el NUMERO de la solicitud que desea cargar:"))
@@ -175,12 +175,6 @@ def main():
                     costo_barata, tiempo_barato, distancia_barata= Graficos.datos_ruta( itinerario_barato.itinerario, itinerario_barato.modo, conexiones, peso)
                     
                     """
-                    Este grafico muetsra la evolucion de los costos tanto para la opcion mas barata como la mas rapida
-                    
-                    Graficos.Costo_acumulado(distancia_rapida, costo_barata,costo_rapida )
-                    Graficos.Tiempo_acumulado(distancia_rapida, tiempo_barato,tiempo_rapida )
-                   
-                    
                     Se hace una compracion en el mismo grafico de las dos opciones (mas barata y mas rapida)
                     """
                     Graficos.Costo_acumulado_comparado(distancia_rapida, costo_rapida, distancia_barata,costo_barata, nombre_archivo )
