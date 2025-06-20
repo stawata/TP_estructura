@@ -53,15 +53,7 @@ class Camion(Vehiculo):
             costo_kg = 2
         return (cantidad * (cls.costos.fijo + cls.costos.km * distancia) + costo_kg * peso)
 
-    @classmethod
-    def puede_usar_conexion(cls, conexion, peso):
-        """
-        Verifica si el camión puede usar una conexión dada, considerando restricciones de peso.
-        """
-        if hasattr(conexion, "peso_max") and conexion.peso_max is not None:
-            if peso > conexion.peso_max:
-                return False
-        return True
+
 
 
 class Tren(Vehiculo):
