@@ -15,8 +15,20 @@ def menu():
     print("5. Graficos de conexiones")
     print("6. Salir")
     print("========================================")
-    return input("Seleccione una opción: ")
-    
+    opciones_validas=(1,2,3,4,5,6)
+
+    while True:
+        try:
+            seleccion_usuario = (input("Seleccione una opción: "))
+            usuario = int(seleccion_usuario)
+            if usuario not in opciones_validas:
+                raise ValueError 
+            return usuario
+                
+        except ValueError as e : 
+                print("Entrada inválida. Por favor, ingrese un número válido entre 1 y 6.")
+
+        
 def mostrar_todas_alternativas(solicitud, ciudades, conexiones):
     """
     Muestra todas las rutas posibles para una solicitud dada, utilizando diferentes tipos de vehículos.
@@ -61,9 +73,10 @@ def main():
     solicitudes = []
 
     while True:
+
         opcion = menu()
 
-        if opcion == "1":
+        if opcion == 1:
             """
             Carga los datos de nodos, conexiones y solicitudes desde archivos CSV.
             """
@@ -75,7 +88,7 @@ def main():
             except Exception as e:
                 print("Error cargando los datos:", e)
 
-        elif opcion == "2":
+        elif opcion == 2:
             """
             Muestra las solicitudes disponibles.
             """
@@ -89,7 +102,7 @@ def main():
                 for indice, solicitud in enumerate(solicitudes):
                     print(f"{indice+1}. {solicitud}")
 
-        elif opcion == "3":
+        elif opcion == 3:
             """
             Procesa una solicitud específica seleccionada por el usuario.
             """
@@ -126,7 +139,7 @@ def main():
             except Exception as e:
                 print(f"Error: {e}")
 
-        elif opcion == "4":
+        elif opcion == 4:
             """
             Procesa todas las solicitudes cargadas y muestra los itinerarios.
             """
@@ -146,7 +159,7 @@ def main():
             print("Todas las solicitudes procesadas.")
 
 
-        elif opcion == "5":
+        elif opcion == 5:
             """
             voy a validar que el numero de solicitud exista 
             luego busco e itinerario correspondiente a esa solicitud y busco los valores correspondientes para realizar lo graficoss
@@ -184,7 +197,7 @@ def main():
             except ValueError as e : 
                 print(e)
         
-        elif opcion == "6":
+        elif opcion == 6:
             print("¡Hasta luego! Gracias por usar el sistema de transporte.")
             break
         else:
