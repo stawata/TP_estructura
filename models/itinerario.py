@@ -46,6 +46,14 @@ class Itinerario():
         itinerario_costo = Itinerario(modo, ruta, costo_total, tiempo_total)
 
         return itinerario_tiempo, itinerario_costo
+    
+    @staticmethod
+    def procesar_modo(valor, solicitud, conexiones, ciudades):
+        itinerario_tiempo, itinerario_costo = Itinerario.itinerario_x_modo(valor, solicitud, conexiones, ciudades)
+        if itinerario_tiempo is None or itinerario_costo is None:
+            print(f"No se encontró un itinerario válido para el modo {valor}.")
+            return []
+        return [itinerario_tiempo, itinerario_costo]
 
     @staticmethod
     def creador_itinerario(solicitud, conexiones, ciudades):
@@ -53,13 +61,9 @@ class Itinerario():
           y retorna el itinerario mas rapido y el mas barato"""
         lista_modos = ["ferroviario", "maritimo", "automotor", "aereo"]
         lista_itinerarios = []
-        for valor in lista_modos:
-            itinerario_tiempo, itinerario_costo = Itinerario.itinerario_x_modo(valor, solicitud, conexiones, ciudades)
-            if itinerario_tiempo is None or itinerario_costo is None:
-                print(f"No se encontró un itinerario válido para el modo {valor}.")
-                continue
-            lista_itinerarios.append(itinerario_tiempo)
-            lista_itinerarios.append(itinerario_costo)
+        itinerarios_generados = map(lambda valor: Itinerario.procesar_modo(valor, solicitud, conexiones, ciudades), lista_modos)
+        for sublista in itinerarios_generados:
+            lista_itinerarios.extend(sublista)
         itinerario_rapido = sorted(lista_itinerarios, key=lambda x: x.tiempo_total)
         itinerario_barato = sorted(lista_itinerarios, key=lambda x: x.costo_total)
         return itinerario_rapido[0], itinerario_barato[0]

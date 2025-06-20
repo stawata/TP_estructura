@@ -8,6 +8,7 @@ class PuntoDeRed:
         """Creamos un objeto del tipo puntodeRed, el cual representa a una ciudad y sus conexiones"""
         punto.nombre = nombre
         punto.vecinos = {}  # {punto_vecino: peso}
+        
     @staticmethod
     def constructor(nodos):
         """
