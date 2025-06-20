@@ -80,13 +80,15 @@ para que el elemento de menor prioridad quede primero. En cambio en el heap mant
 
 -------------------------------------------------------------------------------------------------------
 BuscarRuta
-La clase BuscarRuta se encarga de encontrar todos los caminos posibles entre una ciudad de origen y una de destino en una red de transporte, considerando el tipo de vehículo disponible y las restricciones asociadas a cada conexión. 
-La clase se instancia recibiendo como parámetro las conexiones posibles para un tipo de vehículo, organizadas en una estructura de tipo diccionario, donde la clave es el nombre de la ciudad y el valor es una lista de tuplas que contienen la ciudad vecina y el objeto Conexion. 
-Luego, la función que busca todos los caminos utiliza una estrategia de búsqueda en profundidad mediante una pila, explorando todas las rutas posibles desde el origen. 
-Cuando se alcanza el destino, se recorre el camino completo calculando el costo y el tiempo total tramo por tramo, en base a los métodos definidos en la clase del vehículo. 
-Finalmente, se almacena cada resultado en forma de diccionario dentro de una lista, que luego puede imprimirse o visualizarse con el formato elegido.
+La clase BuscarRuta se encarga de encontrar todos los caminos posibles entre una ciudad de origen y una de destino en una red de transporte, considerando el tipo de vehículo disponible y las restricciones asociadas a cada conexión.
+La clase se instancia recibiendo como parámetro las conexiones posibles para un tipo de vehículo, organizadas en una estructura de tipo diccionario, donde la clave es el nombre de la ciudad y el valor es una lista de tuplas que contienen la ciudad vecina y el objeto Conexion.
+Luego, la función que busca todos los caminos utiliza una estrategia de búsqueda en profundidad mediante una pila, explorando todas las rutas posibles desde el origen.
 Decidimos implementar la búsqueda en profundidad con pila, ya que permite recorrer completamente cada posible camino antes de retroceder y explorar alternativas.
 
+Para ello, se crea un ciclo que se ejecuta mientras la pila no esté vacía. Inicialmente, se apila una tupla que contiene el nodo actual (el origen) y el camino recorrido hasta ese momento (que empieza solo con el origen). Al desapilar, si el nodo actual no coincide con el destino, se buscan los vecinos de dicho nodo en el diccionario que se ingresó por parametro comparando, clave del diccionario con el nombre del nodo actual y, por cada uno, se apila una nueva tupla actualizando el nodo actual con la ciudad vecina y agregando esta nueva ciudad al camino que es la lista con el recorrido que vamos hasta ahora. 
+Cuando se alcanza el destino, se recorre el camino completo, comparando devuelta el nombre de cada ciudad con las claves del diccionario, y extrayendo por cada una el objeto conexion que nos da la distancia y restriccion de cada tramo, asi podemos ir calculando el costo y el tiempo total tramo por tramo, en base a los métodos definidos en la clase del vehículo.
+Finalmente creamos un diccionario con camino, tiempo total y costo total como claves y se agrega a una lista final que guardara cada diccionario.
+Este proceso se repite hasta que la pila queda vacía, lo que significa que ya se han explorado todas las posibles rutas entre el origen y el destino.
 
 -------------------------------------------------------------------------------------------------------
 
