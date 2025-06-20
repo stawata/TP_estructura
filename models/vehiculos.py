@@ -28,23 +28,27 @@ class Vehiculo():
     def __str__(self):
         return f"Este vehículo tiene el modo: {self.modo}"
     
-    def cantidad_necesaria(self,peso):
+    @classmethod
+    def cantidad_necesaria(cls,peso):
         """
         Calcula la cantidad de vehículos necesarios para transportar un peso dado.
         """
-        return math.ceil(peso/self.capacidad)
+        return math.ceil(peso/cls.capacidad)
         
-    def calcular_tiempo(self,distancia, restriccion):
+    @classmethod
+    def calcular_tiempo(cls, distancia, restriccion=None):
         """
         Calcula el tiempo de viaje en horas, considerando restricciones de velocidad.
         """
-        raise NotImplementedError("Este método debe ser implementado por las subclases.")
+        return (distancia / cls.velocidad_nominal)
         
-    def calcular_costo(self,distancia,peso):
+    @classmethod
+    def calcular_costo(cls, distancia, peso):
         """
         Calcula el costo total del transporte.
         """
-        raise NotImplementedError("Este método debe ser implementado por las subclases.")
+        cantidad = cls.cantidad_necesaria(peso)
+        return cantidad * (cls.costos.fijo + cls.costos.km * distancia) + cls.costos.kg * peso
         
     def puede_usar_conexion(self, conexion, peso=None):
         """

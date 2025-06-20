@@ -27,19 +27,6 @@ class Camion(Vehiculo):
     capacidad = 30000
     costos = Costos(fijo=30, km=5, kg=None)
 
-    @classmethod
-    def calcular_tiempo(cls, distancia, restriccion=None):
-        """
-        Calcula el tiempo de viaje en horas, considerando restricciones de velocidad.
-        """
-        return (distancia / cls.velocidad_nominal)
-
-    @classmethod
-    def cantidad_necesaria(cls, peso):
-        """
-        Calcula la cantidad de camiones necesarios para transportar un peso dado.
-        """
-        return math.ceil(peso / cls.capacidad)
 
     @classmethod
     def calcular_costo(cls, distancia, peso):
@@ -86,13 +73,6 @@ class Tren(Vehiculo):
         else:
             velocidad = cls.velocidad_nominal
         return distancia / velocidad
-
-    @classmethod
-    def cantidad_necesaria(cls, peso):
-        """
-        Calcula la cantidad de trenes necesarios para transportar un peso dado.
-        """
-        return math.ceil(peso / cls.capacidad)
 
     @classmethod
     def calcular_costo(cls, distancia, peso):
@@ -148,23 +128,6 @@ class Avion(Vehiculo):
 
 
 
-
-    @classmethod
-    def cantidad_necesaria(cls, peso):
-        """
-        Calcula la cantidad de aviones necesarios para transportar un peso dado.
-        """
-        return math.ceil(peso / cls.capacidad)
-
-    @classmethod
-    def calcular_costo(cls, distancia, peso):
-        """
-        Calcula el costo total del transporte.
-        """
-        cantidad = cls.cantidad_necesaria(peso)
-        return cantidad * (cls.costos.fijo + cls.costos.km * distancia) + cls.costos.kg * peso
-
-
 class Barcaza(Vehiculo):
     """
     Clase que representa una barcaza, hereda de Vehiculo.
@@ -177,19 +140,6 @@ class Barcaza(Vehiculo):
     capacidad = 100000
     costos = Costos(fijo=None, km=15, kg=2)
 
-    @classmethod
-    def calcular_tiempo(cls, distancia, restriccion=None):
-        """
-        Calcula el tiempo de viaje en horas, considerando restricciones de velocidad.
-        """
-        return distancia / cls.velocidad_nominal
-
-    @classmethod
-    def cantidad_necesaria(cls, peso):
-        """
-        Calcula la cantidad de barcazas necesarias para transportar un peso dado.
-        """
-        return math.ceil(peso / cls.capacidad)
 
     @classmethod
     def calcular_costo(cls, distancia, peso, restriccion):
