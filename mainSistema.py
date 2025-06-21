@@ -135,9 +135,11 @@ def main():
                 print("\n💸 Itinerario más barato:\n", itinerario_barato)
 
 
-            
+            except ValueError:
+                print(f"Error: Ingrese un número válido para la solicitud. No estas poniendo un numero entero.")
+
             except Exception as e:
-                print(f"Error: {e}")
+                print(f"Error: {e}",type(e))
 
         elif opcion == 4:
             """
