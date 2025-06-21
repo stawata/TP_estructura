@@ -1,3 +1,8 @@
+En este archivo hacemos una descripcion de las clases que usamos, a modo de documentacion.
+Luego, comentamos algunos desafios que tuvimos a la hora de realizar el trabajo.
+
+---------------------------------------------------------------------------------------------
+
 Carga de los datos
 
 Lo primero que pasa en el programa es la carga de los datos en los archivos.csv. 
@@ -183,3 +188,13 @@ Todas las conexiones validan que el origen y destino sean instancias válidas de
 
 
 -------------------------------------------------------------------------------------------------------------
+
+Desafios que encontramos
+
+Al inicio, lo que mas nos costó fue organizarnos y dividir las tareas. No sabiamos quién se ocuparía de cada parte. Pudimos hacerlo, pero una vez avanzados todos tuvimos que prever muy bien como juntar cada trabajo. Hacerlo en clase nos facilitó esta tarea, porque todos ibamos charlando lo que trabajabamos.
+
+Puntualmente, una parte que nos resulto un desafío fue decidir el algoritmo a utilizar para encontrar el mejor camino segun costo o tiempo. Al principio no sabiamos como hacerlo, porque no conociamos ni dijstra ni dfs. Con la ayuda de nuestro ayudante e investigando, pudimos conocer estos algorítmos, y sobre todo entenderlos. 
+
+Otra dificultad fue una cuestión de tiempos. Por ejemplo, un compañero estaba terminando la carga de archivos, y no podíamos avanzar con el algoritmo porque necesitamos trabajar a partir de la estructura de datos que resultaba de la carga de archivos.
+
+Tuvimos dificultades para integrar algunos trabajos porque estaban encarados con distintas miradas. Eso nos llevo a pisarnos en algunos momentos y tener que volver atrás y decidir por una opción de las realizadas. 
