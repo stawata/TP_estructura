@@ -16,8 +16,8 @@ class NodoLoader:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 try:
-                    if row["nombre"]:
-                        nodos.add(Nodo(nombre=row["nombre"].lower()))
+                    if row["nombre"] and row["pesoMaximo"] and row["porcentaje"]:
+                        nodos.add(Nodo(nombre=row["nombre"].lower(), peso_maximo=row["pesoMaximo"], porcentaje=row["porcentaje"]))
                 except (KeyError, ValueError) as e:
                     print(f"Error al procesar la fila {row}: {e}")
                     continue
