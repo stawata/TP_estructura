@@ -2,8 +2,8 @@
 class Nodo: 
     def __init__(self, nombre, peso_maximo, porcentaje):
         self.nombre = nombre
-        self.peso_maximo = peso_maximo
-        self.porcentaje = porcentaje
+        self.peso_maximo = float(peso_maximo)
+        self.porcentaje = float(porcentaje)
 
     def __str__(Self):
         return f"{Self.nombre}"

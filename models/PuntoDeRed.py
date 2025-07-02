@@ -23,6 +23,9 @@ class PuntoDeRed:
             puntos_de_red[nodo.nombre] = PuntoDeRed(nodo.nombre)
         return puntos_de_red
 
+    
+    
+
     @staticmethod
     def agregar_vecinos(puntos_de_red, conexiones, solicitud):
         """
@@ -67,4 +70,4 @@ class PuntoDeRed:
                         if conexion.origen.nombre == punto.nombre:
                             punto.vecinos[puntos_de_red[conexion.destino.nombre]] = (costo, tiempo)
                         elif conexion.destino.nombre == punto.nombre:
-                            punto.vecinos[puntos_de_red[conexion.origen.nombre]] = (costo, tiempo)
+                            punto.vecinos[puntos_de_red[conexion.origen.nombre]] = (costo,tiempo)

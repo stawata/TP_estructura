@@ -83,7 +83,7 @@ def main():
             try:
                 ciudades = NodoLoader.cargar_desde_csv("data/nodos.csv")
                 conexiones = ConexionLoader.cargar_desde_csv("data/conexiones.csv", ciudades)
-                solicitudes = SolicitudLoader.cargar_desde_csv("data/solicitudes.csv", ciudades)
+                solicitudes = SolicitudLoader.cargar_desde_csv("solicitudes.csv", ciudades)
                 print("Datos cargados correctamente.")
             except Exception as e:
                 print("Error cargando los datos:", e)
