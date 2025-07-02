@@ -175,9 +175,9 @@ def main():
             try : 
                 numero= int(input("Ingrese el NUMERO de la solicitud que desea cargar:"))
                 if numero <0: 
-                    raise ValueError ("Error el numero debe ser POSITIVO")
+                    raise Exception ("Error el numero debe ser POSITIVO")
                 if numero > len(solicitudes) or numero <= 0:
-                    raise ValueError ("Error no existe esa solicitud")
+                    raise Exception ("Error no existe esa solicitud")
                 else:
                     '''
                     se contempla de que si el usuario elige 1 va a ser la primero por lo tanto el indice de python seria 0
@@ -202,7 +202,9 @@ def main():
                     Graficos.Tiempo_acumulado_comparado(distancia_rapida, tiempo_rapida, distancia_barata,tiempo_barato, nombre_archivo )
 
                     
-            except ValueError as e : 
+            except ValueError: 
+                print(f"Error debe ingresar un NUMERO")
+            except Exception as e : 
                 print(e)
         
         elif opcion == 6:
