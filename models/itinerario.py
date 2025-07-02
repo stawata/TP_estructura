@@ -64,6 +64,10 @@ class Itinerario():
         itinerarios_generados = map(lambda valor: Itinerario.procesar_modo(valor, solicitud, conexiones, ciudades), lista_modos)
         for sublista in itinerarios_generados:
             lista_itinerarios.extend(sublista)
+        
+        if not lista_itinerarios:
+            raise ValueError("No se encontraron itinerarios válidos para la solicitud.")
+        
         itinerario_rapido = sorted(lista_itinerarios, key=lambda x: x.tiempo_total)
         itinerario_barato = sorted(lista_itinerarios, key=lambda x: x.costo_total)
         return itinerario_rapido[0], itinerario_barato[0]

@@ -81,9 +81,9 @@ def main():
             Carga los datos de nodos, conexiones y solicitudes desde archivos CSV.
             """
             try:
-                ciudades = NodoLoader.cargar_desde_csv("data_extra/muchas_solicitudes/nodos.csv")
-                conexiones = ConexionLoader.cargar_desde_csv("data_extra/muchas_solicitudes/conexiones.csv", ciudades)
-                solicitudes = SolicitudLoader.cargar_desde_csv("data_extra/muchas_solicitudes/solicitudes.csv", ciudades)
+                ciudades = NodoLoader.cargar_desde_csv("data_extra/solo_camion/nodos.csv")
+                conexiones = ConexionLoader.cargar_desde_csv("data_extra/solo_camion/conexiones.csv", ciudades)
+                solicitudes = SolicitudLoader.cargar_desde_csv("data_extra/solo_camion/solicitudes.csv", ciudades)
                 print("Datos cargados correctamente.")
             except Exception as e:
                 print("Error cargando los datos:", e)
@@ -130,10 +130,12 @@ def main():
                 mostrar_todas_alternativas(s[0], ciudades, conexiones)
                 print("Ahora van los itinerarios óptimos...")
 
-                itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario(s, conexiones, ciudades)
-                print("\n🕒 Itinerario más rápido:\n", itinerario_rapido)
-                print("\n💸 Itinerario más barato:\n", itinerario_barato)
-
+                try:
+                    itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario(s, conexiones, ciudades)
+                    print("\n🕒 Itinerario más rápido:\n", itinerario_rapido)
+                    print("\n💸 Itinerario más barato:\n", itinerario_barato)
+                except ValueError as e:
+                    print(f"Error: {e}.")
 
             except ValueError:
                 print(f"Error: Ingrese un número válido para la solicitud. No estas poniendo un numero entero.")
@@ -154,10 +156,14 @@ def main():
                 mostrar_todas_alternativas(solicitud, ciudades, conexiones)
                 print("Ahora van los itinerarios óptimos...")
 
-                itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario([solicitud], conexiones, ciudades)
-                print("\n🕒 Más rápido:\n", itinerario_rapido)
-                print("\n💸 Más barato:\n", itinerario_barato,"\n")
-                print("-"*20+"Siguiente solicitud"+"-"*20)
+                try:
+                    itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario([solicitud], conexiones, ciudades)
+                    print("\n🕒 Más rápido:\n", itinerario_rapido)
+                    print("\n💸 Más barato:\n", itinerario_barato,"\n")
+                    print("-"*20+"Siguiente solicitud"+"-"*20)
+                except ValueError as e:
+                    print(f"Error: {e}")
+                    
             print("Todas las solicitudes procesadas.")
 
 
