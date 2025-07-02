@@ -1,0 +1,27 @@
+Indicacion profesor:
+    Se percibió un error cuando no encontraba rutas válidas. 
+    Probe con un usar la información de /solo_camion y agregarle una restricción de peso. 
+    Al cumplir con esa restricción, recibo correctamente la información pero si pongo un peso mayor, al no haber caminos, el usuario recibe un: 
+    Error: list index out of range <class 'IndexError'> Debería estar controlado.
+
+Correccion:
+    Este error se origina en el método creador_itinerario de la clase Itinerario, donde se asume que siempre existirán itinerarios válidos. 
+    En particular, las listas itinerario_rapido e itinerario_barato son accedidas directamente con índice [0] sin verificar si están vacías:
+    Lo que hicimos fue Incorporar un chequeo previo para validar si lista_itinerarios está vacía antes de hacer el acceso por índice.
+
+    Esto permitiría manejar el caso correctamente, devolviendo un mensaje claro al usuario o evitando que se rompa el programa al procesar solicitudes imposibles de resolver.
+    La validacion se hace en el archivo Itineario, en la clase Itinerario, en el metodo estatico creador_itinerario
+    Ademas, lo tuvimos que gestionar en el Main en los puntos 3 y 4, de procesar las solicitudes. Permite ver las solicitudes, pero no procesarlas.
+
+----------------------------------------------------------------------------------------------------------------
+Indicacion profesor:
+Correccion:
+----------------------------------------------------------------------------------------------------------------
+Indicacion profesor:
+Correccion:
+----------------------------------------------------------------------------------------------------------------
+Indicacion profesor:
+Correccion:
+----------------------------------------------------------------------------------------------------------------
+Indicacion profesor:
+Correccion:
