@@ -74,7 +74,7 @@ class Tren(Vehiculo):
             costo_km = 20
         else:
             costo_km = 15
-        return cantidad * (cls.costos.fijo + costo_km * distancia + cls.costos.kg * peso)
+        return cantidad * (cls.costos.fijo + costo_km * distancia) + cls.costos.kg * peso
      
 
 class Avion(Vehiculo):

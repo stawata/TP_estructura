@@ -2,6 +2,7 @@ from itinerario.clasepila import Pila
 from models.solicitud import Solicitud 
 from utils.grafos import *
 from models.vehiculos_herencia import *
+import models.nodo as Nodo
 
 
 class Buscar_ruta:
@@ -34,13 +35,13 @@ class Buscar_ruta:
                         if self.vehiculo==Barcaza:
                             if vecino==ciudad2:
                                 tiempo_tramo=self.vehiculo.calcular_tiempo(conexion.distancia_km)
-                                costo_tramo=self.vehiculo.calcular_costo(conexion.distancia_km,peso,conexion.restriccion)
+                                costo_tramo=self.vehiculo.calcular_costo(conexion.distancia_km, peso, conexion.restriccion)
                         else:
                             if conexion.restriccion is not None:
                                 restriccion = conexion.restriccion
                             if vecino==ciudad2:
-                                tiempo_tramo=self.vehiculo.calcular_tiempo(conexion.distancia_km,conexion)
-                                costo_tramo=self.vehiculo.calcular_costo(conexion.distancia_km,peso)
+                                tiempo_tramo=self.vehiculo.calcular_tiempo(conexion.distancia_km, conexion.restriccion)
+                                costo_tramo=self.vehiculo.calcular_costo(conexion.distancia_km, peso)
                         nodo_destino=self.dicc_nodos.get(ciudad2)
 
                         tiempo_total+=tiempo_tramo

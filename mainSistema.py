@@ -29,7 +29,7 @@ def menu():
                 print("Entrada inválida. Por favor, ingrese un número válido entre 1 y 6.")
 
         
-def mostrar_todas_alternativas(solicitud, ciudades, conexiones,nodo):
+def mostrar_todas_alternativas(solicitud, ciudades, conexiones, nodo):
     """
     Muestra todas las rutas posibles para una solicitud dada, utilizando diferentes tipos de vehículos.
     Para cada tipo de vehículo, se filtran las conexiones correspondientes y se busca el camino óptimo.
@@ -127,7 +127,7 @@ def main():
                 Armo la solicitud con el índice indicado por el usuario. 
                 En formato lista para poder usar el método creador_itinerario que espera una lista de solicitudes.               
                 """
-                mostrar_todas_alternativas(s[0], ciudades, conexiones)
+                mostrar_todas_alternativas(s[0], ciudades, conexiones, dicc_nodos)
                 print("Ahora van los itinerarios óptimos...")
 
                 try:
@@ -153,7 +153,7 @@ def main():
             for indice, solicitud in enumerate(solicitudes):
                 print(f"\nSolicitud {indice+1}: {solicitud}\n")
                 
-                mostrar_todas_alternativas(solicitud, ciudades, conexiones,dicc_nodos)
+                mostrar_todas_alternativas(solicitud, ciudades, conexiones, dicc_nodos)
                 print("Ahora van los itinerarios óptimos...")
 
                 try:
