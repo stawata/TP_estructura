@@ -54,6 +54,16 @@ class PuntoDeRed:
                     tiempo = conexion.calcular_tiempo()
                     if costo is not None and tiempo is not None:
                         if conexion.origen.nombre == punto.nombre:
-                            punto.vecinos[puntos_de_red[conexion.destino.nombre]] = (costo, tiempo)
+                            destino = puntos_de_red[conexion.destino.nombre]
                         elif conexion.destino.nombre == punto.nombre:
-                            punto.vecinos[puntos_de_red[conexion.origen.nombre]] = (costo,tiempo)
+                            destino = puntos_de_red[conexion.origen.nombre]
+                        else:
+                            continue
+
+                        # Aplicar peaje del nodo de llegada (si existe el nodo original)
+                        nodo_destino = conexion.destino if conexion.origen.nombre == punto.nombre else conexion.origen
+                        porcentaje_peaje = (getattr(nodo_destino, "porcentaje", 0) or 0) / 100
+                        costo_con_peaje = costo * (1 + porcentaje_peaje)
+
+                        punto.vecinos[destino] = (costo_con_peaje, tiempo)
+
