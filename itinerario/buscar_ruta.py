@@ -42,7 +42,7 @@ class Buscar_ruta:
                             tiempo_tramo = self.vehiculo.calcular_tiempo(conexion.distancia_km, conexion.restriccion)
                             costo_tramo = self.vehiculo.calcular_costo(conexion.distancia_km, peso)
 
-                        # ✅ Aplica peaje solo al tramo correcto
+                        #Aplica peaje solo al tramo correcto
                         nodo_destino = self.dicc_nodos.get(ciudad2)
                         porcentaje_peaje = (getattr(nodo_destino, "porcentaje", 0) or 0) / 100
                         costo_tramo *= (1 + porcentaje_peaje)
