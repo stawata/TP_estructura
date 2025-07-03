@@ -32,25 +32,25 @@ class Buscar_ruta:
                     ciudad1=camino[i]
                     ciudad2=camino[i+1]
                     for vecino, conexion in self.grafo[ciudad1]:
-                        if self.vehiculo==Barcaza:
-                            if vecino==ciudad2:
-                                tiempo_tramo=self.vehiculo.calcular_tiempo(conexion.distancia_km)
-                                costo_tramo=self.vehiculo.calcular_costo(conexion.distancia_km, peso, conexion.restriccion)
+                        if vecino != ciudad2:
+                            continue  # Evita seguir si no es el tramo correcto
+
+                        if self.vehiculo == Barcaza:
+                            tiempo_tramo = self.vehiculo.calcular_tiempo(conexion.distancia_km)
+                            costo_tramo = self.vehiculo.calcular_costo(conexion.distancia_km, peso, conexion.restriccion)
                         else:
-                            if conexion.restriccion is not None:
-                                restriccion = conexion.restriccion
-                            if vecino==ciudad2:
-                                tiempo_tramo=self.vehiculo.calcular_tiempo(conexion.distancia_km, conexion.restriccion)
-                                costo_tramo=self.vehiculo.calcular_costo(conexion.distancia_km, peso)
-                        nodo_destino=self.dicc_nodos.get(ciudad2)
+                            tiempo_tramo = self.vehiculo.calcular_tiempo(conexion.distancia_km, conexion.restriccion)
+                            costo_tramo = self.vehiculo.calcular_costo(conexion.distancia_km, peso)
 
-                        tiempo_total+=tiempo_tramo
-                        costo_total+=costo_tramo
+                        # ✅ Aplica peaje solo al tramo correcto
+                        nodo_destino = self.dicc_nodos.get(ciudad2)
+                        porcentaje_peaje = (getattr(nodo_destino, "porcentaje", 0) or 0) / 100
+                        costo_tramo *= (1 + porcentaje_peaje)
 
-                        if nodo_destino:
-                            porcentaje_peaje=nodo_destino.porcentaje/100
-                            peaje= costo_tramo*porcentaje_peaje
-                            costo_total+=peaje
+                        tiempo_total += tiempo_tramo
+                        costo_total += costo_tramo
+
+
 
                 caminos_encontrados.append({"camino": camino,"tiempo_total":round(tiempo_total,2),"costo_total":round(costo_total,2),"vehiculo":self.vehiculo}) #Cuando encuentra un nodo igual al destino guarda el camino
                 continue
