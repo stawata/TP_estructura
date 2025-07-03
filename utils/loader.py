@@ -8,6 +8,7 @@ class NodoLoader:
     @staticmethod
     def cargar_desde_csv(path: str): # Carga los nodos desde un archivo CSV y devuelve una lista de instancias de Nodo
         nodos = set()
+        nodos_dict={}
         if not path.endswith('.csv'):
             raise ValueError("El archivo debe ser un CSV válido")
         if not path:
@@ -16,12 +17,14 @@ class NodoLoader:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 try:
-                    if row["nombre"]:
-                        nodos.add(Nodo(nombre=row["nombre"].lower()))
+                    if row["nombre"] and row["pesoMaximo"] and row["porcentaje"]:
+                        nodo=Nodo(nombre=row["nombre"].lower(), peso_maximo=row["pesoMaximo"], porcentaje=row["porcentaje"])
+                        nodos.add(nodo)
+                        nodos_dict[nodo.nombre]=nodo
                 except (KeyError, ValueError) as e:
                     print(f"Error al procesar la fila {row}: {e}")
                     continue
-        return list(nodos)
+        return list(nodos),nodos_dict
 
 class ConexionLoader:
     @staticmethod
@@ -57,6 +60,10 @@ class ConexionLoader:
                                     conexiones.append(Conexion_autovia(origen, destino, distancia_km,       
                                     restriccion=float(row["valor_restriccion"]) if row["valor_restriccion"] else None
                                 ))
+                                else:
+                                    print(f"Tipo de conexión desconocido: {row['tipo']}. Se omitirá esta conexión.")
+                                    continue
+                        
                 except (ValueError, KeyError) as e:
                     print(f"Error al procesar la fila {row}: {e}")
                     continue

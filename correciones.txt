@@ -1,0 +1,67 @@
+Indicacion profesor:
+    Se percibió un error cuando no encontraba rutas válidas. 
+    Probe con un usar la información de /solo_camion y agregarle una restricción de peso. 
+    Al cumplir con esa restricción, recibo correctamente la información pero si pongo un peso mayor, al no haber caminos, el usuario recibe un: 
+    Error: list index out of range <class 'IndexError'> Debería estar controlado.
+
+Correccion:
+    Este error se origina en el método creador_itinerario de la clase Itinerario, donde se asume que siempre existirán itinerarios válidos. 
+    En particular, las listas itinerario_rapido e itinerario_barato son accedidas directamente con índice [0] sin verificar si están vacías:
+    Lo que hicimos fue Incorporar un chequeo previo para validar si lista_itinerarios está vacía antes de hacer el acceso por índice.
+
+    Esto permitiría manejar el caso correctamente, devolviendo un mensaje claro al usuario o evitando que se rompa el programa al procesar solicitudes imposibles de resolver.
+    La validacion se hace en el archivo Itineario, en la clase Itinerario, en el metodo estatico creador_itinerario
+    Ademas, lo tuvimos que gestionar en el Main en los puntos 3 y 4, de procesar las solicitudes. Permite ver las solicitudes, pero no procesarlas.
+
+----------------------------------------------------------------------------------------------------------------
+Indicacion profesor:
+    Hay excepciones sin manejar al poner string, por ejemplo, al seleccionar la opción 5.
+    Resultado obtenido: invalid literal for int() with base 10: 'aaaaaaaa’ Debería estar controlado
+
+Correccion:
+
+    Se mejoró el manejo de errores al solicitar al usuario el número de la solicitud para generar los gráficos.
+    Antes, si el usuario ingresaba un número inválido (negativo o fuera del rango de solicitudes), se mostraba un mensaje especifico sobre cual fue el problema.
+    Sin embargo, si se ingresaba un valor no numérico (str), no se brindaba un mensaje claro que explicara el error. Sino que se capturaba y se evitaba que el programa se corte de manera abrupta
+    Para resolver esto, se implementó el uso de RAISE EXCEPTION para poder discrimianr el tipo de error y se añadió un except ValueError que captura específicamente el caso en que el usuario ingresa un valor no numérico (como una letra).
+    De esta forma, el usuario recibe mensajes diferenciados según el tipo de error.
+
+----------------------------------------------------------------------------------------------------------------
+Indicacion profesor:
+    a partir de ahora, cada nodo debe tener un límite máximo de peso aceptado. Si la carga supera dicho límite, no podrá pasar por ese nodo.
+
+Correccion:
+
+    Lo primero que realizamos fue modificaciones en el Nodoloader, ara que pueda leer archivos CSV con más columnas, incluyendo dos nuevos atributos: peso_maximo y porcentaje (de peaje aplicado a cada nodo). 
+    A su vez la clase NODO fue modificada para alamcenar esta informacion adicional (se crearon dos nuevos atributos en el constructor)
+    A la hora de tener en cuenta la nueva restriccion de peso que tiene los nodos, decidimos tratar esta restriccion en la clase ITINERARIO, en el metodo de ITINERARIO_X_MODO. Esta eleccion se fundamenta en que es en ese punto
+    donde se contruyen los puntos de red, y por ende, es el momento más eficiente y natural del flujo para validar qué nodos pueden ser utilizados.
+    Dentro de ese método:
+        * Se obtiene el peso de la carga desde la solicitud, que nos permitira compara con el peso permitido de los nodos. 
+        
+        * Con la funcion filter, se filtran todos los nodos cuyo peso_maximo sea None o mayor o igual al peso de la carga, esta informacion se almacena en "ciudades_filtradas".
+        
+        * A partir de los nodos válidos, se construye una lista "nombres_válidos", que representa todas las ciudades que permiten dicho peso.
+
+        * Luego se filtran también todas las conexiones que tengan tanto origen como destino en esa lista "conexiones_validas".
+       
+    De esta forma, la red queda armada solo con los nodos y conexiones que cumplen con las restricciones.
+    Permitiendo mantener la logica inicial del programa sin alterar el algoritmo de Dijkstra ni la estructura del grafo y 
+    optimiza el rendimiento  ya que los caminos inválidos se descartan antes de ser evaluados por el planificador, evitando cálculos innecesarios.
+
+
+----------------------------------------------------------------------------------------------------------------
+Indicacion profesor:
+    Si se usa un tipo de transporte desconocido en conexiones.csv por ejemplo “bicicleta”, es aceptado silenciosamente y al procesar las rutas, se recibe un:
+    Error: list index out of range <class 'IndexError'>
+
+Correccion:
+    Esto pasa Porque no hay clase Conexion_bicicleta, no hay vehículo para eso pero igual se carga la conexión
+    Entonces al construir el grafo o generar itinerarios, no se puede mapear esa conexión a ningún vehículo válido y ahi se rompe silenciosamente.
+    Lo que hicimos fue En el archivo loader.py, en la parte de ConexionLoader.cargar_desde_csv, agregar un else final que gestione estos casos.
+    Ahi entonces si se pone un vehiculo que no reconocemos se informa al usuario con un mensaje y continua sin ese.
+
+
+----------------------------------------------------------------------------------------------------------------
+Indicacion profesor:
+Correccion:

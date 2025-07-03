@@ -21,6 +21,7 @@ class Itinerario():
 
     @staticmethod
     def itinerario_x_modo(modo, solicitud, conexiones, ciudades):
+        conexiones_filtradas = []
         """Este metodo crea el itinerario mas barato y menos costoso de la solicitud segun el modo de transporte"""
         if modo not in ["aereo", "automotor", "maritimo", "ferroviario"]:
             raise ValueError("Modo de transporte no válido. Debe ser 'aereo', 'ferroviario', 'automotor' o 'maritimo'.")
@@ -32,10 +33,12 @@ class Itinerario():
             conexiones = list(filter(lambda x: isinstance(x, Conexion_ferroviaria), conexiones))
         elif modo == "maritimo":    
             conexiones = list(filter(lambda x: isinstance(x, Conexion_maritima), conexiones))
-
-        puntos_red = PuntoDeRed.constructor(ciudades)
-        PuntoDeRed.agregar_vecinos(puntos_red, conexiones, solicitud[0])    
-
+        peso_carga = solicitud[0].getpeso_kg()
+        ciudades_filtradas = list(filter(lambda x: x.peso_maximo is None or x.peso_maximo >= peso_carga, ciudades))
+        nombre_validos = list(map(lambda x:x.nombre, ciudades_filtradas))
+        conexiones_validas = list(filter(lambda x: x.origen.nombre in nombre_validos and x.destino.nombre in nombre_validos, conexiones))
+        puntos_red = PuntoDeRed.constructor(ciudades_filtradas)
+        PuntoDeRed.agregar_vecinos(puntos_red, conexiones_validas, solicitud[0])    
         modo, ruta, costo_total, tiempo_total = Dijkstra.ruta_mas_corta(puntos_red, solicitud[0].origen.nombre, solicitud[0].destino.nombre, "tiempo", modo)
         if ruta is None or costo_total is None or tiempo_total is None:
             return None, None
@@ -64,6 +67,10 @@ class Itinerario():
         itinerarios_generados = map(lambda valor: Itinerario.procesar_modo(valor, solicitud, conexiones, ciudades), lista_modos)
         for sublista in itinerarios_generados:
             lista_itinerarios.extend(sublista)
+        
+        if not lista_itinerarios:
+            raise ValueError("No se encontraron itinerarios válidos para la solicitud.")
+        
         itinerario_rapido = sorted(lista_itinerarios, key=lambda x: x.tiempo_total)
         itinerario_barato = sorted(lista_itinerarios, key=lambda x: x.costo_total)
         return itinerario_rapido[0], itinerario_barato[0]

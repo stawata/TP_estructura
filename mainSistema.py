@@ -29,7 +29,7 @@ def menu():
                 print("Entrada inválida. Por favor, ingrese un número válido entre 1 y 6.")
 
         
-def mostrar_todas_alternativas(solicitud, ciudades, conexiones):
+def mostrar_todas_alternativas(solicitud, ciudades, conexiones,nodo):
     """
     Muestra todas las rutas posibles para una solicitud dada, utilizando diferentes tipos de vehículos.
     Para cada tipo de vehículo, se filtran las conexiones correspondientes y se busca el camino óptimo.
@@ -46,7 +46,7 @@ def mostrar_todas_alternativas(solicitud, ciudades, conexiones):
         tipo_conexion = tipos_conexion[vehiculo]
         conexiones_filtradas = list(filter(lambda x: isinstance(x, tipo_conexion), conexiones))
         grafo = armar_grafo(ciudades, conexiones_filtradas)
-        buscador = Buscar_ruta(grafo, vehiculo)
+        buscador = Buscar_ruta(grafo, vehiculo,nodo)
         caminos = buscador.buscar_caminos(solicitud)
         # Guardar el tipo de vehículo junto con el camino
         for c in caminos:
@@ -81,9 +81,9 @@ def main():
             Carga los datos de nodos, conexiones y solicitudes desde archivos CSV.
             """
             try:
-                ciudades = NodoLoader.cargar_desde_csv("data_extra/muchas_solicitudes/nodos.csv")
-                conexiones = ConexionLoader.cargar_desde_csv("data_extra/muchas_solicitudes/conexiones.csv", ciudades)
-                solicitudes = SolicitudLoader.cargar_desde_csv("data_extra/muchas_solicitudes/solicitudes.csv", ciudades)
+                ciudades,dicc_nodos = NodoLoader.cargar_desde_csv("data/nodos.csv")
+                conexiones = ConexionLoader.cargar_desde_csv("data/conexiones.csv", ciudades)
+                solicitudes = SolicitudLoader.cargar_desde_csv("data/solicitudes.csv", ciudades)
                 print("Datos cargados correctamente.")
             except Exception as e:
                 print("Error cargando los datos:", e)
@@ -127,14 +127,15 @@ def main():
                 Armo la solicitud con el índice indicado por el usuario. 
                 En formato lista para poder usar el método creador_itinerario que espera una lista de solicitudes.               
                 """
+                mostrar_todas_alternativas(s[0], ciudades, conexiones)
+                print("Ahora van los itinerarios óptimos...")
 
-                #mostrar_todas_alternativas(s[0], ciudades, conexiones)
-                #print("Ahora van los itinerarios óptimos...")
-
-                itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario(s, conexiones, ciudades)
-                print("\n🕒 Itinerario más rápido:\n", itinerario_rapido)
-                print("\n💸 Itinerario más barato:\n", itinerario_barato)
-
+                try:
+                    itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario(s, conexiones, ciudades)
+                    print("\n🕒 Itinerario más rápido:\n", itinerario_rapido)
+                    print("\n💸 Itinerario más barato:\n", itinerario_barato)
+                except ValueError as e:
+                    print(f"Error: {e}.")
 
             except ValueError:
                 print(f"Error: Ingrese un número válido para la solicitud. No estas poniendo un numero entero.")
@@ -152,13 +153,17 @@ def main():
             for indice, solicitud in enumerate(solicitudes):
                 print(f"\nSolicitud {indice+1}: {solicitud}\n")
                 
-                mostrar_todas_alternativas(solicitud, ciudades, conexiones)
+                mostrar_todas_alternativas(solicitud, ciudades, conexiones,dicc_nodos)
                 print("Ahora van los itinerarios óptimos...")
 
-                itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario([solicitud], conexiones, ciudades)
-                print("\n🕒 Más rápido:\n", itinerario_rapido)
-                print("\n💸 Más barato:\n", itinerario_barato,"\n")
-                print("-"*20+"Siguiente solicitud"+"-"*20)
+                try:
+                    itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario([solicitud], conexiones, ciudades)
+                    print("\n🕒 Más rápido:\n", itinerario_rapido)
+                    print("\n💸 Más barato:\n", itinerario_barato,"\n")
+                    print("-"*20+"Siguiente solicitud"+"-"*20)
+                except ValueError as e:
+                    print(f"Error: {e}")
+                    
             print("Todas las solicitudes procesadas.")
 
 
@@ -170,9 +175,9 @@ def main():
             try : 
                 numero= int(input("Ingrese el NUMERO de la solicitud que desea cargar:"))
                 if numero <0: 
-                    raise ValueError ("Error el numero debe ser POSITIVO")
+                    raise Exception ("Error el numero debe ser POSITIVO")
                 if numero > len(solicitudes) or numero <= 0:
-                    raise ValueError ("Error no existe esa solicitud")
+                    raise Exception ("Error no existe esa solicitud")
                 else:
                     '''
                     se contempla de que si el usuario elige 1 va a ser la primero por lo tanto el indice de python seria 0
@@ -197,7 +202,9 @@ def main():
                     Graficos.Tiempo_acumulado_comparado(distancia_rapida, tiempo_rapida, distancia_barata,tiempo_barato, nombre_archivo )
 
                     
-            except ValueError as e : 
+            except ValueError: 
+                print(f"Error debe ingresar un NUMERO")
+            except Exception as e : 
                 print(e)
         
         elif opcion == 6:
