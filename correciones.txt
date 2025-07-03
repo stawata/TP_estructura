@@ -15,6 +15,9 @@ Correccion:
 
 ----------------------------------------------------------------------------------------------------------------
 Indicacion profesor:
+    Hay excepciones sin manejar al poner string, por ejemplo, al seleccionar la opción 5.
+    Resultado obtenido: invalid literal for int() with base 10: 'aaaaaaaa’ Debería estar controlado
+
 Correccion:
 
     Se mejoró el manejo de errores al solicitar al usuario el número de la solicitud para generar los gráficos.
@@ -22,9 +25,31 @@ Correccion:
     Sin embargo, si se ingresaba un valor no numérico (str), no se brindaba un mensaje claro que explicara el error. Sino que se capturaba y se evitaba que el programa se corte de manera abrupta
     Para resolver esto, se implementó el uso de RAISE EXCEPTION para poder discrimianr el tipo de error y se añadió un except ValueError que captura específicamente el caso en que el usuario ingresa un valor no numérico (como una letra).
     De esta forma, el usuario recibe mensajes diferenciados según el tipo de error.
+
 ----------------------------------------------------------------------------------------------------------------
 Indicacion profesor:
+    a partir de ahora, cada nodo debe tener un límite máximo de peso aceptado. Si la carga supera dicho límite, no podrá pasar por ese nodo.
+
 Correccion:
+
+    Lo primero que realizamos fue modificaciones en el Nodoloader, ara que pueda leer archivos CSV con más columnas, incluyendo dos nuevos atributos: peso_maximo y porcentaje (de peaje aplicado a cada nodo). 
+    A su vez la clase NODO fue modificada para alamcenar esta informacion adicional (se crearon dos nuevos atributos en el constructor)
+    A la hora de tener en cuenta la nueva restriccion de peso que tiene los nodos, decidimos tratar esta restriccion en la clase ITINERARIO, en el metodo de ITINERARIO_X_MODO. Esta eleccion se fundamenta en que es en ese punto
+    donde se contruyen los puntos de red, y por ende, es el momento más eficiente y natural del flujo para validar qué nodos pueden ser utilizados.
+    Dentro de ese método:
+        * Se obtiene el peso de la carga desde la solicitud, que nos permitira compara con el peso permitido de los nodos. 
+        
+        * Con la funcion filter, se filtran todos los nodos cuyo peso_maximo sea None o mayor o igual al peso de la carga, esta informacion se almacena en "ciudades_filtradas".
+        
+        * A partir de los nodos válidos, se construye una lista "nombres_válidos", que representa todas las ciudades que permiten dicho peso.
+
+        * Luego se filtran también todas las conexiones que tengan tanto origen como destino en esa lista "conexiones_validas".
+       
+    De esta forma, la red queda armada solo con los nodos y conexiones que cumplen con las restricciones.
+    Permitiendo mantener la logica inicial del programa sin alterar el algoritmo de Dijkstra ni la estructura del grafo y 
+    optimiza el rendimiento  ya que los caminos inválidos se descartan antes de ser evaluados por el planificador, evitando cálculos innecesarios.
+
+
 ----------------------------------------------------------------------------------------------------------------
 Indicacion profesor:
 Correccion:
