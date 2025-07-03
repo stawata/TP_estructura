@@ -16,6 +16,12 @@ Correccion:
 ----------------------------------------------------------------------------------------------------------------
 Indicacion profesor:
 Correccion:
+
+    Se mejoró el manejo de errores al solicitar al usuario el número de la solicitud para generar los gráficos.
+    Antes, si el usuario ingresaba un número inválido (negativo o fuera del rango de solicitudes), se mostraba un mensaje especifico sobre cual fue el problema.
+    Sin embargo, si se ingresaba un valor no numérico (str), no se brindaba un mensaje claro que explicara el error. Sino que se capturaba y se evitaba que el programa se corte de manera abrupta
+    Para resolver esto, se implementó el uso de RAISE EXCEPTION para poder discrimianr el tipo de error y se añadió un except ValueError que captura específicamente el caso en que el usuario ingresa un valor no numérico (como una letra).
+    De esta forma, el usuario recibe mensajes diferenciados según el tipo de error.
 ----------------------------------------------------------------------------------------------------------------
 Indicacion profesor:
 Correccion:
