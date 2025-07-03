@@ -60,6 +60,10 @@ class ConexionLoader:
                                     conexiones.append(Conexion_autovia(origen, destino, distancia_km,       
                                     restriccion=float(row["valor_restriccion"]) if row["valor_restriccion"] else None
                                 ))
+                                else:
+                                    print(f"Tipo de conexión desconocido: {row['tipo']}. Se omitirá esta conexión.")
+                                    continue
+                        
                 except (ValueError, KeyError) as e:
                     print(f"Error al procesar la fila {row}: {e}")
                     continue

@@ -52,7 +52,16 @@ Correccion:
 
 ----------------------------------------------------------------------------------------------------------------
 Indicacion profesor:
+    Si se usa un tipo de transporte desconocido en conexiones.csv por ejemplo “bicicleta”, es aceptado silenciosamente y al procesar las rutas, se recibe un:
+    Error: list index out of range <class 'IndexError'>
+
 Correccion:
+    Esto pasa Porque no hay clase Conexion_bicicleta, no hay vehículo para eso pero igual se carga la conexión
+    Entonces al construir el grafo o generar itinerarios, no se puede mapear esa conexión a ningún vehículo válido y ahi se rompe silenciosamente.
+    Lo que hicimos fue En el archivo loader.py, en la parte de ConexionLoader.cargar_desde_csv, agregar un else final que gestione estos casos.
+    Ahi entonces si se pone un vehiculo que no reconocemos se informa al usuario con un mensaje y continua sin ese.
+
+
 ----------------------------------------------------------------------------------------------------------------
 Indicacion profesor:
 Correccion:
