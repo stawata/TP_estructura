@@ -1,7 +1,7 @@
 from models.conexiones import Conexion_ferroviaria, Conexion_aerea, Conexion_maritima, Conexion_autovia
-from models.vehiculos_herencia import Tren, Avion, Camion, Barcaza
 from models.solicitud import Solicitud
 from models.nodo import Nodo
+from utils.validaciones import Validaciones
 
 class PuntoDeRed:
     def __init__(punto, nombre):
@@ -31,38 +31,24 @@ class PuntoDeRed:
         conexiones: list[Conexion] - Lista de conexiones entre puntos de red.
         solicitud: Solicitud - Objeto de solicitud que contiene información sobre el peso y el destino.
         """
+
         if not isinstance(solicitud, Solicitud):
             raise TypeError("La solicitud debe ser una instancia de Solicitud.")
-        if not isinstance(conexiones, list) or not all(isinstance(conexion, (Conexion_ferroviaria, Conexion_aerea, Conexion_maritima, Conexion_autovia)) for conexion in conexiones):
-            raise TypeError("Las conexiones deben ser una lista de instancias de Conexion_ferroviaria, Conexion_aerea, Conexion_autovia o Conexion_maritima.")
         if not puntos_de_red:
             raise ValueError("El diccionario de puntos de red no puede estar vacío.")
-        if solicitud.destino.nombre not in puntos_de_red.keys():
-            raise ValueError("El destino de la solicitud no está en los puntos de red.")
-        if solicitud.origen.nombre not in puntos_de_red.keys():
-            raise ValueError("El origen de la solicitud no está en los puntos de red.")
+        
+        if not Validaciones.validar_lista_conexiones(conexiones):
+            raise TypeError("La lista de conexiones debe ser una lista de instancias de Conexion.")
+        if not Validaciones.verificar_origen_destino(puntos_de_red, solicitud):
+            raise ValueError("El origen y el destino de la solicitud deben estar en los puntos de red.")
+        
         for punto in puntos_de_red.values():
             for conexion in conexiones:
                 costo = None
                 tiempo = None
                 if conexion.origen.nombre == punto.nombre or conexion.destino.nombre == punto.nombre:
-                    if isinstance(conexion, Conexion_ferroviaria):
-                        costo = Tren.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
-                        tiempo = Tren.calcular_tiempo(conexion.distancia_km, conexion)
-                    elif isinstance(conexion, Conexion_aerea):
-                        costo = Avion.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
-                        tiempo = Avion.calcular_tiempo(conexion.distancia_km, conexion)
-                    elif isinstance(conexion, Conexion_maritima):
-                        costo = Barcaza.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg(), conexion.restriccion)
-                        tiempo = Barcaza.calcular_tiempo(conexion.distancia_km)
-                    elif isinstance(conexion, Conexion_autovia):
-                        if conexion.restriccion is not None:
-                            if solicitud.getpeso_kg() <= conexion.restriccion:
-                                costo = Camion.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
-                                tiempo = Camion.calcular_tiempo(conexion.distancia_km)
-                        else:
-                            costo = Camion.calcular_costo(conexion.distancia_km, solicitud.getpeso_kg())
-                            tiempo = Camion.calcular_tiempo(conexion.distancia_km)
+                    costo = conexion.calcular_costo(solicitud.peso_kg)
+                    tiempo = conexion.calcular_tiempo()
                     if costo is not None and tiempo is not None:
                         if conexion.origen.nombre == punto.nombre:
                             punto.vecinos[puntos_de_red[conexion.destino.nombre]] = (costo, tiempo)

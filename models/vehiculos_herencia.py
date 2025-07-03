@@ -41,8 +41,6 @@ class Camion(Vehiculo):
         return (cantidad * (cls.costos.fijo + cls.costos.km * distancia) + costo_kg * peso)
 
 
-
-
 class Tren(Vehiculo):
     """
     Clase que representa un tren, hereda de Vehiculo.
@@ -56,12 +54,12 @@ class Tren(Vehiculo):
     costos = Costos(fijo=100, km=None, kg=3)
 
     @classmethod
-    def calcular_tiempo(cls, distancia, conexion):
+    def calcular_tiempo(cls, distancia, restriccion):
         """
         Calcula el tiempo de viaje en horas, considerando restricciones de velocidad.
         Si la conexión tiene una restricción, se ajusta la velocidad nominal.""" 
-        if conexion and getattr(conexion, "restriccion", None) is not None:
-            velocidad = min(cls.velocidad_nominal, conexion.restriccion)
+        if restriccion is not None:
+            velocidad = min(cls.velocidad_nominal, restriccion)
         else:
             velocidad = cls.velocidad_nominal
         return distancia / velocidad
@@ -99,16 +97,12 @@ class Avion(Vehiculo):
         si es un float, lo usa directamente como probabilidad.
         Si la probabilidad es None, vacía o no válida, asume 0.0.
         """
-        import random
-        # Si recibe un objeto conexión, saca el atributo
-        if hasattr(restriccion, "restriccion"):
-            prob = restriccion.restriccion
-        else:
-            prob = restriccion
+        
+        prob = restriccion
 
-        # Manejo robusto de probabilidad nula o vacía
         if prob is None or prob == "" or (isinstance(prob, str) and prob.lower() == "none"):
             prob = 0.0
+
         try:
             prob = float(prob)
         except Exception:
@@ -118,6 +112,17 @@ class Avion(Vehiculo):
         velocidad = 400 if llueve else cls.velocidad_nominal
         return distancia / velocidad
 
+    @classmethod
+    def calcular_costo(cls, distancia, peso):
+        """
+        Calcula el costo total del transporte.
+        El costo depende de la distancia y el peso, con un costo fijo y por kilómetro."""
+        cantidad = cls.cantidad_necesaria(peso)
+        if distancia < 1000:
+            costo_km = 50
+        else:
+            costo_km = 40
+        return cantidad * (cls.costos.fijo + costo_km * distancia) + cls.costos.kg * peso
 
 
 class Barcaza(Vehiculo):
@@ -147,7 +152,7 @@ class Barcaza(Vehiculo):
             costo_fijo = 1500
 
         return cantidad * (costo_fijo + cls.costos.km * distancia) + cls.costos.kg * peso
-
+    
 
 def obtener_vehiculos_default():
     """Obtiene una lista de los vehículos por defecto.

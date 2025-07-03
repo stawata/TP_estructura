@@ -127,8 +127,9 @@ def main():
                 Armo la solicitud con el índice indicado por el usuario. 
                 En formato lista para poder usar el método creador_itinerario que espera una lista de solicitudes.               
                 """
-                mostrar_todas_alternativas(s[0], ciudades, conexiones)
-                print("Ahora van los itinerarios óptimos...")
+
+                #mostrar_todas_alternativas(s[0], ciudades, conexiones)
+                #print("Ahora van los itinerarios óptimos...")
 
                 itinerario_rapido, itinerario_barato = Itinerario.creador_itinerario(s, conexiones, ciudades)
                 print("\n🕒 Itinerario más rápido:\n", itinerario_rapido)
