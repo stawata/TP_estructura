@@ -6,9 +6,11 @@ from models.vehiculos_herencia import *
 
 class Buscar_ruta:
     tipos_vehiculo={"ferroviaria":Tren, "automotor":Camion, "aerea":Avion, "maritimo":Barcaza} #Diccionario que relaciona el tipo de vehiculo con la clase correspondiente
-    def __init__(self,grafo,tipo_vehiculo):
+    def __init__(self,grafo,tipo_vehiculo,dicc_nodos):
         self.grafo=grafo #guarda la lista de objetos conexion
         self.vehiculo=tipo_vehiculo
+        self.dicc_nodos=dicc_nodos
+
     def buscar_caminos(self,solicitud): #Guarda desde solicitud el origen y destino
         origen=solicitud.getorigen()
         destino=solicitud.getdestino()
@@ -31,21 +33,34 @@ class Buscar_ruta:
                     for vecino, conexion in self.grafo[ciudad1]:
                         if self.vehiculo==Barcaza:
                             if vecino==ciudad2:
-                                tiempo_total+=self.vehiculo.calcular_tiempo(conexion.distancia_km)
-                                costo_total+=self.vehiculo.calcular_costo(conexion.distancia_km,peso,conexion.restriccion)
+                                tiempo_tramo=self.vehiculo.calcular_tiempo(conexion.distancia_km)
+                                costo_tramo=self.vehiculo.calcular_costo(conexion.distancia_km,peso,conexion.restriccion)
                         else:
                             if conexion.restriccion is not None:
                                 restriccion = conexion.restriccion
                             if vecino==ciudad2:
-                                tiempo_total+=self.vehiculo.calcular_tiempo(conexion.distancia_km,conexion)
-                                costo_total+=self.vehiculo.calcular_costo(conexion.distancia_km,peso)
+                                tiempo_tramo=self.vehiculo.calcular_tiempo(conexion.distancia_km,conexion)
+                                costo_tramo=self.vehiculo.calcular_costo(conexion.distancia_km,peso)
+                        nodo_destino=self.dicc_nodos.get(ciudad2)
+
+                        tiempo_total+=tiempo_tramo
+                        costo_total+=costo_tramo
+
+                        if nodo_destino:
+                            porcentaje_peaje=nodo_destino.porcentaje/100
+                            peaje= costo_tramo*porcentaje_peaje
+                            costo_total+=peaje
+
                 caminos_encontrados.append({"camino": camino,"tiempo_total":round(tiempo_total,2),"costo_total":round(costo_total,2),"vehiculo":self.vehiculo}) #Cuando encuentra un nodo igual al destino guarda el camino
                 continue
 
             for vecino,conexion in self.grafo.get(nodo_actual,[]):
                 if vecino not in camino:   #evita ciclos
-                    nuevo_camino=camino+[vecino]
-                    pila.apilar((vecino, nuevo_camino))
+                    #validamos si el nodo acepta el peso
+                    nodo_obj=self.dicc_nodos.get(vecino)
+                    if nodo_obj and peso<=nodo_obj.peso_maximo:
+                        nuevo_camino=camino+[vecino]
+                        pila.apilar((vecino, nuevo_camino))
         if not caminos_encontrados:
             caminos_encontrados.append({"camino": [], "tiempo_total": 0, "costo_total": 0, "vehiculo": self.vehiculo}) #Si no hay caminos posibles, devuelve una lista vacia
         return caminos_encontrados

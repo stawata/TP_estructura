@@ -29,7 +29,7 @@ def menu():
                 print("Entrada inválida. Por favor, ingrese un número válido entre 1 y 6.")
 
         
-def mostrar_todas_alternativas(solicitud, ciudades, conexiones):
+def mostrar_todas_alternativas(solicitud, ciudades, conexiones,nodo):
     """
     Muestra todas las rutas posibles para una solicitud dada, utilizando diferentes tipos de vehículos.
     Para cada tipo de vehículo, se filtran las conexiones correspondientes y se busca el camino óptimo.
@@ -46,7 +46,7 @@ def mostrar_todas_alternativas(solicitud, ciudades, conexiones):
         tipo_conexion = tipos_conexion[vehiculo]
         conexiones_filtradas = list(filter(lambda x: isinstance(x, tipo_conexion), conexiones))
         grafo = armar_grafo(ciudades, conexiones_filtradas)
-        buscador = Buscar_ruta(grafo, vehiculo)
+        buscador = Buscar_ruta(grafo, vehiculo,nodo)
         caminos = buscador.buscar_caminos(solicitud)
         # Guardar el tipo de vehículo junto con el camino
         for c in caminos:
@@ -81,9 +81,9 @@ def main():
             Carga los datos de nodos, conexiones y solicitudes desde archivos CSV.
             """
             try:
-                ciudades = NodoLoader.cargar_desde_csv("data/nodos.csv")
+                ciudades,dicc_nodos = NodoLoader.cargar_desde_csv("data/nodos.csv")
                 conexiones = ConexionLoader.cargar_desde_csv("data/conexiones.csv", ciudades)
-                solicitudes = SolicitudLoader.cargar_desde_csv("solicitudes.csv", ciudades)
+                solicitudes = SolicitudLoader.cargar_desde_csv("data/solicitudes.csv", ciudades)
                 print("Datos cargados correctamente.")
             except Exception as e:
                 print("Error cargando los datos:", e)
@@ -127,7 +127,7 @@ def main():
                 Armo la solicitud con el índice indicado por el usuario. 
                 En formato lista para poder usar el método creador_itinerario que espera una lista de solicitudes.               
                 """
-                mostrar_todas_alternativas(s[0], ciudades, conexiones)
+                mostrar_todas_alternativas(s[0], ciudades, conexiones,dicc_nodos)
                 print("Ahora van los itinerarios óptimos...")
 
                 try:
@@ -153,7 +153,7 @@ def main():
             for indice, solicitud in enumerate(solicitudes):
                 print(f"\nSolicitud {indice+1}: {solicitud}\n")
                 
-                mostrar_todas_alternativas(solicitud, ciudades, conexiones)
+                mostrar_todas_alternativas(solicitud, ciudades, conexiones,dicc_nodos)
                 print("Ahora van los itinerarios óptimos...")
 
                 try:
