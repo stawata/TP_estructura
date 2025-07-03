@@ -104,8 +104,8 @@ class Graficos:
         plt.plot( tiempo_barato,distancia_barato, marker='o', linestyle='-', color='green', label='Barato')
 
         plt.title("Comparación de Tiempos Acumulados")
-        plt.ylabel("Distancia (km)")
-        plt.xlabel("Tiempo (horas)")
+        plt.xlabel("Distancia (km)")
+        plt.ylabel("Tiempo (horas)")
         plt.legend()
         plt.savefig(f"tiempo_acumulado_comparado_{nombre_archivo}.png")
         plt.clf()
