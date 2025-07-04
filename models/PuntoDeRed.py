@@ -4,9 +4,10 @@ from models.nodo import Nodo
 from utils.validaciones import Validaciones
 
 class PuntoDeRed:
-    def __init__(punto, nombre):
+    def __init__(punto, nombre, porcentaje):
         """Creamos un objeto del tipo puntodeRed, el cual representa a una ciudad y sus conexiones"""
         punto.nombre = nombre
+        punto.porcentaje = porcentaje
         punto.vecinos = {}  # {punto_vecino: peso}
         
     @staticmethod
@@ -20,7 +21,7 @@ class PuntoDeRed:
         if not all(isinstance(nodo, Nodo) for nodo in nodos):
             raise TypeError("Todos los elementos de la lista deben ser instancias de Nodo.")
         for nodo in nodos:
-            puntos_de_red[nodo.nombre] = PuntoDeRed(nodo.nombre)
+            puntos_de_red[nodo.nombre] = PuntoDeRed(nodo.nombre, nodo.porcentaje)
         return puntos_de_red
 
     
