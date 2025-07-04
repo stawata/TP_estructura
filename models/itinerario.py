@@ -21,7 +21,6 @@ class Itinerario():
 
     @staticmethod
     def itinerario_x_modo(modo, solicitud, conexiones, ciudades):
-        conexiones_filtradas = []
         """Este metodo crea el itinerario mas barato y menos costoso de la solicitud segun el modo de transporte"""
         if modo not in ["aereo", "automotor", "maritimo", "ferroviario"]:
             raise ValueError("Modo de transporte no válido. Debe ser 'aereo', 'ferroviario', 'automotor' o 'maritimo'.")
@@ -33,10 +32,8 @@ class Itinerario():
             conexiones = list(filter(lambda x: isinstance(x, Conexion_ferroviaria), conexiones))
         elif modo == "maritimo":    
             conexiones = list(filter(lambda x: isinstance(x, Conexion_maritima), conexiones))
-        peso_carga = solicitud[0].getpeso_kg()
-        ciudades_filtradas = list(filter(lambda x: x.peso_maximo is None or x.peso_maximo >= peso_carga, ciudades))
-        nombre_validos = list(map(lambda x:x.nombre, ciudades_filtradas))
-        conexiones_validas = list(filter(lambda x: x.origen.nombre in nombre_validos and x.destino.nombre in nombre_validos, conexiones))
+
+        conexiones_validas, ciudades_filtradas = Itinerario.filtrador_ciudades_por_peso_admitido(ciudades,solicitud,conexiones)
         puntos_red = PuntoDeRed.constructor(ciudades_filtradas)
         PuntoDeRed.agregar_vecinos(puntos_red, conexiones_validas, solicitud[0])    
         modo, ruta, costo_total, tiempo_total = Dijkstra.ruta_mas_corta(puntos_red, solicitud[0].origen.nombre, solicitud[0].destino.nombre, "tiempo", modo)
@@ -49,6 +46,14 @@ class Itinerario():
         itinerario_costo = Itinerario(modo, ruta, costo_total, tiempo_total)
 
         return itinerario_tiempo, itinerario_costo
+    
+    @staticmethod
+    def filtrador_ciudades_por_peso_admitido(ciudades,solicitud,conexiones):
+        peso_carga = solicitud[0].getpeso_kg()
+        ciudades_filtradas = list(filter(lambda x: x.peso_maximo is None or x.peso_maximo >= peso_carga, ciudades))
+        nombre_validos = list(map(lambda x:x.nombre, ciudades_filtradas))
+        conexiones_validas = list(filter(lambda x: x.origen.nombre in nombre_validos and x.destino.nombre in nombre_validos, conexiones))
+        return conexiones_validas, ciudades_filtradas
     
     @staticmethod
     def procesar_modo(valor, solicitud, conexiones, ciudades):

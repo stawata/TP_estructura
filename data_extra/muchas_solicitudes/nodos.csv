@@ -1,6 +1,6 @@
-nombre
-Zarate
-Buenos_Aires
-Junin
-Azul
-Mar_del_Plata
+nombre,pesoMaximo,porcentaje
+Zarate,80000,4
+Buenos_Aires,100000,3
+Junin,50000,1
+Azul,55000,2
+Mar_del_Plata,75000,5
