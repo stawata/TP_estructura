@@ -32,12 +32,12 @@ Indicacion profesor:
 
 Correccion:
 
-    Lo primero que realizamos fue modificaciones en el Nodoloader, ara que pueda leer archivos CSV con más columnas, incluyendo dos nuevos atributos: peso_maximo y porcentaje (de peaje aplicado a cada nodo). 
-    A su vez la clase NODO fue modificada para alamcenar esta informacion adicional (se crearon dos nuevos atributos en el constructor)
+    Lo primero que realizamos fue modificaciones en el Nodoloader, para que pueda leer archivos CSV con más columnas, incluyendo dos nuevos atributos: peso_maximo y porcentaje (de peaje aplicado a cada nodo). 
+    A su vez la clase NODO fue modificada para alamacenar esta informacion adicional (se crearon dos nuevos atributos en el constructor)
     A la hora de tener en cuenta la nueva restriccion de peso que tiene los nodos, decidimos tratar esta restriccion en la clase ITINERARIO, en el metodo de ITINERARIO_X_MODO. Esta eleccion se fundamenta en que es en ese punto
     donde se contruyen los puntos de red, y por ende, es el momento más eficiente y natural del flujo para validar qué nodos pueden ser utilizados.
     Dentro de ese método:
-        * Se obtiene el peso de la carga desde la solicitud, que nos permitira compara con el peso permitido de los nodos. 
+        * Se obtiene el peso de la carga desde la solicitud, que nos permitira comparar con el peso permitido de los nodos. 
         
         * Con la funcion filter, se filtran todos los nodos cuyo peso_maximo sea None o mayor o igual al peso de la carga, esta informacion se almacena en "ciudades_filtradas".
         
