@@ -57,15 +57,15 @@ class Graficos:
 
             if tipo == "aereo":
                 costo = Avion.calcular_costo(conexion.distancia_km, peso)
-                tiempo = Avion.calcular_tiempo(conexion.distancia_km, conexion)
+                tiempo = Avion.calcular_tiempo(conexion.distancia_km, conexion.restriccion)
 
             if tipo == "ferroviario":
                 costo = Tren.calcular_costo(conexion.distancia_km, peso)
-                tiempo = Tren.calcular_tiempo(conexion.distancia_km, conexion)
+                tiempo = Tren.calcular_tiempo(conexion.distancia_km, conexion.restriccion)
 
             if tipo == "automotor":
                 costo = Camion.calcular_costo(conexion.distancia_km, peso)
-                tiempo = Camion.calcular_tiempo(conexion.distancia_km)
+                tiempo = Camion.calcular_tiempo(conexion.distancia_km, conexion.restriccion)
 
             costos.append(costo)
             tiempos.append(tiempo)
