@@ -11,5 +11,8 @@ class Nodo:
     def __eq__(self, other):
         return isinstance(other, Nodo) and self.nombre == other.nombre
 
+    def get_porcentaje_peaje(self):
+        return (self.porcentaje or 0) / 100
+
     def __hash__(self):
         return hash(self.nombre)

@@ -44,7 +44,7 @@ class Buscar_ruta:
 
                         #Aplica peaje solo al tramo correcto
                         nodo_destino = self.dicc_nodos.get(ciudad2)
-                        porcentaje_peaje = (getattr(nodo_destino, "porcentaje", 0) or 0) / 100
+                        porcentaje_peaje = nodo_destino.get_porcentaje_peaje()
                         costo_tramo *= (1 + porcentaje_peaje)
 
                         tiempo_total += tiempo_tramo

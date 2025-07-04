@@ -61,10 +61,34 @@ class PuntoDeRed:
                         else:
                             continue
 
-                        # Aplicar peaje del nodo de llegada (si existe el nodo original)
-                        nodo_destino = conexion.destino if conexion.origen.nombre == punto.nombre else conexion.origen
-                        porcentaje_peaje = (getattr(nodo_destino, "porcentaje", 0) or 0) / 100
-                        costo_con_peaje = costo * (1 + porcentaje_peaje)
+                        if conexion.origen.nombre == punto.nombre:
+                            """
+                            Determinar el nodo de llegada y el vecino
+                            para aplicar el peaje correctamente.
+                            Si la conexión es del origen al destino, el nodo de llegada es el destino.
+                            Si la conexión es del destino al origen, el nodo de llegada es el origen.
+                            """
+                            nodo_llegada = conexion.destino
+                            vecino = puntos_de_red[nodo_llegada.nombre]
+                        else:
+                            nodo_llegada = conexion.origen
+                            vecino = puntos_de_red[nodo_llegada.nombre]
 
-                        punto.vecinos[destino] = (costo_con_peaje, tiempo)
+                        
+                        peaje = nodo_llegada.get_porcentaje_peaje()
+                        """                       
+                        Determinar el peaje a aplicar:
+                        Si el peaje es 0, no se aplica ningún costo adicional.
+                        Si el peaje es un porcentaje, se aplica al costo de la conexión.
+                        """
+                        costo_total = costo * (1 + peaje)
+                        """
+                        Determinar el costo total:
+                        Si el peaje es 0, el costo total es igual al costo de la conexión
+                        Si el peaje es un porcentaje, se aplica al costo de la conexión.
+                        """
 
+                        punto.vecinos[vecino] = (costo_total, tiempo)
+                        """"
+                        Agregar el vecino al punto de red actual con el costo total y el tiempo.
+                        """

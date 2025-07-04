@@ -63,5 +63,27 @@ Correccion:
 
 
 ----------------------------------------------------------------------------------------------------------------
-Indicacion profesor:
-Correccion:
+Cambios en punto de red:
+1. Agregamos el atributo porcentaje
+2. Durante la construcción del grafo de rutas en PuntoDeRed.agregar_vecinos, se aplica un peaje al tramo que llega a cada nodo, de la siguiente forma:
+
+    - Se detecta cuál es el nodo destino de la conexión, es decir, el punto al que se arriba desde el nodo actual.
+
+    - Cálculo del peaje:
+    El nodo de llegada posee un atributo porcentaje, que representa el peaje.
+
+    - Ajuste del costo:
+    El costo base del tramo se multiplica por (1 + peaje), de forma que el nuevo costo refleja el cargo adicional que impone el nodo destino.
+
+    - Registro del tramo válido:
+    Finalmente, se agrega esta conexión al diccionario de vecinos del nodo actual, almacenando el costo total (con peaje) y el tiempo.
+
+
+Esta implementación permite que los nodos con peajes más altos influyan directamente en el costo de los itinerarios, incentivando al algoritmo a evitar nodos caros si hay alternativas más económicas. 
+Además, al encapsular el acceso al peaje en un método, se mejora la mantenibilidad del código y se respeta el principio de encapsulamiento.
+Accedemos con un getter y no con el getatributte por la correccion que nos hicieron del encapsulamiento.
+
+
+Itinerario:
+1. Acá hacemos el filtro por peso antes de crear el grafo. 
+En el método itinerario_x_modo de la clase Itinerario, se filtran las ciudades que no soportan el peso de la carga antes de construir el grafo
