@@ -1,4 +1,18 @@
 Indicacion profesor:
+En puntoDeRed el método de agregar_vecinos se podría modularizar, hacer un método para las validaciones y otro para la lógica del agregado de vecinos.
+
+Dicho esto, se está evaluando por tipo de conexión, ven alguna forma de poder mejorar y agrupar este código? 
+Cada conexión puede saber con qué clase trabaja, por ejemplo la conexion_ferroviaria sólo trabaja con Trenes.
+
+Correccion:
+Se modularizaron las validaciones en funciones dentro de la clase Validacioens, declarada en el archivo validaciones.py
+Ademas, se cambio la logica para la discrimacion en el calculo de costo y tiempo para cada ruta dependiendo del tipo de conexion en la funcion agregar_vecinos de la clase PuntoDeRed. En la version revisada del programa,
+cada tipo de conexion sabe con que vehiculos trabaja y por ende que funcion de costo y tiempo debe usar. Esto se logro sumando metodos de instancia en la clase conexiones que usan atributos de las instancias para calcular los costos y tiempos
+llamando a las funciones correspondientes de las clases de vehiculos.
+
+----------------------------------------------------------------------------------------------------------------
+
+Indicacion profesor:
     Se percibió un error cuando no encontraba rutas válidas. 
     Probe con un usar la información de /solo_camion y agregarle una restricción de peso. 
     Al cumplir con esa restricción, recibo correctamente la información pero si pongo un peso mayor, al no haber caminos, el usuario recibe un: 
