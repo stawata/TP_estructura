@@ -32,7 +32,6 @@ class Itinerario():
             conexiones = list(filter(lambda x: isinstance(x, Conexion_ferroviaria), conexiones))
         elif modo == "maritimo":    
             conexiones = list(filter(lambda x: isinstance(x, Conexion_maritima), conexiones))
-
         conexiones_validas, ciudades_filtradas = Itinerario.filtrador_ciudades_por_peso_admitido(ciudades,solicitud,conexiones)
         puntos_red = PuntoDeRed.constructor(ciudades_filtradas)
         PuntoDeRed.agregar_vecinos(puntos_red, conexiones_validas, solicitud[0])    
@@ -57,6 +56,7 @@ class Itinerario():
     
     @staticmethod
     def procesar_modo(valor, solicitud, conexiones, ciudades):
+        """Este metodo se encarga de generar un itinerario de costo y tiempo, para cada modo de transporte"""
         itinerario_tiempo, itinerario_costo = Itinerario.itinerario_x_modo(valor, solicitud, conexiones, ciudades)
         if itinerario_tiempo is None or itinerario_costo is None:
             print(f"No se encontró un itinerario válido para el modo {valor}.")

@@ -54,12 +54,12 @@ class PuntoDeRed:
                     costo = conexion.calcular_costo(solicitud.peso_kg)
                     tiempo = conexion.calcular_tiempo()
                     if costo is not None and tiempo is not None:
-                        if conexion.origen.nombre == punto.nombre:
-                            destino = puntos_de_red[conexion.destino.nombre]
-                        elif conexion.destino.nombre == punto.nombre:
-                            destino = puntos_de_red[conexion.origen.nombre]
-                        else:
-                            continue
+                        # if conexion.origen.nombre == punto.nombre:
+                        #     destino = puntos_de_red[conexion.destino.nombre]
+                        # elif conexion.destino.nombre == punto.nombre:
+                        #     destino = puntos_de_red[conexion.origen.nombre]
+                        # else:
+                        #     continue
 
                         if conexion.origen.nombre == punto.nombre:
                             """
