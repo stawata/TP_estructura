@@ -4,10 +4,9 @@ from models.nodo import Nodo
 from utils.validaciones import Validaciones
 
 class PuntoDeRed:
-    def __init__(punto, nombre, porcentaje):
+    def __init__(punto, nombre):
         """Creamos un objeto del tipo puntodeRed, el cual representa a una ciudad y sus conexiones"""
         punto.nombre = nombre
-        punto.porcentaje = porcentaje
         punto.vecinos = {}  # {punto_vecino: peso}
         
     @staticmethod
@@ -21,7 +20,7 @@ class PuntoDeRed:
         if not all(isinstance(nodo, Nodo) for nodo in nodos):
             raise TypeError("Todos los elementos de la lista deben ser instancias de Nodo.")
         for nodo in nodos:
-            puntos_de_red[nodo.nombre] = PuntoDeRed(nodo.nombre, nodo.porcentaje)
+            puntos_de_red[nodo.nombre] = PuntoDeRed(nodo.nombre)
         return puntos_de_red
 
     
@@ -54,13 +53,6 @@ class PuntoDeRed:
                     costo = conexion.calcular_costo(solicitud.peso_kg)
                     tiempo = conexion.calcular_tiempo()
                     if costo is not None and tiempo is not None:
-                        # if conexion.origen.nombre == punto.nombre:
-                        #     destino = puntos_de_red[conexion.destino.nombre]
-                        # elif conexion.destino.nombre == punto.nombre:
-                        #     destino = puntos_de_red[conexion.origen.nombre]
-                        # else:
-                        #     continue
-
                         if conexion.origen.nombre == punto.nombre:
                             """
                             Determinar el nodo de llegada y el vecino
